@@ -1,0 +1,665 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>3.0.0</Version>
+    <Authors>Dennis Gascoigne</Authors>
+    <Company>Blue Sky Contracting Pty Ltd</Company>
+    <Product>Civil Pro Shared Reporting Library</Product>
+    <Description>A common reporting definitions library for the Civil Pro Desktop and Civil Pro Cloud Products</Description>
+    <Copyright>Blue Sky Contracting 2020</Copyright>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="ATPRep\rptATP.repx" />
+    <None Remove="ATPRep\rptATPRegister.repx" />
+    <None Remove="ATPRep\rptATPSummary.repx" />
+    <None Remove="ConformanceRep\rptApproval.repx" />
+    <None Remove="ConformanceRep\rptApprovalRegister.repx" />
+    <None Remove="ConformanceRep\rptApprovalRegisterDetail.repx" />
+    <None Remove="ConformanceRep\rptChecklist.repx" />
+    <None Remove="ConformanceRep\rptChecklistApprovalRegister.repx" />
+    <None Remove="ConformanceRep\rptChecklistRegister.repx" />
+    <None Remove="ConformanceRep\rptChecklistRegisterByStatus.repx" />
+    <None Remove="ConformanceRep\rptITP.repx" />
+    <None Remove="ConformanceRep\rptITPHPWPM.repx" />
+    <None Remove="ConformanceRep\rptITPRegister.repx" />
+    <None Remove="ConformanceRep\rptLotCLElec.repx" />
+    <None Remove="CostRep\rptPOReceipts.repx" />
+    <None Remove="CostRep\rptPORegister.repx" />
+    <None Remove="CostRep\rptPurchaseOrder.repx" />
+    <None Remove="DocRep\ContractNotices\rptContractNotice.repx" />
+    <None Remove="DocRep\ContractNotices\rptContractNoticeElec.repx" />
+    <None Remove="DocRep\ContractNotices\rptContractNoticeElecRaw.repx" />
+    <None Remove="DocRep\ContractNotices\rptContractNoticeRaw.repx" />
+    <None Remove="DocRep\ContractNotices\rptContractNoticeReg.repx" />
+    <None Remove="DocRep\ControlledDocs\rptTransmittal.vsrepx" />
+    <None Remove="DocRep\ControlledDocs\rptTransmittalReg.vsrepx" />
+    <None Remove="FieldRep\rptDiarySummary.repx" />
+    <None Remove="FieldRep\rptDiarySummaryWithCostCodes.repx" />
+    <None Remove="FieldRep\rptIncident.repx" />
+    <None Remove="FieldRep\rptDiarySummaryWithCost.repx" />
+    <None Remove="FieldRep\rptInstruction.repx" />
+    <None Remove="FieldRep\rptInstructionRegister.repx" />
+    <None Remove="LotReport\rptConfGuarReport.repx" />
+    <None Remove="LotReport\rptLotConformance.repx" />
+    <None Remove="LotReport\rptLotEOMStatus.repx" />
+    <None Remove="LotReport\rptLotMeasureUp.repx" />
+    <None Remove="LotReport\rptLotMonthActivity.repx" />
+    <None Remove="LotReport\rptLotRegister.repx" />
+    <None Remove="LotReport\rptLotStatistics.repx" />
+    <None Remove="NCRRep\rptNCRElect.vsrepx" />
+    <None Remove="NCRRep\rptNCRManual.vsrepx" />
+    <None Remove="NCRRep\rptNCRRegister.repx" />
+    <None Remove="NCRRep\rptNCRRegister_condensed.repx" />
+    <None Remove="PaymentRep\Claim\rptClaimCover.repx" />
+    <None Remove="PaymentRep\Claim\rptClaimCoverAC.repx" />
+    <None Remove="PaymentRep\Claim\rptClaimCoverACPrevPaid.repx" />
+    <None Remove="PaymentRep\Claim\rptClaimCoverPrevPaid.repx" />
+    <None Remove="PaymentRep\Claim\rptProgClaim.repx" />
+    <None Remove="PaymentRep\Claim\rptProgClaimNoRates.repx" />
+    <None Remove="PaymentRep\Claim\rptProgClaimRates.repx" />
+    <None Remove="PaymentRep\Claim\rptProgressClaimDetail.repx" />
+    <None Remove="PaymentRep\Claim\rptProgressClaimDetailAtComp.repx" />
+    <None Remove="PaymentRep\rptMeasureUp.repx" />
+    <None Remove="PaymentRep\rptQtyRegister.repx" />
+    <None Remove="PaymentRep\Schedule\rptSchedule.repx" />
+    <None Remove="PaymentRep\Schedule\rptScheduleCostCodeAllocDetailed.repx" />
+    <None Remove="PaymentRep\Schedule\rptScheduleCostCodeAllocSummary.repx" />
+    <None Remove="PaymentRep\Schedule\rptScheduleRelations.repx" />
+    <None Remove="PaymentRep\Variation\rptVariation.repx" />
+    <None Remove="PaymentRep\Variation\rptVariationEstimate.repx" />
+    <None Remove="PaymentRep\Variation\rptVariationRegister.repx" />
+    <None Remove="PaymentRep\Variation\rptVariationRegisterDetailed.repx" />
+    <None Remove="PaymentRep\Variation\rptVariationValuationClient.repx" />
+    <None Remove="PaymentRep\Variation\rptVariationValuationDJC.repx" />
+    <None Remove="PhotoRep\rptPhoto.repx" />
+    <None Remove="PhotoRep\rptPhotoRegister.repx" />
+    <None Remove="PunchlistRep\rptPunchlistDetail.repx" />
+    <None Remove="PunchlistRep\rptPunchlistRegister.repx" />
+    <None Remove="rptComponent.repx" />
+    <None Remove="SurveyRep\rptSurveyRegister.repx" />
+    <None Remove="SurveyRep\rptSurveyRequest.repx" />
+    <None Remove="SurveyRep\rptSurveyResults.repx" />
+    <None Remove="System\rptRegisterAccess.repx" />
+    <None Remove="TestReqRep\rptConcTestResults.vsrepx" />
+    <None Remove="TestReqRep\rptTestReqRegister.repx" />
+    <None Remove="TestReqRep\rptTestResults.repx" />
+    <None Remove="TestReqRep\rptTR.repx" />
+    <None Remove="TestReqRep\rptTRSummaryBySample.repx" />
+    <None Remove="TestReqRep\rptTRSummaryByType.repx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="ATPRep\rptATP.repx" />
+    <EmbeddedResource Include="ATPRep\rptATPRegister.repx" />
+    <EmbeddedResource Include="ATPRep\rptATPSummary.repx" />
+    <EmbeddedResource Include="ConformanceRep\rptApproval.repx" />
+    <EmbeddedResource Include="ConformanceRep\rptApprovalRegister.repx" />
+    <EmbeddedResource Include="ConformanceRep\rptApprovalRegisterDetail.repx" />
+    <EmbeddedResource Include="ConformanceRep\rptChecklist.repx" />
+    <EmbeddedResource Include="ConformanceRep\rptChecklistApprovalRegister.repx" />
+    <EmbeddedResource Include="ConformanceRep\rptChecklistRegister.repx" />
+    <EmbeddedResource Include="ConformanceRep\rptChecklistRegisterByStatus.repx" />
+    <EmbeddedResource Include="ConformanceRep\rptITP.repx" />
+    <EmbeddedResource Include="ConformanceRep\rptITPHPWPM.repx" />
+    <EmbeddedResource Include="ConformanceRep\rptITPRegister.repx" />
+    <EmbeddedResource Include="ConformanceRep\rptLotCLElec.repx" />
+    <EmbeddedResource Include="CostRep\rptPOReceipts.repx" />
+    <EmbeddedResource Include="CostRep\rptPORegister.repx" />
+    <EmbeddedResource Include="CostRep\rptPurchaseOrder.repx" />
+    <EmbeddedResource Include="DocRep\ContractNotices\rptContractNoticeElec.repx" />
+    <EmbeddedResource Include="DocRep\ContractNotices\rptContractNotice.repx" />
+    <EmbeddedResource Include="DocRep\ContractNotices\rptContractNoticeElecRaw.repx" />
+    <EmbeddedResource Include="DocRep\ContractNotices\rptContractNoticeRaw.repx" />
+    <EmbeddedResource Include="DocRep\ContractNotices\rptContractNoticeReg.repx" />
+    <EmbeddedResource Include="DocRep\ControlledDocs\rptTransmittal.vsrepx" />
+    <EmbeddedResource Include="DocRep\ControlledDocs\rptTransmittalReg.vsrepx" />
+    <EmbeddedResource Include="FieldRep\rptDiarySummaryWithCostCodes.repx" />
+    <EmbeddedResource Include="FieldRep\rptInstructionRegister.repx" />
+    <EmbeddedResource Include="FieldRep\rptInstruction.repx" />
+    <EmbeddedResource Include="FieldRep\rptIncident.repx" />
+    <EmbeddedResource Include="FieldRep\rptDiarySummaryWithCost.repx" />
+    <EmbeddedResource Include="FieldRep\rptDiarySummary.repx" />
+    <EmbeddedResource Include="LotReport\rptConfGuarReport.repx" />
+    <EmbeddedResource Include="LotReport\rptLotConformance.repx" />
+    <EmbeddedResource Include="LotReport\rptLotEOMStatus.repx" />
+    <EmbeddedResource Include="LotReport\rptLotMeasureUp.repx" />
+    <EmbeddedResource Include="LotReport\rptLotMonthActivity.repx" />
+    <EmbeddedResource Include="LotReport\rptLotRegister.repx" />
+    <EmbeddedResource Include="LotReport\rptLotStatistics.repx" />
+    <EmbeddedResource Include="NCRRep\rptNCRElect.vsrepx" />
+    <EmbeddedResource Include="NCRRep\rptNCRManual.vsrepx" />
+    <EmbeddedResource Include="NCRRep\rptNCRRegister_condensed.repx" />
+    <EmbeddedResource Include="NCRRep\rptNCRRegister.repx" />
+    <EmbeddedResource Include="PaymentRep\Claim\rptClaimCover.repx" />
+    <EmbeddedResource Include="PaymentRep\Claim\rptClaimCoverAC.repx" />
+    <EmbeddedResource Include="PaymentRep\Claim\rptClaimCoverACPrevPaid.repx" />
+    <EmbeddedResource Include="PaymentRep\Claim\rptClaimCoverPrevPaid.repx" />
+    <EmbeddedResource Include="PaymentRep\Claim\rptProgClaim.repx" />
+    <EmbeddedResource Include="PaymentRep\Claim\rptProgClaimNoRates.repx" />
+    <EmbeddedResource Include="PaymentRep\Claim\rptProgClaimRates.repx" />
+    <EmbeddedResource Include="PaymentRep\Claim\rptProgressClaimDetail.repx" />
+    <EmbeddedResource Include="PaymentRep\Claim\rptProgressClaimDetailAtComp.repx" />
+    <EmbeddedResource Include="PaymentRep\rptMeasureUp.repx" />
+    <EmbeddedResource Include="PaymentRep\rptQtyRegister.repx" />
+    <EmbeddedResource Include="PaymentRep\Schedule\rptSchedule.repx" />
+    <EmbeddedResource Include="PaymentRep\Schedule\rptScheduleCostCodeAllocDetailed.repx" />
+    <EmbeddedResource Include="PaymentRep\Schedule\rptScheduleCostCodeAllocSummary.repx" />
+    <EmbeddedResource Include="PaymentRep\Schedule\rptScheduleRelations.repx" />
+    <EmbeddedResource Include="PaymentRep\Variation\rptVariation.repx" />
+    <EmbeddedResource Include="PaymentRep\Variation\rptVariationEstimate.repx" />
+    <EmbeddedResource Include="PaymentRep\Variation\rptVariationRegister.repx" />
+    <EmbeddedResource Include="PaymentRep\Variation\rptVariationRegisterDetailed.repx" />
+    <EmbeddedResource Include="PaymentRep\Variation\rptVariationValuationClient.repx" />
+    <EmbeddedResource Include="PaymentRep\Variation\rptVariationValuationDJC.repx" />
+    <EmbeddedResource Include="PhotoRep\rptPhoto.repx" />
+    <EmbeddedResource Include="PhotoRep\rptPhotoRegister.repx" />
+    <EmbeddedResource Include="PunchlistRep\rptPunchlistDetail.repx" />
+    <EmbeddedResource Include="PunchlistRep\rptPunchlistRegister.repx" />
+    <EmbeddedResource Include="SurveyRep\rptSurveyRegister.repx" />
+    <EmbeddedResource Include="SurveyRep\rptSurveyRequest.repx" />
+    <EmbeddedResource Include="SurveyRep\rptSurveyResults.repx" />
+    <EmbeddedResource Include="System\rptRegisterAccess.repx" />
+    <EmbeddedResource Include="TestReqRep\rptConcTestResults.vsrepx" />
+    <EmbeddedResource Include="TestReqRep\rptTestReqRegister.repx" />
+    <EmbeddedResource Include="TestReqRep\rptTestResults.repx" />
+    <EmbeddedResource Include="TestReqRep\rptTR.repx" />
+    <EmbeddedResource Include="TestReqRep\rptTRSummaryBySample.repx" />
+    <EmbeddedResource Include="TestReqRep\rptTRSummaryByType.repx" />
+    <EmbeddedResource Include="rptComponent.repx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DevExpress.Printing.Core" Version="20.2.5" />
+    <PackageReference Include="DevExpress.Reporting.Core" Version="20.2.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\cpModel\cpModel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="ATPRep\rptATP.cs">
+      <DependentUpon>rptATP.repx</DependentUpon>
+    </Compile>
+    <Compile Update="ATPRep\rptATP.Designer.cs">
+      <DependentUpon>rptATP.repx</DependentUpon>
+    </Compile>
+    <Compile Update="ATPRep\rptATPRegister.cs">
+      <DependentUpon>rptATPRegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="ATPRep\rptATPRegister.Designer.cs">
+      <DependentUpon>rptATPRegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="ATPRep\rptATPSummary.cs">
+      <DependentUpon>rptATPSummary.repx</DependentUpon>
+    </Compile>
+    <Compile Update="ATPRep\rptATPSummary.Designer.cs">
+      <DependentUpon>rptATPSummary.repx</DependentUpon>
+    </Compile>
+    <Compile Update="ConformanceRep\rptApproval.cs">
+      <DependentUpon>rptApproval.repx</DependentUpon>
+    </Compile>
+    <Compile Update="ConformanceRep\rptApproval.Designer.cs">
+      <DependentUpon>rptApproval.repx</DependentUpon>
+    </Compile>
+    <Compile Update="ConformanceRep\rptApprovalRegister.cs">
+      <DependentUpon>rptApprovalRegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="ConformanceRep\rptApprovalRegister.Designer.cs">
+      <DependentUpon>rptApprovalRegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="ConformanceRep\rptApprovalRegisterDetail.cs">
+      <DependentUpon>rptApprovalRegisterDetail.repx</DependentUpon>
+    </Compile>
+    <Compile Update="ConformanceRep\rptApprovalRegisterDetail.Designer.cs">
+      <DependentUpon>rptApprovalRegisterDetail.repx</DependentUpon>
+    </Compile>
+    <Compile Update="ConformanceRep\rptChecklist.cs">
+      <DependentUpon>rptChecklist.repx</DependentUpon>
+    </Compile>
+    <Compile Update="ConformanceRep\rptChecklist.Designer.cs">
+      <DependentUpon>rptChecklist.repx</DependentUpon>
+    </Compile>
+    <Compile Update="ConformanceRep\rptChecklistApprovalRegister.cs">
+      <DependentUpon>rptChecklistApprovalRegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="ConformanceRep\rptChecklistApprovalRegister.Designer.cs">
+      <DependentUpon>rptChecklistApprovalRegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="ConformanceRep\rptChecklistRegister.cs">
+      <DependentUpon>rptChecklistRegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="ConformanceRep\rptChecklistRegister.Designer.cs">
+      <DependentUpon>rptChecklistRegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="ConformanceRep\rptChecklistRegisterByStatus.cs">
+      <DependentUpon>rptChecklistRegisterByStatus.repx</DependentUpon>
+    </Compile>
+    <Compile Update="ConformanceRep\rptChecklistRegisterByStatus.Designer.cs">
+      <DependentUpon>rptChecklistRegisterByStatus.repx</DependentUpon>
+    </Compile>
+    <Compile Update="ConformanceRep\rptITP.cs">
+      <DependentUpon>rptITP.repx</DependentUpon>
+    </Compile>
+    <Compile Update="ConformanceRep\rptITP.Designer.cs">
+      <DependentUpon>rptITP.repx</DependentUpon>
+    </Compile>
+    <Compile Update="ConformanceRep\rptITPHPWPM.cs">
+      <DependentUpon>rptITPHPWPM.repx</DependentUpon>
+    </Compile>
+    <Compile Update="ConformanceRep\rptITPHPWPM.Designer.cs">
+      <DependentUpon>rptITPHPWPM.repx</DependentUpon>
+    </Compile>
+    <Compile Update="ConformanceRep\rptITPRegister.cs">
+      <DependentUpon>rptITPRegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="ConformanceRep\rptITPRegister.Designer.cs">
+      <DependentUpon>rptITPRegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="ConformanceRep\rptLotCLElec.cs">
+      <DependentUpon>rptLotCLElec.repx</DependentUpon>
+    </Compile>
+    <Compile Update="ConformanceRep\rptLotCLElec.Designer.cs">
+      <DependentUpon>rptLotCLElec.repx</DependentUpon>
+    </Compile>
+    <Compile Update="CostRep\rptPOReceipts.cs">
+      <DependentUpon>rptPOReceipts.repx</DependentUpon>
+    </Compile>
+    <Compile Update="CostRep\rptPOReceipts.Designer.cs">
+      <DependentUpon>rptPOReceipts.repx</DependentUpon>
+    </Compile>
+    <Compile Update="CostRep\rptPORegister.cs">
+      <DependentUpon>rptPORegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="CostRep\rptPORegister.Designer.cs">
+      <DependentUpon>rptPORegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="CostRep\rptPurchaseOrder.cs">
+      <DependentUpon>rptPurchaseOrder.repx</DependentUpon>
+    </Compile>
+    <Compile Update="CostRep\rptPurchaseOrder.Designer.cs">
+      <DependentUpon>rptPurchaseOrder.repx</DependentUpon>
+    </Compile>
+    <Compile Update="DocRep\ContractNotices\rptContractNotice.cs">
+      <DependentUpon>rptContractNotice.repx</DependentUpon>
+    </Compile>
+    <Compile Update="DocRep\ContractNotices\rptContractNotice.Designer.cs">
+      <DependentUpon>rptContractNotice.repx</DependentUpon>
+    </Compile>
+    <Compile Update="DocRep\ContractNotices\rptContractNoticeElec.cs">
+      <DependentUpon>rptContractNoticeElec.repx</DependentUpon>
+    </Compile>
+    <Compile Update="DocRep\ContractNotices\rptContractNoticeElec.Designer.cs">
+      <DependentUpon>rptContractNoticeElec.repx</DependentUpon>
+    </Compile>
+    <Compile Update="DocRep\ContractNotices\rptContractNoticeElecRaw.cs">
+      <DependentUpon>rptContractNoticeElecRaw.repx</DependentUpon>
+    </Compile>
+    <Compile Update="DocRep\ContractNotices\rptContractNoticeElecRaw.Designer.cs">
+      <DependentUpon>rptContractNoticeElecRaw.repx</DependentUpon>
+    </Compile>
+    <Compile Update="DocRep\ContractNotices\rptContractNoticeRaw.cs">
+      <DependentUpon>rptContractNoticeRaw.repx</DependentUpon>
+    </Compile>
+    <Compile Update="DocRep\ContractNotices\rptContractNoticeRaw.Designer.cs">
+      <DependentUpon>rptContractNoticeRaw.repx</DependentUpon>
+    </Compile>
+    <Compile Update="DocRep\ContractNotices\rptContractNoticeReg.cs">
+      <DependentUpon>rptContractNoticeReg.repx</DependentUpon>
+    </Compile>
+    <Compile Update="DocRep\ContractNotices\rptContractNoticeReg.Designer.cs">
+      <DependentUpon>rptContractNoticeReg.repx</DependentUpon>
+    </Compile>
+    <Compile Update="DocRep\ControlledDocs\rptTransmittal.cs">
+      <DependentUpon>rptTransmittal.vsrepx</DependentUpon>
+    </Compile>
+    <Compile Update="DocRep\ControlledDocs\rptTransmittal.Designer.cs">
+      <DependentUpon>rptTransmittal.vsrepx</DependentUpon>
+    </Compile>
+    <Compile Update="DocRep\ControlledDocs\rptTransmittalReg.cs">
+      <DependentUpon>rptTransmittalReg.vsrepx</DependentUpon>
+    </Compile>
+    <Compile Update="DocRep\ControlledDocs\rptTransmittalReg.Designer.cs">
+      <DependentUpon>rptTransmittalReg.vsrepx</DependentUpon>
+    </Compile>
+    <Compile Update="FieldRep\rptDiarySummaryWithCostCodes.cs">
+      <DependentUpon>rptDiarySummaryWithCostCodes.repx</DependentUpon>
+    </Compile>
+    <Compile Update="FieldRep\rptDiarySummaryWithCostCodes.Designer.cs">
+      <DependentUpon>rptDiarySummaryWithCostCodes.repx</DependentUpon>
+    </Compile>
+    <Compile Update="FieldRep\rptIncident - Copy.cs">
+      <DependentUpon>rptIncident.repx</DependentUpon>
+    </Compile>
+    <Compile Update="FieldRep\rptIncident - Copy.Designer.cs">
+      <DependentUpon>rptIncident.repx</DependentUpon>
+    </Compile>
+    <Compile Update="FieldRep\rptIncident.cs">
+      <DependentUpon>rptIncident.repx</DependentUpon>
+    </Compile>
+    <Compile Update="FieldRep\rptIncident.Designer.cs">
+      <DependentUpon>rptIncident.repx</DependentUpon>
+    </Compile>
+    <Compile Update="FieldRep\rptDiarySummaryWithCost.cs">
+      <DependentUpon>rptDiarySummaryWithCost.repx</DependentUpon>
+    </Compile>
+    <Compile Update="FieldRep\rptDiarySummaryWithCost.Designer.cs">
+      <DependentUpon>rptDiarySummaryWithCost.repx</DependentUpon>
+    </Compile>
+    <Compile Update="FieldRep\rptDiarySummary.cs">
+      <DependentUpon>rptDiarySummary.repx</DependentUpon>
+    </Compile>
+    <Compile Update="FieldRep\rptDiarySummary.Designer.cs">
+      <DependentUpon>rptDiarySummary.repx</DependentUpon>
+    </Compile>
+    <Compile Update="FieldRep\rptInstruction - Copy.cs">
+      <SubType>Component</SubType>
+      <DependentUpon>rptInstruction.cs</DependentUpon>
+    </Compile>
+    <Compile Update="FieldRep\rptInstruction - Copy.Designer.cs">
+      <DependentUpon>rptInstruction.Designer.cs</DependentUpon>
+    </Compile>
+    <Compile Update="FieldRep\rptInstruction.cs">
+      <DependentUpon>rptInstruction.repx</DependentUpon>
+    </Compile>
+    <Compile Update="FieldRep\rptInstruction.Designer.cs">
+      <DependentUpon>rptInstruction.repx</DependentUpon>
+    </Compile>
+    <Compile Update="FieldRep\rptInstructionRegister.cs">
+      <DependentUpon>rptInstructionRegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="FieldRep\rptInstructionRegister.Designer.cs">
+      <DependentUpon>rptInstructionRegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="LotReport\rptConfGuarReport.cs">
+      <DependentUpon>rptConfGuarReport.repx</DependentUpon>
+    </Compile>
+    <Compile Update="LotReport\rptConfGuarReport.Designer.cs">
+      <DependentUpon>rptConfGuarReport.repx</DependentUpon>
+    </Compile>
+    <Compile Update="LotReport\rptLotConformance.cs">
+      <DependentUpon>rptLotConformance.repx</DependentUpon>
+    </Compile>
+    <Compile Update="LotReport\rptLotConformance.Designer.cs">
+      <DependentUpon>rptLotConformance.repx</DependentUpon>
+    </Compile>
+    <Compile Update="LotReport\rptLotEOMStatus.cs">
+      <DependentUpon>rptLotEOMStatus.repx</DependentUpon>
+    </Compile>
+    <Compile Update="LotReport\rptLotEOMStatus.Designer.cs">
+      <DependentUpon>rptLotEOMStatus.repx</DependentUpon>
+    </Compile>
+    <Compile Update="LotReport\rptLotMeasureUp.cs">
+      <DependentUpon>rptLotMeasureUp.repx</DependentUpon>
+    </Compile>
+    <Compile Update="LotReport\rptLotMeasureUp.Designer.cs">
+      <DependentUpon>rptLotMeasureUp.repx</DependentUpon>
+    </Compile>
+    <Compile Update="LotReport\rptLotMonthActivity.cs">
+      <DependentUpon>rptLotMonthActivity.repx</DependentUpon>
+    </Compile>
+    <Compile Update="LotReport\rptLotMonthActivity.Designer.cs">
+      <DependentUpon>rptLotMonthActivity.repx</DependentUpon>
+    </Compile>
+    <Compile Update="LotReport\rptLotRegister.cs">
+      <DependentUpon>rptLotRegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="LotReport\rptLotRegister.Designer.cs">
+      <DependentUpon>rptLotRegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="LotReport\rptLotStatistics.cs">
+      <DependentUpon>rptLotStatistics.repx</DependentUpon>
+    </Compile>
+    <Compile Update="LotReport\rptLotStatistics.Designer.cs">
+      <DependentUpon>rptLotStatistics.repx</DependentUpon>
+    </Compile>
+    <Compile Update="NCRRep\rptNCRElect.cs">
+      <DependentUpon>rptNCRElect.vsrepx</DependentUpon>
+    </Compile>
+    <Compile Update="NCRRep\rptNCRElect.Designer.cs">
+      <DependentUpon>rptNCRElect.vsrepx</DependentUpon>
+    </Compile>
+    <Compile Update="NCRRep\rptNCRManual.cs">
+      <DependentUpon>rptNCRManual.vsrepx</DependentUpon>
+    </Compile>
+    <Compile Update="NCRRep\rptNCRManual.Designer.cs">
+      <DependentUpon>rptNCRManual.vsrepx</DependentUpon>
+    </Compile>
+    <Compile Update="NCRRep\rptNCRRegister.cs">
+      <DependentUpon>rptNCRRegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="NCRRep\rptNCRRegister.Designer.cs">
+      <DependentUpon>rptNCRRegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="NCRRep\rptNCRRegister_condensed.cs">
+      <DependentUpon>rptNCRRegister_condensed.repx</DependentUpon>
+    </Compile>
+    <Compile Update="NCRRep\rptNCRRegister_condensed.Designer.cs">
+      <DependentUpon>rptNCRRegister_condensed.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Claim\rptClaimCover.cs">
+      <DependentUpon>rptClaimCover.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Claim\rptClaimCover.Designer.cs">
+      <DependentUpon>rptClaimCover.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Claim\rptClaimCoverAC.cs">
+      <DependentUpon>rptClaimCoverAC.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Claim\rptClaimCoverAC.Designer.cs">
+      <DependentUpon>rptClaimCoverAC.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Claim\rptClaimCoverACPrevPaid.cs">
+      <DependentUpon>rptClaimCoverACPrevPaid.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Claim\rptClaimCoverACPrevPaid.Designer.cs">
+      <DependentUpon>rptClaimCoverACPrevPaid.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Claim\rptClaimCoverPrevPaid.cs">
+      <DependentUpon>rptClaimCoverPrevPaid.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Claim\rptClaimCoverPrevPaid.Designer.cs">
+      <DependentUpon>rptClaimCoverPrevPaid.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Claim\rptProgClaim.cs">
+      <DependentUpon>rptProgClaim.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Claim\rptProgClaim.Designer.cs">
+      <DependentUpon>rptProgClaim.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Claim\rptProgClaimNoRates.cs">
+      <DependentUpon>rptProgClaimNoRates.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Claim\rptProgClaimNoRates.Designer.cs">
+      <DependentUpon>rptProgClaimNoRates.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Claim\rptProgClaimRates.cs">
+      <DependentUpon>rptProgClaimRates.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Claim\rptProgClaimRates.Designer.cs">
+      <DependentUpon>rptProgClaimRates.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Claim\rptProgressClaimDetail.cs">
+      <DependentUpon>rptProgressClaimDetail.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Claim\rptProgressClaimDetail.Designer.cs">
+      <DependentUpon>rptProgressClaimDetail.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Claim\rptProgressClaimDetailAtComp.cs">
+      <DependentUpon>rptProgressClaimDetailAtComp.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Claim\rptProgressClaimDetailAtComp.Designer.cs">
+      <DependentUpon>rptProgressClaimDetailAtComp.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\rptMeasureUp.cs">
+      <DependentUpon>rptMeasureUp.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\rptMeasureUp.Designer.cs">
+      <DependentUpon>rptMeasureUp.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\rptQtyRegister.cs">
+      <DependentUpon>rptQtyRegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\rptQtyRegister.Designer.cs">
+      <DependentUpon>rptQtyRegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Schedule\rptSchedule.cs">
+      <DependentUpon>rptSchedule.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Schedule\rptSchedule.Designer.cs">
+      <DependentUpon>rptSchedule.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Schedule\rptScheduleCostCodeAllocDetailed.cs">
+      <DependentUpon>rptScheduleCostCodeAllocDetailed.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Schedule\rptScheduleCostCodeAllocDetailed.Designer.cs">
+      <DependentUpon>rptScheduleCostCodeAllocDetailed.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Schedule\rptScheduleCostCodeAllocSummary.cs">
+      <DependentUpon>rptScheduleCostCodeAllocSummary.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Schedule\rptScheduleCostCodeAllocSummary.Designer.cs">
+      <DependentUpon>rptScheduleCostCodeAllocSummary.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Schedule\rptScheduleRelations.cs">
+      <DependentUpon>rptScheduleRelations.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Schedule\rptScheduleRelations.Designer.cs">
+      <DependentUpon>rptScheduleRelations.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Variation\rptVariation.cs">
+      <DependentUpon>rptVariation.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Variation\rptVariation.Designer.cs">
+      <DependentUpon>rptVariation.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Variation\rptVariationEstimate.cs">
+      <DependentUpon>rptVariationEstimate.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Variation\rptVariationEstimate.Designer.cs">
+      <DependentUpon>rptVariationEstimate.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Variation\rptVariationRegister.cs">
+      <DependentUpon>rptVariationRegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Variation\rptVariationRegister.Designer.cs">
+      <DependentUpon>rptVariationRegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Variation\rptVariationRegisterDetailed.cs">
+      <DependentUpon>rptVariationRegisterDetailed.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Variation\rptVariationRegisterDetailed.Designer.cs">
+      <DependentUpon>rptVariationRegisterDetailed.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Variation\rptVariationValuationClient.cs">
+      <DependentUpon>rptVariationValuationClient.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Variation\rptVariationValuationClient.Designer.cs">
+      <DependentUpon>rptVariationValuationClient.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Variation\rptVariationValuationDJC.cs">
+      <DependentUpon>rptVariationValuationDJC.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PaymentRep\Variation\rptVariationValuationDJC.Designer.cs">
+      <DependentUpon>rptVariationValuationDJC.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PhotoRep\rptPhoto.cs">
+      <DependentUpon>rptPhoto.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PhotoRep\rptPhoto.Designer.cs">
+      <DependentUpon>rptPhoto.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PhotoRep\rptPhotoRegister.cs">
+      <DependentUpon>rptPhotoRegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PhotoRep\rptPhotoRegister.Designer.cs">
+      <DependentUpon>rptPhotoRegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PunchlistRep\rptPunchlistDetail.cs">
+      <DependentUpon>rptPunchlistDetail.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PunchlistRep\rptPunchlistDetail.Designer.cs">
+      <DependentUpon>rptPunchlistDetail.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PunchlistRep\rptPunchlistRegister.cs">
+      <DependentUpon>rptPunchlistRegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="PunchlistRep\rptPunchlistRegister.Designer.cs">
+      <DependentUpon>rptPunchlistRegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="rptComponent.Designer.cs">
+      <DependentUpon>rptComponent.cs</DependentUpon>
+    </Compile>
+    <Compile Update="rptTemplate.cs" />
+    <Compile Update="SurveyRep\rptSurveyRegister.cs">
+      <DependentUpon>rptSurveyRegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="SurveyRep\rptSurveyRegister.Designer.cs">
+      <DependentUpon>rptSurveyRegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="SurveyRep\rptSurveyRequest.cs">
+      <DependentUpon>rptSurveyRequest.repx</DependentUpon>
+    </Compile>
+    <Compile Update="SurveyRep\rptSurveyRequest.Designer.cs">
+      <DependentUpon>rptSurveyRequest.repx</DependentUpon>
+    </Compile>
+    <Compile Update="SurveyRep\rptSurveyResults.cs">
+      <DependentUpon>rptSurveyResults.repx</DependentUpon>
+    </Compile>
+    <Compile Update="SurveyRep\rptSurveyResults.Designer.cs">
+      <DependentUpon>rptSurveyResults.repx</DependentUpon>
+    </Compile>
+    <Compile Update="System\rptRegisterAccess.cs">
+      <DependentUpon>rptRegisterAccess.repx</DependentUpon>
+    </Compile>
+    <Compile Update="System\rptRegisterAccess.Designer.cs">
+      <DependentUpon>rptRegisterAccess.repx</DependentUpon>
+    </Compile>
+    <Compile Update="TestReqRep\rptConcTestResults.cs">
+      <DependentUpon>rptConcTestResults.vsrepx</DependentUpon>
+    </Compile>
+    <Compile Update="TestReqRep\rptConcTestResults.Designer.cs">
+      <DependentUpon>rptConcTestResults.vsrepx</DependentUpon>
+    </Compile>
+    <Compile Update="TestReqRep\rptTestReqRegister.cs">
+      <DependentUpon>rptTestReqRegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="TestReqRep\rptTestReqRegister.Designer.cs">
+      <DependentUpon>rptTestReqRegister.repx</DependentUpon>
+    </Compile>
+    <Compile Update="TestReqRep\rptTestResults.cs">
+      <DependentUpon>rptTestResults.repx</DependentUpon>
+    </Compile>
+    <Compile Update="TestReqRep\rptTestResults.Designer.cs">
+      <DependentUpon>rptTestResults.repx</DependentUpon>
+    </Compile>
+    <Compile Update="TestReqRep\rptTR.cs">
+      <DependentUpon>rptTR.repx</DependentUpon>
+    </Compile>
+    <Compile Update="TestReqRep\rptTR.Designer.cs">
+      <DependentUpon>rptTR.repx</DependentUpon>
+    </Compile>
+    <Compile Update="TestReqRep\rptTRSummaryBySample.cs">
+      <DependentUpon>rptTRSummaryBySample.repx</DependentUpon>
+    </Compile>
+    <Compile Update="TestReqRep\rptTRSummaryBySample.Designer.cs">
+      <DependentUpon>rptTRSummaryBySample.repx</DependentUpon>
+    </Compile>
+    <Compile Update="TestReqRep\rptTRSummaryByType.cs">
+      <DependentUpon>rptTRSummaryByType.repx</DependentUpon>
+    </Compile>
+    <Compile Update="TestReqRep\rptTRSummaryByType.Designer.cs">
+      <DependentUpon>rptTRSummaryByType.repx</DependentUpon>
+    </Compile>
+    <Compile Update="rptComponent.cs">
+      <DependentUpon>rptComponent.repx</DependentUpon>
+    </Compile>
+    <Compile Update="rptComponent.Designer.cs">
+      <DependentUpon>rptComponent.repx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

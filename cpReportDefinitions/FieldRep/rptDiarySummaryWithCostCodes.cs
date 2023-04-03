@@ -1,0 +1,81 @@
+using System;
+using System.Linq;
+using cpModel.Dtos.Report;
+using DevExpress.XtraPivotGrid;
+using DevExpress.XtraReports.UI;
+
+namespace cpReportDefinitions.FieldRep
+{
+    public partial class rptDiarySummaryWithCostCodes
+    {
+        public override string BaseReportName { get; set; } = "Site Diary with Costcodes";
+
+        public rptDiarySummaryWithCostCodes()
+        {
+            InitializeComponent();
+            ReportTitle = "INTERNAL Site Activity Summary";
+            DetailPhoto_Detail.BeforePrint += DetailPhoto_Detail_BeforePrint;
+            pgCosts.CustomCellValue += PgCosts_CustomCellValue;
+            DataSourceRowChanged += RptDiarySummaryWithCostCodes_DataSourceRowChanged;
+            pgCosts.CustomSummary += PgCosts_CustomSummary;
+            BeforePrint += RptDiarySummaryWithCostCodes_BeforePrint;
+        }
+
+        private void RptDiarySummaryWithCostCodes_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+        }
+
+        private void PgCosts_CustomSummary(object sender, DevExpress.XtraReports.UI.PivotGrid.PivotGridCustomSummaryEventArgs e)
+        {
+            if (e.DataField.FieldName == "Qty")
+            {
+                if (e.RowField == null) //is Grand Total row
+                {
+                    try
+                    {
+                        var localDrillDownDataSource = e.CreateDrillDownDataSource();
+                        var castDrillDownDataSource = localDrillDownDataSource.Cast<PivotDrillDownDataRow>();
+                        var filteredDrillDownDataSource = castDrillDownDataSource.Select(r => r[Total] as decimal?);
+                        var filteredDrillDownDataSource2 = castDrillDownDataSource.Select(r => r[Qty] as decimal?);
+                        e.CustomValue = filteredDrillDownDataSource.Sum(x => x ?? 0).ToString("C2");
+                    }
+                    catch (Exception)
+                    {
+                        e.CustomValue = "";
+                    }
+                }
+                else e.CustomValue = e.SummaryValue.Summary;
+            }
+        }
+
+        private void RptDiarySummaryWithCostCodes_DataSourceRowChanged(object sender, DataSourceRowEventArgs e)
+        {
+            var currSiteDiary = GetCurrentRow() as SiteDiaryReportDto;
+            RecordReference = string.Format("Site Diary: {0}({1:d})", currSiteDiary.SiteDiaryNo, currSiteDiary.DiaryDate);
+            pgCosts.DataMember = "";
+            pgCosts.DataSource = currSiteDiary.LstSdCostCodes;
+            pgCosts.BestFit();
+        }
+
+        private void PgCosts_CustomCellValue(object sender, DevExpress.XtraReports.UI.PivotGrid.PivotCellValueEventArgs e)
+        {
+           // if (e.RowValueType == PivotGridValueType.GrandTotal && e.ColumnValueType != PivotGridValueType.GrandTotal) e.Value = "";
+        }
+        private void DetailPhoto_Detail_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            XtraReportBase r = (sender as DetailBand).Report;
+
+            try
+            {
+                PhotoReportDto np = (PhotoReportDto)r.GetCurrentRow();
+                if (np != null)
+                {
+                    GetPhotoById(img, np.PhotoId);
+                }
+            }
+            catch (Exception)
+            {
+            }
+        }
+    }
+}

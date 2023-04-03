@@ -1,0 +1,23 @@
+using System;
+using DevExpress.XtraReports.UI;
+
+namespace cpReportDefinitions.DocRep.ContractNotices
+{
+    public partial class rptContractNoticeReg
+    {
+        public override string BaseReportName { get; set; } = "Contract Notice Register";
+        public rptContractNoticeReg()
+        {
+            InitializeComponent();
+            ReportTitle = "Contract Notice Register";
+            IsRegisterReport = true;
+            rtfDescription.BeforePrint += RtfDescription_BeforePrint;
+        }
+
+        private void RtfDescription_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)
+        {
+            XtraReportBase _report = (sender as XRRichText).Band.Report;
+            rtfDescription.Html = GetHtmlWithDefaultFormat(_report, "ConSubjectHtml", rtfDescription.Font);
+        }
+    }
+}

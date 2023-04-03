@@ -1,0 +1,64 @@
+using System;
+using DevExpress.XtraPrinting;
+using DevExpress.XtraReports.UI;
+
+namespace cpReportDefinitions
+{
+    public partial class rptComponent
+    {
+
+        //string Title;
+        //string filterText;
+        //string HeaderText;
+        public bool IsSplitPage { get; set; } = false;
+
+        public object ComponentToPrint { get; set; }
+
+        public override string BaseReportName { get; set; } = "Component Viewer";
+
+        public rptComponent()
+        {
+            InitializeComponent();
+            BeforePrint += RptComponent_BeforePrint;
+            PrintingSystem.AfterMarginsChange += PrintingSystem_AfterMarginsChange;
+            PrintingSystem.PageSettingsChanged += PrintingSystem_PageSettingsChanged;
+        }
+
+        private void RptComponent_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (!IsSplitPage)
+            {
+                PrintingSystem.Document.AutoFitToPagesWidth = 1;
+            }
+            pccPlaceHolder.PrintableComponent = ComponentToPrint;
+        }
+
+        private void PrintingSystem_AfterMarginsChange(object sender, DevExpress.XtraPrinting.MarginsChangeEventArgs e)
+        {
+            Convert.ToInt32(Math.Round(e.Value));
+            switch (e.Side)
+            {
+                case DevExpress.XtraPrinting.MarginSide.Left:
+                    Margins = new DevExpress.Drawing.DXMargins((int)e.Value, Margins.Right, Margins.Top, Margins.Bottom);
+                    CreateDocument();
+                    break;
+                case DevExpress.XtraPrinting.MarginSide.Right:
+                    Margins = new DevExpress.Drawing.DXMargins(Margins.Left, (int)e.Value, Margins.Top, Margins.Bottom);
+                    CreateDocument();
+                    break;
+                case DevExpress.XtraPrinting.MarginSide.All:
+                    Margins = (sender as DevExpress.XtraPrinting.PrintingSystemBase).PageSettings.Margins;
+                    CreateDocument();
+                    break;
+                default:
+                    break;
+            }
+        }
+        private void PrintingSystem_PageSettingsChanged(object sender, EventArgs e)
+        {
+            PaperKind = ((PrintingSystemBase)sender).PageSettings.PaperKind;
+            Landscape = ((PrintingSystemBase)sender).PageSettings.Landscape;
+            CreateDocument();
+        }
+    }
+}

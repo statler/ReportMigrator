@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<XtraReportsLayoutSerializer SerializerVersion="20.2.3.0" Ref="1" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v20.2, Version=20.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49aivilPro.Reporting.SecurityRep.rptRegisterAccess, CivilPro.Reporting, Version=11.66.7606.40184, Culture=neutral, PublicKeyToken=null" DisplayName="Register Access Summary" SnapGridSize="25" ReportUnit="TenthsOfAMillimeter" Margins="101, 100, 120, 120" PaperKind="A4" PageWidth="2100" PageHeight="2970" Version="20.2" EventsInfo="" DataSource="#Ref-0" Dpi="254" Font="Tahoma, 8pt">
+  <Bands>
+    <Item1 Ref="2" ControlType="DetailBand" Name="Detail" HeightF="69.32103" TextAlignment="TopLeft" Dpi="254" Font="Tahoma, 8pt" Padding="0,0,0,0,254">
+      <SortFields>
+        <Item1 Ref="3" FieldName="IsAbsolute" />
+        <Item2 Ref="4" FieldName="RegisterKey" />
+        <Item3 Ref="5" FieldName="AccessKey" />
+      </SortFields>
+      <Controls>
+        <Item1 Ref="6" ControlType="XRLabel" Name="xrLabel2" Multiline="true" Text="xrLabel2" TextAlignment="TopLeft" SizeF="283.1042,48.00175" LocationFloat="63.70864,10.73586" Dpi="254" Font="Tahoma, 8pt, style=Bold, Underline" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="7" EventName="BeforePrint" PropertyName="Text" Expression="[AccessKeyName]" />
+          </ExpressionBindings>
+          <StylePriority Ref="8" UseFont="false" UseTextAlignment="false" />
+        </Item1>
+      </Controls>
+      <StylePriority Ref="9" UseFont="false" />
+    </Item1>
+    <Item2 Ref="10" ControlType="PageHeaderBand" Name="PageHeader" HeightF="246.7124" Dpi="254">
+      <Controls>
+        <Item1 Ref="11" ControlType="XRPanel" Name="headPanel" AnchorHorizontal="Both" SizeF="1872.683,216.5" LocationFloat="11.90011,12.49996" Dpi="254" Borders="All" BorderWidth="1">
+          <Controls>
+            <Item1 Ref="12" ControlType="XRLabel" Name="lbReportHeading" Multiline="true" Text="Register Access Summary" AnchorHorizontal="Right" TextAlignment="MiddleRight" SizeF="1022.438,57.99998" LocationFloat="822.7292,13.82371" Dpi="254" Font="Tahoma, 10pt, style=Bold" Padding="5,5,0,0,254" Borders="None">
+              <StylePriority Ref="13" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item1>
+            <Item2 Ref="14" ControlType="XRLabel" Name="lbProject" Text="Project Here" AnchorHorizontal="Right" TextAlignment="MiddleRight" SizeF="1022.438,58.00002" LocationFloat="822.7292,76.32377" Dpi="254" Font="Tahoma, 9pt" Padding="5,5,0,0,254" Borders="None">
+              <StylePriority Ref="15" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item2>
+            <Item3 Ref="16" ControlType="XRLabel" Name="lbRecordReference" AnchorHorizontal="Right" TextAlignment="MiddleRight" SizeF="1022.438,64.32861" LocationFloat="822.7292,138.8236" Dpi="254" Font="Tahoma, 9pt" Padding="5,5,0,0,254" Borders="None">
+              <StylePriority Ref="17" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item3>
+            <Item4 Ref="18" ControlType="XRPictureBox" Name="pbLogo" Sizing="ZoomImage" ImageAlignment="TopLeft" SizeF="743.9791,189.3285" LocationFloat="14.02092,13.82371" Dpi="254" Borders="None">
+              <StylePriority Ref="19" UseBorders="false" />
+            </Item4>
+          </Controls>
+          <StylePriority Ref="20" UseBorders="false" UseBorderWidth="false" />
+        </Item1>
+      </Controls>
+    </Item2>
+    <Item3 Ref="21" ControlType="PageFooterBand" Name="PageFooter" HeightF="76.2" Dpi="254">
+      <Controls>
+        <Item1 Ref="22" ControlType="XRLabel" Name="lbFooterText" Text="lbFooterText" SizeF="1460.5,44.84998" LocationFloat="11.90011,25.00001" Dpi="254" Font="Tahoma, 8pt" Padding="5,5,0,0,254">
+          <StylePriority Ref="23" UseFont="false" />
+        </Item1>
+        <Item2 Ref="24" ControlType="XRPageInfo" Name="xrPageInfo1" TextFormatString="Page {0} of {1}" AnchorHorizontal="Right" TextAlignment="MiddleRight" SizeF="342.8999,44.84998" LocationFloat="1541.684,25.00001" Dpi="254" Font="Tahoma, 8pt" Padding="5,5,0,0,254">
+          <StylePriority Ref="25" UseFont="false" UseTextAlignment="false" />
+        </Item2>
+      </Controls>
+    </Item3>
+    <Item4 Ref="26" ControlType="GroupHeaderBand" Name="GroupHeader1" Level="1" HeightF="0" Dpi="254">
+      <GroupFields>
+        <Item1 Ref="27" FieldName="IsAbsolute" />
+      </GroupFields>
+    </Item4>
+    <Item5 Ref="28" ControlType="GroupHeaderBand" Name="GroupHeader2" HeightF="100.671" Dpi="254">
+      <GroupFields>
+        <Item1 Ref="29" FieldName="RegisterKeyName" />
+      </GroupFields>
+      <Controls>
+        <Item1 Ref="30" ControlType="XRLabel" Name="xrLabel1" Multiline="true" Text="xrLabel1" SizeF="902.2292,70.4617" LocationFloat="267.4378,17.90919" Dpi="254" Font="Tahoma, 12pt, style=Bold, Underline" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="31" EventName="BeforePrint" PropertyName="Text" Expression="[RegisterKeyName]" />
+          </ExpressionBindings>
+          <StylePriority Ref="32" UseFont="false" />
+        </Item1>
+        <Item2 Ref="33" ControlType="XRLabel" Name="xrLabel7" Text="Register:" SizeF="255.538,70.4617" LocationFloat="11.89979,17.90919" Dpi="254" Font="Tahoma, 12pt, style=Bold, Underline" Padding="5,5,0,0,254">
+          <StylePriority Ref="34" UseFont="false" />
+        </Item2>
+      </Controls>
+    </Item5>
+    <Item6 Ref="35" ControlType="DetailReportBand" Name="DetailReport" Level="0" DataMember="lstRoleNames" DataSource="#Ref-0" Dpi="254">
+      <Bands>
+        <Item1 Ref="36" ControlType="DetailBand" Name="Detail1" HeightF="61.78325" Dpi="254">
+          <HierarchyPrintOptions Ref="37" Indent="50.8" />
+          <Controls>
+            <Item1 Ref="38" ControlType="XRLabel" Name="xrLabel3" Multiline="true" Text="xrLabel3" TextAlignment="TopLeft" SizeF="788.4583,58.42" LocationFloat="152.9997,3.363248" Dpi="254" Padding="5,5,0,0,254">
+              <ExpressionBindings>
+                <Item1 Ref="39" EventName="BeforePrint" PropertyName="Text" Expression="[NameAsString]" />
+              </ExpressionBindings>
+              <StylePriority Ref="40" UseTextAlignment="false" />
+            </Item1>
+          </Controls>
+        </Item1>
+        <Item2 Ref="41" ControlType="ReportHeaderBand" Name="ReportHeader1" HeightF="61.78321" Dpi="254">
+          <Controls>
+            <Item1 Ref="42" ControlType="XRLabel" Name="xrLabel5" Text="Roles:" SizeF="168.8043,46.6492" LocationFloat="107.1498,15.13401" Dpi="254" Font="Tahoma, 8pt, style=Italic, Underline" Padding="5,5,0,0,254">
+              <StylePriority Ref="43" UseFont="false" />
+            </Item1>
+          </Controls>
+        </Item2>
+      </Bands>
+    </Item6>
+    <Item7 Ref="44" ControlType="DetailReportBand" Name="DetailReport1" Level="1" DataMember="lstUserNames" DataSource="#Ref-0" Dpi="254">
+      <Bands>
+        <Item1 Ref="45" ControlType="DetailBand" Name="Detail2" HeightF="58.42" Dpi="254">
+          <HierarchyPrintOptions Ref="46" Indent="50.8" />
+          <Controls>
+            <Item1 Ref="47" ControlType="XRLabel" Name="xrLabel4" Multiline="true" Text="xrLabel4" SizeF="788.4583,58.42" LocationFloat="152.9997,0" Dpi="254" Padding="5,5,0,0,254">
+              <ExpressionBindings>
+                <Item1 Ref="48" EventName="BeforePrint" PropertyName="Text" Expression="[NameAsString]" />
+              </ExpressionBindings>
+            </Item1>
+          </Controls>
+        </Item1>
+        <Item2 Ref="49" ControlType="ReportHeaderBand" Name="ReportHeader" HeightF="57.27929" Dpi="254">
+          <Controls>
+            <Item1 Ref="50" ControlType="XRLabel" Name="xrLabel6" Text="Users:" SizeF="168.8043,46.6492" LocationFloat="107.1498,10.63008" Dpi="254" Font="Tahoma, 8pt, style=Italic, Underline" Padding="5,5,0,0,254">
+              <StylePriority Ref="51" UseFont="false" />
+            </Item1>
+          </Controls>
+        </Item2>
+      </Bands>
+    </Item7>
+    <Item8 Ref="52" ControlType="TopMarginBand" Name="TopMargin" HeightF="120" TextAlignment="TopLeft" Dpi="254" Padding="0,0,0,0,254" />
+    <Item9 Ref="53" ControlType="BottomMarginBand" Name="BottomMargin" HeightF="120" TextAlignment="TopLeft" Dpi="254" Padding="0,0,0,0,254" />
+  </Bands>
+  <Scripts Ref="54" OnBeforePrint="rptCivilProTemplate_BeforePrint" />
+  <ObjectStorage>
+    <Item1 ObjectType="DevExpress.XtraReports.Serialization.ObjectStorageInfo, DevExpress.XtraReports.v20.2" Ref="0" Content="~Xtra#NULL" Type="System.Windows.Forms.BindingSource" />
+  </ObjectStorage>
+</XtraReportsLayoutSerializer>

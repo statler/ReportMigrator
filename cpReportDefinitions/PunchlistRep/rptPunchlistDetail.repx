@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XtraReportsLayoutSerializer SerializerVersion="20.2.5.0" Ref="1" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v20.2, Version=20.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Name="rptPunchlistDetail" SnapGridSize="25" ReportUnit="TenthsOfAMillimeter" Margins="100, 100, 120, 120" PageWidth="2159" PageHeight="2794" Version="20.2" DataSource="#Ref-0" Dpi="254" Font="Arial, 9.75pt">
+  <Extensions>
+    <Item1 Ref="2" Key="VSReportExtInfo" Value=".repx" />
+  </Extensions>
+  <Bands>
+    <Item1 Ref="3" ControlType="TopMarginBand" Name="TopMargin" HeightF="120" Dpi="254" />
+    <Item2 Ref="4" ControlType="BottomMarginBand" Name="BottomMargin" HeightF="120" Dpi="254" />
+    <Item3 Ref="5" ControlType="DetailBand" Name="Detail" HeightF="76.72917" Dpi="254">
+      <HierarchyPrintOptions Ref="6" Indent="50.8" />
+      <Controls>
+        <Item1 Ref="7" ControlType="XRLabel" Name="label14" Multiline="true" Text="Created By:" TextAlignment="TopLeft" SizeF="190.5,48.14564" LocationFloat="1089.97937,6.138191" Dpi="254" Font="Tahoma, 8pt, style=Bold, Underline" Padding="5,5,0,0,254">
+          <StylePriority Ref="8" UseFont="false" UseTextAlignment="false" />
+        </Item1>
+        <Item2 Ref="9" ControlType="XRLabel" Name="label13" Multiline="true" Text="Date created:" TextAlignment="TopLeft" SizeF="206.375,48.14564" LocationFloat="1563.5835,3.583599" Dpi="254" Font="Tahoma, 8pt, style=Bold, Underline" Padding="5,5,0,0,254">
+          <StylePriority Ref="10" UseFont="false" UseTextAlignment="false" />
+        </Item2>
+        <Item3 Ref="11" ControlType="XRLabel" Name="label3" Multiline="true" Text="label3" SizeF="283.104126,48.14564" LocationFloat="1280.47937,6.138191" Dpi="254" Font="Tahoma, 8pt" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="12" EventName="BeforePrint" PropertyName="Text" Expression="[RaisedByName]" />
+          </ExpressionBindings>
+          <StylePriority Ref="13" UseFont="false" />
+        </Item3>
+        <Item4 Ref="14" ControlType="XRLabel" Name="label2" TextFormatString="{0:dd/MM/yy}" Multiline="true" Text="label2" SizeF="174.625,48.14564" LocationFloat="1769.9585,3.583599" Dpi="254" Font="Tahoma, 8pt" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="15" EventName="BeforePrint" PropertyName="Text" Expression="[DateRaised]" />
+          </ExpressionBindings>
+          <StylePriority Ref="16" UseFont="false" />
+        </Item4>
+        <Item5 Ref="17" ControlType="XRLabel" Name="label1" Multiline="true" Text="label1" SizeF="1055.6875,45.59105" LocationFloat="14.3176012,6.138191" Dpi="254" Font="Tahoma, 8pt" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="18" EventName="BeforePrint" PropertyName="Text" Expression="[Description]" />
+          </ExpressionBindings>
+          <StylePriority Ref="19" UseFont="false" />
+        </Item5>
+      </Controls>
+    </Item3>
+    <Item4 Ref="20" ControlType="DetailReportBand" Name="DetailReport" Level="0" DataMember="LstPunchlistItems" DataSource="#Ref-0" Dpi="254">
+      <Bands>
+        <Item1 Ref="21" ControlType="DetailBand" Name="Detail1" HeightF="112.833229" Dpi="254">
+          <HierarchyPrintOptions Ref="22" Indent="50.8" />
+          <Controls>
+            <Item1 Ref="23" ControlType="XRLabel" Name="apLabel" Multiline="true" TextAlignment="MiddleCenter" SizeF="144.999878,90" LocationFloat="1789,11" Dpi="254" Font="Tahoma, 8pt" BackColor="Transparent" Padding="5,5,0,0,254" Borders="All">
+              <ExpressionBindings>
+                <Item1 Ref="24" EventName="BeforePrint" PropertyName="Text" Expression="[ApprovedBySignoff]" />
+              </ExpressionBindings>
+              <StylePriority Ref="25" UseFont="false" UseBackColor="false" UseBorders="false" UseTextAlignment="false" />
+            </Item1>
+            <Item2 Ref="26" ControlType="XRLabel" Name="vrLabel" Multiline="true" TextAlignment="MiddleCenter" SizeF="145,90" LocationFloat="1636.91492,11" Dpi="254" Font="Tahoma, 8pt" BackColor="Transparent" Padding="5,5,0,0,254" Borders="All">
+              <ExpressionBindings>
+                <Item1 Ref="27" EventName="BeforePrint" PropertyName="Text" Expression="[VerifiedBySignoff]" />
+              </ExpressionBindings>
+              <StylePriority Ref="28" UseFont="false" UseBackColor="false" UseBorders="false" UseTextAlignment="false" />
+            </Item2>
+            <Item3 Ref="29" ControlType="XRLabel" Name="ckLabel" Multiline="true" TextAlignment="MiddleCenter" SizeF="145,90" LocationFloat="1485.49915,11" Dpi="254" Font="Tahoma, 8pt" BackColor="Transparent" Padding="5,5,0,0,254" Borders="All">
+              <ExpressionBindings>
+                <Item1 Ref="30" EventName="BeforePrint" PropertyName="Text" Expression="[CheckedBySignoff]" />
+              </ExpressionBindings>
+              <StylePriority Ref="31" UseFont="false" UseBackColor="false" UseBorders="false" UseTextAlignment="false" />
+            </Item3>
+            <Item4 Ref="32" ControlType="XRLabel" Name="label5" Multiline="true" Text="label5" SizeF="1445.38525,58.42" LocationFloat="25.400259,25.3999348" Dpi="254" Font="Tahoma, 8pt" Padding="5,5,0,0,254">
+              <ExpressionBindings>
+                <Item1 Ref="33" EventName="BeforePrint" PropertyName="Text" Expression="[Description]" />
+              </ExpressionBindings>
+              <StylePriority Ref="34" UseFont="false" />
+            </Item4>
+          </Controls>
+        </Item1>
+      </Bands>
+    </Item4>
+    <Item5 Ref="35" ControlType="DetailReportBand" Name="DetailReport1" Level="1" Dpi="254">
+      <Bands>
+        <Item1 Ref="36" ControlType="DetailBand" Name="Detail2" HeightF="99.35419" Dpi="254">
+          <HierarchyPrintOptions Ref="37" Indent="50.8" />
+          <Controls>
+            <Item1 Ref="38" ControlType="XRLabel" Name="label11" TextFormatString="{0:d/MM/yyyy}" Multiline="true" Text="label4" SizeF="253.999878,48.1456375" LocationFloat="1150.672,25.00009" Dpi="254" Font="Tahoma, 8pt" Padding="5,5,0,0,254">
+              <ExpressionBindings>
+                <Item1 Ref="39" EventName="BeforePrint" PropertyName="Text" Expression="[ApprovedDate]" />
+              </ExpressionBindings>
+              <StylePriority Ref="40" UseFont="false" />
+            </Item1>
+            <Item2 Ref="41" ControlType="XRLabel" Name="label12" Multiline="true" Text="Closeout Date:" SizeF="254,48.1456375" LocationFloat="896.672,25.00009" Dpi="254" Font="Tahoma, 8pt, style=Bold, Underline" Padding="5,5,0,0,254">
+              <StylePriority Ref="42" UseFont="false" />
+            </Item2>
+            <Item3 Ref="43" ControlType="XRLabel" Name="label10" Multiline="true" Text="Closed Out By:" SizeF="254,48.1456375" LocationFloat="97.63035,25.00009" Dpi="254" Font="Tahoma, 8pt, style=Bold, Underline" Padding="5,5,0,0,254">
+              <StylePriority Ref="44" UseFont="false" />
+            </Item3>
+            <Item4 Ref="45" ControlType="XRLabel" Name="label4" Multiline="true" Text="label4" SizeF="518.5834,48.1456375" LocationFloat="351.630341,25.00009" Dpi="254" Font="Tahoma, 8pt" Padding="5,5,0,0,254">
+              <ExpressionBindings>
+                <Item1 Ref="46" EventName="BeforePrint" PropertyName="Text" Expression="[ApprovedByName]" />
+              </ExpressionBindings>
+              <StylePriority Ref="47" UseFont="false" />
+            </Item4>
+          </Controls>
+        </Item1>
+      </Bands>
+    </Item5>
+    <Item6 Ref="48" ControlType="PageHeaderBand" Name="PageHeader" HeightF="254" Dpi="254">
+      <Controls>
+        <Item1 Ref="49" ControlType="XRPanel" Name="headPanel" AnchorHorizontal="Both" SizeF="1919.6825,216.5" LocationFloat="14.3176012,25.00009" Dpi="254" Borders="All" BorderWidth="1">
+          <Controls>
+            <Item1 Ref="50" ControlType="XRLabel" Name="lbReportHeading" Multiline="true" Text="Punchlist" AnchorHorizontal="Right" TextAlignment="MiddleRight" SizeF="1022.438,57.99998" LocationFloat="869.7287,13.82371" Dpi="254" Font="Tahoma, 10pt, style=Bold" Padding="5,5,0,0,254" Borders="None">
+              <StylePriority Ref="51" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item1>
+            <Item2 Ref="52" ControlType="XRLabel" Name="lbProject" Text="Project Here" AnchorHorizontal="Right" TextAlignment="MiddleRight" SizeF="1022.438,58.00002" LocationFloat="869.7287,76.32377" Dpi="254" Font="Tahoma, 9pt" Padding="5,5,0,0,254" Borders="None">
+              <StylePriority Ref="53" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item2>
+            <Item3 Ref="54" ControlType="XRLabel" Name="lbRecordReference" AnchorHorizontal="Right" TextAlignment="MiddleRight" SizeF="1022.438,64.32861" LocationFloat="869.7287,138.8236" Dpi="254" Font="Tahoma, 9pt" Padding="5,5,0,0,254" Borders="None">
+              <StylePriority Ref="55" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item3>
+            <Item4 Ref="56" ControlType="XRPictureBox" Name="pbLogo" Sizing="ZoomImage" ImageAlignment="TopLeft" SizeF="743.9791,189.3285" LocationFloat="14.02092,13.82371" Dpi="254" Borders="None">
+              <StylePriority Ref="57" UseBorders="false" />
+            </Item4>
+          </Controls>
+          <StylePriority Ref="58" UseBorders="false" UseBorderWidth="false" />
+        </Item1>
+      </Controls>
+    </Item6>
+    <Item7 Ref="59" ControlType="DetailReportBand" Name="DetailReport2" Level="2" DataMember="LstUserAliases" DataSource="#Ref-0" Dpi="254">
+      <Bands>
+        <Item1 Ref="60" ControlType="DetailBand" Name="Detail3" HeightF="48.14564" Dpi="254">
+          <HierarchyPrintOptions Ref="61" Indent="50.8" />
+          <Controls>
+            <Item1 Ref="62" ControlType="XRLabel" Name="label8" Multiline="true" Text="label6" SizeF="150.8125,48.14564" LocationFloat="224.630341,0" Dpi="254" Font="Tahoma, 8pt" Padding="5,5,0,0,254">
+              <ExpressionBindings>
+                <Item1 Ref="63" EventName="BeforePrint" PropertyName="Text" Expression="[Alias]" />
+              </ExpressionBindings>
+              <StylePriority Ref="64" UseFont="false" />
+            </Item1>
+            <Item2 Ref="65" ControlType="XRLabel" Name="label9" Multiline="true" Text="label6" TextAlignment="TopLeft" SizeF="658.812439,48.14564" LocationFloat="393.963684,0" Dpi="254" Font="Tahoma, 8pt" Padding="5,5,0,0,254">
+              <ExpressionBindings>
+                <Item1 Ref="66" EventName="BeforePrint" PropertyName="Text" Expression="[FullName]" />
+              </ExpressionBindings>
+              <StylePriority Ref="67" UseFont="false" UseTextAlignment="false" />
+            </Item2>
+          </Controls>
+        </Item1>
+        <Item2 Ref="68" ControlType="ReportHeaderBand" Name="ReportHeader" HeightF="58.7289734" Dpi="254">
+          <Controls>
+            <Item1 Ref="69" ControlType="XRLabel" Name="label7" Multiline="true" Text="Name" TextAlignment="TopLeft" SizeF="127,48.14564" LocationFloat="393.963684,10.583333" Dpi="254" Font="Tahoma, 8pt, style=Bold, Underline" Padding="5,5,0,0,254">
+              <StylePriority Ref="70" UseFont="false" UseTextAlignment="false" />
+            </Item1>
+            <Item2 Ref="71" ControlType="XRLabel" Name="label6" Multiline="true" Text="Abbrev." SizeF="127,48.14564" LocationFloat="224.630341,10.583333" Dpi="254" Font="Tahoma, 8pt, style=Bold, Underline" Padding="5,5,0,0,254">
+              <StylePriority Ref="72" UseFont="false" />
+            </Item2>
+          </Controls>
+        </Item2>
+      </Bands>
+    </Item7>
+  </Bands>
+  <ComponentStorage>
+    <Item1 Ref="0" ObjectType="DevExpress.DataAccess.ObjectBinding.ObjectDataSource,DevExpress.DataAccess.v20.2" Name="objectDataSource1" Base64="PE9iamVjdERhdGFTb3VyY2UgTmFtZT0ib2JqZWN0RGF0YVNvdXJjZTEiIC8+" />
+  </ComponentStorage>
+</XtraReportsLayoutSerializer>

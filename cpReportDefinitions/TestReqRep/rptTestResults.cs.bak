@@ -1,0 +1,165 @@
+using cpReportDefinitions.Helpers;
+using cpModel.Dtos.Lookup;
+using cpModel.Dtos.Report;
+using DevExpress.XtraPrinting;
+using DevExpress.XtraReports.UI;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+
+namespace cpReportDefinitions.TestReqRep
+{
+    public partial class rptTestResults : rptTemplate
+    {
+        TestMethodLookupDto currTM;
+
+        public override string BaseReportName { get; set; } = "Test Results";
+
+        public rptTestResults()
+        {
+            InitializeComponent();
+            ReportTitle = "Test Results";
+            Detail.BeforePrint += Detail_BeforePrint;
+            DataSourceRowChanged += rptTestResults_DataSourceRowChanged;
+        }
+
+
+        private void Detail_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)
+        {
+            var ctrls = (sender as DetailBand).Controls;
+            for (int i = ctrls.Count - 1; i >= 0; i--)
+            {
+                var c = ctrls[i];
+                if (c.Name != lblTestNumDesc.Name) ctrls.Remove(c);
+            }
+            XtraReportBase r = (sender as DetailBand).Report;
+            TestMethodReportDto currTM = (r.GetCurrentRow() as TestMethodReportDto);
+            if (currTM == null) return;
+
+            float availWidth = (PageWidth - Margins.Right - Margins.Right) * 0.98F;
+            List<TestRequestTestReportDto> trTests = currTM.Tests;
+            if (currTM.ResultFields.Count > 0 && currTM.Tests.Count > 0)
+            {
+                XRTable tbl = CreateQtyTable(currTM, trTests, availWidth);
+                (sender as DetailBand).Controls.Add(tbl);
+            }
+        }
+
+
+        private XRTable CreateQtyTable(TestMethodLookupDto currTM, List<TestRequestTestReportDto> trTestsForMethod, float availWidth)
+        {
+            var results = trTestsForMethod.SelectMany(x => x.Results).ToList();
+            var resultFields = results.Where(x => x.TestResultFieldId != null)
+                .GroupBy(x => x.TestResultFieldId)
+                .Select(g => g.FirstOrDefault())
+                .OrderBy(x => x.OrderId).ToList();
+
+            int? count = trTestsForMethod.FirstOrDefault()?.Results?.Count;
+            var singleRowResultsCount = count.GetValueOrDefault(1);
+
+            float sampleWidth = 200;
+            float resultWidth = Math.Min(300F, (availWidth - 100) / singleRowResultsCount);
+            Dictionary<int, List<double>> itemsForTotal = new Dictionary<int, List<double>>();
+            XRTable testTable = new XRTable();
+
+            testTable.Dpi = 254F;
+            testTable.LocationF = new PointF(0, 93);
+            testTable.SizeF = new SizeF(sampleWidth + (resultWidth * singleRowResultsCount), trTestsForMethod.Count() * 65);
+
+            testTable.BeginInit();
+
+            testTable.BorderWidth = 1;
+            //XRTableRow newTitleRow = new XRTableRow();
+            //newTitleRow.Dpi = 254F;
+            //testTable.Rows.Add(newTitleRow);
+            //newTitleRow.Cells.Add(reportHelper.newTableCell(currTM.TestNumDesc, TextAlignment.MiddleLeft, 1, BorderSide.None, new Font("Tahoma", 10F, FontStyle.Bold)));
+
+            XRTableRow newRow = new XRTableRow();
+            newRow.Dpi = 254F;
+            testTable.Rows.Add(newRow);
+
+            //Create Table Header
+            newRow.Cells.Add(ReportHelper.newTableCell("Sample", TextAlignment.MiddleCenter, sampleWidth / testTable.WidthF, BorderSide.All, new Font(Detail.Font, FontStyle.Bold)));
+
+            foreach (TestResultReportDto result in resultFields)
+                newRow.Cells.Add(ReportHelper.newTableCell(result.ResultFieldName, TextAlignment.MiddleCenter, resultWidth / testTable.WidthF, BorderSide.Top | BorderSide.Bottom | BorderSide.Right, new Font(Detail.Font, FontStyle.Bold)));
+
+            foreach (TestRequestTestReportDto test in trTestsForMethod.OrderBy(x => x.TestRequestNo).ThenBy(y => y.SampleId))
+            {
+                XRTableRow newTestRow = new XRTableRow();
+                testTable.Rows.Add(newTestRow);
+                newTestRow.Dpi = 254F;
+                newTestRow.Cells.Add(ReportHelper.newTableCell(test.SampleId, TextAlignment.MiddleCenter, sampleWidth / testTable.WidthF, BorderSide.Left | BorderSide.Bottom | BorderSide.Right, Detail.Font));
+
+                foreach (TestResultReportDto resultField in resultFields)
+                {
+                    TestResultReportDto testresult = test.Results.FirstOrDefault(x => x.TestResultFieldId == resultField.TestResultFieldId);
+                    string resultString = testresult == null ? "" : testresult.Result;
+                    double resultDBL = 0;
+                    if (resultField.TestResultFieldId != null && double.TryParse(resultString, out resultDBL))
+                    {
+                        if (!itemsForTotal.ContainsKey(resultField.TestResultFieldId.Value)) itemsForTotal.Add(resultField.TestResultFieldId.Value, new List<double>());
+                        itemsForTotal[resultField.TestResultFieldId.Value].Add(resultDBL);
+                    }
+                    newTestRow.Cells.Add(ReportHelper.newTableCell(resultString, TextAlignment.MiddleCenter, resultWidth / testTable.WidthF, BorderSide.Bottom | BorderSide.Right, Detail.Font));
+                }
+            }
+
+            AddSummary(TotalType.TotalAverage, sampleWidth, resultWidth, itemsForTotal, resultFields, testTable);
+            AddSummary(TotalType.LowerCV, sampleWidth, resultWidth, itemsForTotal, resultFields, testTable);
+            AddSummary(TotalType.UpperCV, sampleWidth, resultWidth, itemsForTotal, resultFields, testTable);
+
+            testTable.EndInit();
+            return testTable;
+        }
+
+        private void AddSummary(TotalType typeTotal, float sampleWidth, float resultWidth, Dictionary<int, List<double>> itemsForTotal, List<TestResultReportDto> resultFields_sorted, XRTable testTable)
+        {
+            XRTableRow SumRow = new XRTableRow(); SumRow.Dpi = 254F;
+            string rowTitle;
+            if (typeTotal == TotalType.TotalAverage) rowTitle = "Average";
+            else if (typeTotal == TotalType.LowerCV) rowTitle = "CV Lower";
+            else rowTitle = "CV Upper";
+            SumRow.Cells.Add(ReportHelper.newTableCell(rowTitle, TextAlignment.MiddleCenter, sampleWidth / testTable.WidthF, BorderSide.Left | BorderSide.Bottom | BorderSide.Right, Detail.Font));
+
+            bool hasNonNAResult = false;
+            foreach (TestResultReportDto resultField in resultFields_sorted)
+            {
+                string summaryString = "N/A";
+                double summaryValue = -191919191919;
+                if (resultField.TestResultFieldId != null && itemsForTotal.ContainsKey(resultField.TestResultFieldId.Value))
+                {
+                    List<double> resultFloat = itemsForTotal[resultField.TestResultFieldId.Value];
+                    if (typeTotal == TotalType.TotalAverage) summaryValue = resultFloat.Average();
+                    else
+                    {
+                        CharacteristicValue cv = new CharacteristicValue(resultFloat);
+                        if (typeTotal == TotalType.LowerCV) summaryValue = cv.GetCVLower();
+                        else summaryValue = cv.GetCVUpper();
+                    }
+
+                    if (summaryValue != -191919191919 && !double.IsNaN(summaryValue)) summaryString = summaryValue.ToString("#,###,##0.##");
+                    if (summaryString != "N/A") hasNonNAResult = true;
+                }
+                SumRow.Cells.Add(ReportHelper.newTableCell(summaryString, TextAlignment.MiddleCenter, resultWidth / testTable.WidthF, BorderSide.Bottom | BorderSide.Right, Detail.Font));
+            }
+            if (hasNonNAResult) testTable.Rows.Add(SumRow);
+        }
+
+        public enum TotalType
+        {
+            TotalAverage,
+            LowerCV,
+            UpperCV
+        }
+
+        private void rptTestResults_DataSourceRowChanged(object sender, DataSourceRowEventArgs e)
+        {
+            currTM = (GetCurrentRow() as TestMethodLookupDto);
+            string currTMTestNumDesc = currTM == null ? "" : currTM.TestNumDesc;
+            RecordReference = "Test Method: " + currTMTestNumDesc;
+        }
+
+    }
+}

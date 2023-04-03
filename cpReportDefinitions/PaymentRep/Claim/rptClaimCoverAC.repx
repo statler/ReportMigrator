@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<XtraReportsLayoutSerializer SerializerVersion="20.2.3.0" Ref="1" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v20.2, Version=20.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49aivilPro.Reporting.PaymentRep.rptClaimCoverAC, CivilPro.Reporting, Version=11.66.7606.40184, Culture=neutral, PublicKeyToken=null" DisplayName="Progress claim cover with completion (payment)" SnapGridSize="25" ReportUnit="TenthsOfAMillimeter" Margins="95, 101, 120, 120" PaperKind="A4" PageWidth="2100" PageHeight="2970" Version="20.2" EventsInfo="" DataSource="#Ref-0" Dpi="254" Font="Tahoma, 8pt, style=Bold">
+  <Bands>
+    <Item1 Ref="2" ControlType="DetailBand" Name="Detail" PageBreak="AfterBandExceptLastEntry" HeightF="1801.521" KeepTogether="true" TextAlignment="TopLeft" Dpi="254" Font="Tahoma, 8pt" Padding="0,0,0,0,254">
+      <MultiColumn Ref="3" ColumnCount="3" Layout="AcrossThenDown" />
+      <Controls>
+        <Item1 Ref="4" ControlType="XRLabel" Name="xrLabel37" Text="Completion summary:" TextAlignment="MiddleLeft" SizeF="755.837,94.40332" LocationFloat="82.02859,1468.519" Dpi="254" Font="Tahoma, 11pt, style=Bold, Underline" Padding="5,5,0,0,254">
+          <StylePriority Ref="5" UseFont="false" UseTextAlignment="false" />
+        </Item1>
+        <Item2 Ref="6" ControlType="XRLabel" Name="xrLabel4" TextFormatString="{0:C2}" TextAlignment="MiddleRight" SizeF="451.316,94.40333" LocationFloat="1245.799,659.6085" Dpi="254" Font="Tahoma, 11pt, style=Bold" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="7" EventName="BeforePrint" PropertyName="Text" Expression="[TotalClaimedEff]" />
+          </ExpressionBindings>
+          <StylePriority Ref="8" UseFont="false" UseTextAlignment="false" />
+        </Item2>
+        <Item3 Ref="9" ControlType="XRLabel" Name="xrLabel5" TextFormatString="{0:C2}" TextAlignment="MiddleRight" SizeF="451.316,94.40333" LocationFloat="1246.3,873.3926" Dpi="254" Font="Tahoma, 11pt" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="10" EventName="BeforePrint" PropertyName="Text" Expression="[Security]" />
+          </ExpressionBindings>
+          <StylePriority Ref="11" UseFont="false" UseTextAlignment="false" />
+        </Item3>
+        <Item4 Ref="12" ControlType="XRLabel" Name="xrLabel6" TextFormatString="{0:C2}" TextAlignment="MiddleRight" SizeF="451.316,94.40333" LocationFloat="1246.049,767.5586" Dpi="254" Font="Tahoma, 11pt" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="13" EventName="BeforePrint" PropertyName="Text" Expression="[Retention]" />
+          </ExpressionBindings>
+          <StylePriority Ref="14" UseFont="false" UseTextAlignment="false" />
+        </Item4>
+        <Item5 Ref="15" ControlType="XRLabel" Name="xrLabel7" TextFormatString="{0:C2}" TextAlignment="MiddleRight" SizeF="451.316,94.40333" LocationFloat="1246.3,981.871" Dpi="254" Font="Tahoma, 11pt" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="16" EventName="BeforePrint" PropertyName="Text" Expression="[PreviousCertifiedValue]" />
+          </ExpressionBindings>
+          <StylePriority Ref="17" UseFont="false" UseTextAlignment="false" />
+        </Item5>
+        <Item6 Ref="18" ControlType="XRLabel" Name="xrLabel8" TextFormatString="{0:C2}" TextAlignment="MiddleRight" SizeF="451.316,94.40333" LocationFloat="1246.3,1096.171" Dpi="254" Font="Tahoma, 11pt, style=Bold" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="19" EventName="BeforePrint" PropertyName="Text" Expression="[AmountPayableThisClaimEff]" />
+          </ExpressionBindings>
+          <StylePriority Ref="20" UseFont="false" UseTextAlignment="false" />
+        </Item6>
+        <Item7 Ref="21" ControlType="XRLabel" Name="xrLabel10" TextFormatString="{0:C2}" TextAlignment="MiddleRight" SizeF="451.3159,83.81995" LocationFloat="1245.799,1339.72" Dpi="254" Font="Tahoma, 11pt, style=Bold" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="22" EventName="BeforePrint" PropertyName="Text" Expression="[AmountPayableThisClaimEff]*([GSTRate]+1)" />
+          </ExpressionBindings>
+          <StylePriority Ref="23" UseFont="false" UseTextAlignment="false" />
+        </Item7>
+        <Item8 Ref="24" ControlType="XRLabel" Name="xrLabel14" Text="Total claimed to date:" TextAlignment="MiddleLeft" SizeF="451.5659,94.40333" LocationFloat="236.477,659.6085" Dpi="254" Font="Tahoma, 11pt, style=Bold" Padding="5,5,0,0,254">
+          <StylePriority Ref="25" UseFont="false" UseTextAlignment="false" />
+        </Item8>
+        <Item9 Ref="26" ControlType="XRLabel" Name="xrLabel15" Text="Retention" TextAlignment="MiddleLeft" SizeF="451.5659,94.40333" LocationFloat="712.9785,767.5586" Dpi="254" Font="Tahoma, 11pt" Padding="5,5,0,0,254">
+          <StylePriority Ref="27" UseFont="false" UseTextAlignment="false" />
+        </Item9>
+        <Item10 Ref="28" ControlType="XRLabel" Name="xrLabel16" Text="Cash security" TextAlignment="MiddleLeft" SizeF="451.5659,94.40333" LocationFloat="712.9785,873.3926" Dpi="254" Font="Tahoma, 11pt" Padding="5,5,0,0,254">
+          <StylePriority Ref="29" UseFont="false" UseTextAlignment="false" />
+        </Item10>
+        <Item11 Ref="30" ControlType="XRLabel" Name="xrLabel17" Text="Previously certified" TextAlignment="MiddleLeft" SizeF="451.5659,94.40333" LocationFloat="712.9785,981.871" Dpi="254" Font="Tahoma, 11pt" Padding="5,5,0,0,254">
+          <StylePriority Ref="31" UseFont="false" UseTextAlignment="false" />
+        </Item11>
+        <Item12 Ref="32" ControlType="XRLabel" Name="xrLabel19" Text="Amount this claim:" TextAlignment="MiddleLeft" SizeF="451.5659,94.40333" LocationFloat="236.9778,1096.171" Dpi="254" Font="Tahoma, 11pt, style=Bold" Padding="5,5,0,0,254">
+          <StylePriority Ref="33" UseFont="false" UseTextAlignment="false" />
+        </Item12>
+        <Item13 Ref="34" ControlType="XRLabel" Name="xrLabel20" Text="GST" TextAlignment="MiddleLeft" SizeF="451.5659,94.40333" LocationFloat="713.4778,1202.984" Dpi="254" Font="Tahoma, 11pt" Padding="5,5,0,0,254">
+          <StylePriority Ref="35" UseFont="false" UseTextAlignment="false" />
+        </Item13>
+        <Item14 Ref="36" ControlType="XRLabel" Name="xrLabel21" Text="Amount including GST:" TextAlignment="MiddleLeft" SizeF="511.3306,83.81995" LocationFloat="236.4772,1339.72" Dpi="254" Font="Tahoma, 11pt, style=Bold" Padding="5,5,0,0,254">
+          <StylePriority Ref="37" UseFont="false" UseTextAlignment="false" />
+        </Item14>
+        <Item15 Ref="38" ControlType="XRLine" Name="xrLine1" SizeF="451.0659,5.561768" LocationFloat="1246.548,1084.671" Dpi="254" />
+        <Item16 Ref="39" ControlType="XRLine" Name="xrLine2" SizeF="451.0659,5.56189" LocationFloat="1245.272,1323.633" Dpi="254" />
+        <Item17 Ref="40" ControlType="XRLine" Name="xrLine3" SizeF="451.0659,5.56189" LocationFloat="1245.272,1434.123" Dpi="254" />
+        <Item18 Ref="41" ControlType="XRLine" Name="xrLine4" SizeF="451.0659,5.927856" LocationFloat="1245.272,1439.685" Dpi="254" />
+        <Item19 Ref="42" ControlType="XRLabel" Name="xrLabel30" Text="less" TextAlignment="MiddleRight" SizeF="451.5659,94.40333" LocationFloat="236.9778,767.5586" Dpi="254" Font="Tahoma, 11pt, style=Italic" Padding="5,5,0,0,254">
+          <StylePriority Ref="43" UseFont="false" UseTextAlignment="false" />
+        </Item19>
+        <Item20 Ref="44" ControlType="XRLabel" Name="xrLabel34" TextFormatString="{0:C2}" TextAlignment="MiddleRight" SizeF="451.316,94.40333" LocationFloat="1246.548,1202.984" Dpi="254" Font="Tahoma, 11pt" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="45" EventName="BeforePrint" PropertyName="Text" Expression="[AmountPayableThisClaimEff]*[GSTRate]" />
+          </ExpressionBindings>
+          <StylePriority Ref="46" UseFont="false" UseTextAlignment="false" />
+        </Item20>
+        <Item21 Ref="47" ControlType="XRLabel" Name="xrLabel35" Text="Claim to date summary:" TextAlignment="MiddleLeft" SizeF="755.837,94.40332" LocationFloat="83.05574,565.2051" Dpi="254" Font="Tahoma, 11pt, style=Bold, Underline" Padding="5,5,0,0,254">
+          <StylePriority Ref="48" UseFont="false" UseTextAlignment="false" />
+        </Item21>
+        <Item22 Ref="49" ControlType="XRLine" Name="xrLine5" SizeF="451.316,5.56189" LocationFloat="1245.022,1654.417" Dpi="254" />
+        <Item23 Ref="50" ControlType="XRLine" Name="xrLine6" SizeF="451.316,5.927856" LocationFloat="1245.022,1770.469" Dpi="254" />
+        <Item24 Ref="51" ControlType="XRLabel" Name="xrLabel26" Text="Estimated total at completion (ex GST)" TextAlignment="MiddleLeft" SizeF="871.9308,83.81995" LocationFloat="236.8008,1672.979" Dpi="254" Font="Tahoma, 11pt, style=Bold" Padding="5,5,0,0,254">
+          <StylePriority Ref="52" UseFont="false" UseTextAlignment="false" />
+        </Item24>
+        <Item25 Ref="53" ControlType="XRLabel" Name="xrLabel27" TextFormatString="{0:C2}" TextAlignment="MiddleRight" SizeF="451.316,83.81995" LocationFloat="1245.022,1672.979" Dpi="254" Font="Tahoma, 11pt, style=Bold" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="54" EventName="BeforePrint" PropertyName="Text" Expression="[AtCompletion]" />
+          </ExpressionBindings>
+          <StylePriority Ref="55" UseFont="false" UseTextAlignment="false" />
+        </Item25>
+        <Item26 Ref="56" ControlType="XRLabel" Name="xrLabel24" TextFormatString="{0:C2}" Text="xrLabel10" TextAlignment="MiddleRight" SizeF="451.316,83.81995" LocationFloat="1245.022,1562.922" Dpi="254" Font="Tahoma, 11pt" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="57" EventName="BeforePrint" PropertyName="Text" Expression="IsNull([AtCompletion],0)-IsNull([TotalClaimedEff],0)" />
+          </ExpressionBindings>
+          <StylePriority Ref="58" UseFont="false" UseTextAlignment="false" />
+        </Item26>
+        <Item27 Ref="59" ControlType="XRLabel" Name="xrLabel25" Text="Estimated total to complete (ex GST)" TextAlignment="MiddleLeft" SizeF="873.2806,83.81995" LocationFloat="235.4507,1562.922" Dpi="254" Font="Tahoma, 11pt" Padding="5,5,0,0,254">
+          <StylePriority Ref="60" UseFont="false" UseTextAlignment="false" />
+        </Item27>
+        <Item28 Ref="61" ControlType="XRLabel" Name="xrLabel23" Text="Claim Date:" TextAlignment="MiddleLeft" SizeF="451.5659,94.40333" LocationFloat="83.05574,364.9131" Dpi="254" Font="Tahoma, 11pt" Padding="5,5,0,0,254">
+          <StylePriority Ref="62" UseFont="false" UseTextAlignment="false" />
+        </Item28>
+        <Item29 Ref="63" ControlType="XRLabel" Name="xrLabel22" TextFormatString="{0:d MMM yyyy}" TextAlignment="MiddleLeft" SizeF="451.5662,94.40333" LocationFloat="581.9518,364.9131" Dpi="254" Font="Tahoma, 11pt" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="64" EventName="BeforePrint" PropertyName="Text" Expression="[CutoffDate]" />
+          </ExpressionBindings>
+          <StylePriority Ref="65" UseFont="false" UseTextAlignment="false" />
+        </Item29>
+        <Item30 Ref="66" ControlType="XRLabel" Name="xrLabel13" Text="Claim Reference:" TextAlignment="MiddleLeft" SizeF="451.5659,94.40333" LocationFloat="83.05534,251.4598" Dpi="254" Font="Tahoma, 11pt" Padding="5,5,0,0,254">
+          <StylePriority Ref="67" UseFont="false" UseTextAlignment="false" />
+        </Item30>
+        <Item31 Ref="68" ControlType="XRLabel" Name="xrLabel12" Text="Contract Description:" TextAlignment="MiddleLeft" SizeF="451.5659,94.40333" LocationFloat="83.05534,138.8532" Dpi="254" Font="Tahoma, 11pt" Padding="5,5,0,0,254">
+          <StylePriority Ref="69" UseFont="false" UseTextAlignment="false" />
+        </Item31>
+        <Item32 Ref="70" ControlType="XRLabel" Name="xrLabel11" Text="Contract Number:" TextAlignment="MiddleLeft" SizeF="451.5659,94.40333" LocationFloat="83.05534,24.99999" Dpi="254" Font="Tahoma, 11pt" Padding="5,5,0,0,254">
+          <StylePriority Ref="71" UseFont="false" UseTextAlignment="false" />
+        </Item32>
+        <Item33 Ref="72" ControlType="XRLabel" Name="xrLabel3" TextFormatString="{0:d MMM yyyy}" TextAlignment="MiddleLeft" SizeF="1290.182,94.40335" LocationFloat="582.2021,251.4598" Dpi="254" Font="Tahoma, 11pt" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="73" EventName="BeforePrint" PropertyName="Text" Expression="[VersionDescription]" />
+          </ExpressionBindings>
+          <StylePriority Ref="74" UseFont="false" UseTextAlignment="false" />
+        </Item33>
+        <Item34 Ref="75" ControlType="XRLabel" Name="xrLabel2" TextAlignment="MiddleLeft" SizeF="1290.182,94.40334" LocationFloat="582.2021,138.8532" Dpi="254" Font="Tahoma, 11pt, style=Bold" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="76" EventName="BeforePrint" PropertyName="Text" Expression="[ProjectName]" />
+          </ExpressionBindings>
+          <StylePriority Ref="77" UseFont="false" UseTextAlignment="false" />
+        </Item34>
+        <Item35 Ref="78" ControlType="XRLabel" Name="xrLabel1" TextAlignment="MiddleLeft" SizeF="468.053,94.40332" LocationFloat="582.7527,24.99999" Dpi="254" Font="Tahoma, 11pt, style=Bold" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="79" EventName="BeforePrint" PropertyName="Text" Expression="[ProjectNumber]" />
+          </ExpressionBindings>
+          <StylePriority Ref="80" UseFont="false" UseTextAlignment="false" />
+        </Item35>
+      </Controls>
+      <StylePriority Ref="81" UseFont="false" />
+    </Item1>
+    <Item2 Ref="82" ControlType="TopMarginBand" Name="TopMargin" HeightF="120" TextAlignment="TopLeft" Dpi="254" Padding="0,0,0,0,254" />
+    <Item3 Ref="83" ControlType="BottomMarginBand" Name="BottomMargin" HeightF="120" TextAlignment="TopLeft" Dpi="254" Padding="0,0,0,0,254" />
+    <Item4 Ref="84" ControlType="PageHeaderBand" Name="PageHeader" HeightF="241.1667" Dpi="254">
+      <Controls>
+        <Item1 Ref="85" ControlType="XRPanel" Name="headPanel" AnchorHorizontal="Both" SizeF="1873.683,216.5" LocationFloat="11.90011,12.49996" Dpi="254" Borders="All" BorderWidth="1">
+          <Controls>
+            <Item1 Ref="86" ControlType="XRLabel" Name="lbReportHeading" Multiline="true" Text="Progress Claim Summary (At Comp)" AnchorHorizontal="Right" TextAlignment="MiddleRight" SizeF="1022.438,57.99998" LocationFloat="823.7292,13.82371" Dpi="254" Font="Tahoma, 10pt, style=Bold" Padding="5,5,0,0,254" Borders="None">
+              <StylePriority Ref="87" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item1>
+            <Item2 Ref="88" ControlType="XRLabel" Name="lbProject" Text="Project Here" AnchorHorizontal="Right" TextAlignment="MiddleRight" SizeF="1022.438,58.00002" LocationFloat="823.7292,76.32377" Dpi="254" Font="Tahoma, 9pt" Padding="5,5,0,0,254" Borders="None">
+              <StylePriority Ref="89" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item2>
+            <Item3 Ref="90" ControlType="XRLabel" Name="lbRecordReference" AnchorHorizontal="Right" TextAlignment="MiddleRight" SizeF="1022.438,64.32861" LocationFloat="823.7292,138.8236" Dpi="254" Font="Tahoma, 9pt" Padding="5,5,0,0,254" Borders="None">
+              <StylePriority Ref="91" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item3>
+            <Item4 Ref="92" ControlType="XRPictureBox" Name="pbLogo" Sizing="ZoomImage" ImageAlignment="TopLeft" SizeF="743.9791,189.3285" LocationFloat="14.02092,13.82371" Dpi="254" Borders="None">
+              <StylePriority Ref="93" UseBorders="false" />
+            </Item4>
+          </Controls>
+          <StylePriority Ref="94" UseBorders="false" UseBorderWidth="false" />
+        </Item1>
+      </Controls>
+      <StylePriority Ref="95" UseTextAlignment="false" />
+    </Item4>
+    <Item5 Ref="96" ControlType="PageFooterBand" Name="PageFooter" HeightF="76.2" Dpi="254">
+      <Controls>
+        <Item1 Ref="97" ControlType="XRLabel" Name="lbFooterText" Text="lbFooterText" SizeF="1460.5,44.84998" LocationFloat="11.90011,25.00001" Dpi="254" Font="Tahoma, 8pt" Padding="5,5,0,0,254">
+          <StylePriority Ref="98" UseFont="false" />
+        </Item1>
+        <Item2 Ref="99" ControlType="XRPageInfo" Name="xrPageInfo1" TextFormatString="Page {0} of {1}" AnchorHorizontal="Right" TextAlignment="MiddleRight" SizeF="342.8999,44.84998" LocationFloat="1542.684,25.00001" Dpi="254" Font="Tahoma, 8pt" Padding="5,5,0,0,254">
+          <StylePriority Ref="100" UseFont="false" UseTextAlignment="false" />
+        </Item2>
+      </Controls>
+    </Item5>
+  </Bands>
+  <ObjectStorage>
+    <Item1 ObjectType="DevExpress.XtraReports.Serialization.ObjectStorageInfo, DevExpress.XtraReports.v20.2" Ref="0" Content="~Xtra#NULL" Type="System.Windows.Forms.BindingSource" />
+  </ObjectStorage>
+</XtraReportsLayoutSerializer>

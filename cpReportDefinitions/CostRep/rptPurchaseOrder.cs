@@ -1,0 +1,148 @@
+using cpModel.Dtos;
+using cpModel.Dtos.Report;
+using DevExpress.XtraPrinting;
+using DevExpress.XtraPrinting.Drawing;
+using DevExpress.XtraPrinting.Native;
+using DevExpress.XtraReports.UI;
+using System;
+using System.Drawing;
+
+namespace cpReportDefinitions.CostRep
+{
+    public partial class rptPurchaseOrder : rptTemplate
+    {
+        public override string BaseReportName { get; set; } = "Purchase Order";
+        PurchaseOrderReportDto _currPO;
+        PurchaseOrderDetailDto _currPODetail;
+
+        string _tandc = "";
+
+        public bool showTandC { get; set; } = true;
+
+        public rptPurchaseOrder()
+        {
+            InitializeComponent();
+            ReportTitle = "Purchase Order";
+            IsInternalReport = false; //Has own watermark
+            PrintingSystem.Document.AutoFitToPagesWidth = 1;
+            BeforePrint += RptPurchaseOrder_BeforePrint;
+            xrPoDetailDescription.BeforePrint += xrPoDetailDescription_BeforePrint;
+            Detail.BeforePrint += Detail_BeforePrint;
+            PageHeader.BeforePrint += PageHeader_BeforePrint;
+            sbInstructions.BeforePrint += sbInstructions_BeforePrint;
+            PODetailReport.DataSourceRowChanged += PODetailReport_DataSourceRowChanged;
+            sbDetailNotes.BeforePrint += sbDetailNotes_BeforePrint;
+            sbPODetail_Footer.BeforePrint += sbPODetail_Footer_BeforePrint;
+            AfterPrint += rptPurchaseOrder_AfterPrint;
+        }
+
+        private void RptPurchaseOrder_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (showTandC)
+            {
+                var p = new ProjectParameterEventArgs("PODefaultConditions");
+                OnProjectParameterRequired(p);
+                _tandc = p.ParameterValue;
+            }
+        }
+
+        public Watermark CreateWatermark()
+        {
+            Watermark textWatermark = new Watermark();
+
+            textWatermark.Text = "ORDER NOT APPROVED";
+            textWatermark.TextDirection = DirectionMode.ForwardDiagonal;
+            textWatermark.Font = new Font(textWatermark.Font.Name, 40);
+            textWatermark.ForeColor = Color.Red;
+            textWatermark.TextTransparency = 150;
+            textWatermark.ShowBehind = false;
+
+            return textWatermark;
+        }
+
+        private void rptPurchaseOrder_DataSourceRowChanged(object sender, DataSourceRowEventArgs e)
+        {
+            _currPO = GetCurrentRow() as PurchaseOrderReportDto;
+            RecordReference = "Order #" + _currPO.PoNumber;
+        }
+
+        private void sbInstructions_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (_currPO != null && string.IsNullOrEmpty(_currPO.Notes)) e.Cancel = true;
+        }
+
+        private void PODetailReport_DataSourceRowChanged(object sender, DataSourceRowEventArgs e)
+        {
+            DetailReportBand pod = (DetailReportBand)sender;
+            _currPODetail = pod.GetCurrentRow() as PurchaseOrderDetailDto;
+        }
+
+        private void sbDetailNotes_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (_currPODetail != null && string.IsNullOrEmpty(_currPODetail.Notes)) e.Cancel = true;
+        }
+
+        private void sbPODetail_Footer_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (!showTandC)
+            {
+                e.Cancel = true;
+                return;
+            }
+            if (_tandc!=null)
+            {
+                sbPODetail_Footer.PageBreak = PageBreak.BeforeBand;
+                if (_tandc.Contains("#PAGEBREAK#"))
+                {
+                    _tandc = _tandc.Replace("#PAGEBREAK#", "");
+                }
+            }
+            else sbPODetail_Footer.PageBreak = PageBreak.None;
+
+            if (_tandc!=null) rtTermsAndConditions.Rtf = _tandc;
+        }
+
+        private void Detail_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            lbSupplierABN.Visible = !string.IsNullOrWhiteSpace(_currPO?.SupplierABN);
+        }
+
+        private void PageHeader_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var po = GetCurrentRow() as PurchaseOrderReportDto;
+            RecordReference = "Order #" + po.PoNumber;
+            if (po.ApprovedDate == null) lbRecordReference.Tag = true;
+            else lbRecordReference.Tag = false;
+        }
+
+
+        private void rptPurchaseOrder_AfterPrint(object sender, EventArgs e)
+        {
+            foreach (Page page in Pages)
+            {                
+                NestedBrickIterator iterator = new NestedBrickIterator(page.InnerBricks);
+                while (iterator.MoveNext())
+                {
+                    //The brick contains the controls tag.
+                    VisualBrick brick = iterator.CurrentBrick as VisualBrick;
+                    if (brick != null && brick.BrickOwner != null && brick.BrickOwner.RealControl is XRLabel lbl
+                        && ((XRLabel)brick.BrickOwner).Name == "lbRecordReference")
+                    {
+                        if ((bool)brick.Value)
+                        {
+                            page.AssignWatermark(CreateWatermark());
+                        }
+                    }
+
+                }
+            }
+        }
+
+        private void xrPoDetailDescription_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            XtraReportBase _report = (sender as XRRichText).Band.Report;
+            xrPoDetailDescription.Html = GetHtmlWithDefaultFormat(_report, "ItemDescription", xrPoDetailDescription.Font);
+        }
+
+    }
+}

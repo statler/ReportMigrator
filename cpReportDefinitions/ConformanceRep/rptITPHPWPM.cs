@@ -1,0 +1,130 @@
+using cpModel.Dtos.Report;
+using cpModel.Enums;
+using cpModel.Helpers;
+using DevExpress.XtraReports.UI;
+using System;
+using DevExpress.XtraRichEdit;
+
+namespace cpReportDefinitions.ConformanceRep
+{
+    public partial class rptITPHpWpM : rptTemplate
+    {
+        public override string BaseReportName { get; set; } = "Hold and Witness Point Register";
+        ItpReportDto _currITP;
+        public int DetailCount = 0;
+        public int TestCount = 0;
+        float _descWidthDefault = 0;
+
+        public rptITPHpWpM()
+        {
+            InitializeComponent();
+            ReportTitle = "HP | WP Register";
+            IsRegisterReport = true;
+            _descWidthDefault = xrrtDescription.WidthF;
+            DataSourceRowChanged += rptITP_DataSourceRowChanged;
+            BeforePrint += rptITP_BeforePrint;
+            PageFooter.BeforePrint += PageFooter_BeforePrint;
+            ITPDetail_Detail.BeforePrint += ITPDetail_Detail_BeforePrint;
+            xrrtDescription.BeforePrint += xrrtDescription_BeforePrint;
+            TestingReport.BeforePrint += TestingReport_BeforePrint;
+            TestingReport_Detail.BeforePrint += TestingReport_Detail_BeforePrint;
+        }
+
+        private void PageFooter_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            DateTime? revDate = _currITP.RevisionDate;
+            string rev = _currITP.RevisionId == null ? "" : _currITP.RevisionId.ToString();
+
+            string RevisionDate = revDate != null && revDate != DateTime.MinValue ? String.Format("{0:dd/MM/yyyy}", revDate) : "No Date";
+            lblFtrCenterText.Text = String.Format("Revision: {0} - {1}", rev, RevisionDate);
+        }
+
+        private void rptITP_DataSourceRowChanged(object sender, DataSourceRowEventArgs e)
+        {
+            DetailCount = 0;
+            _currITP = GetCurrentRow() as ItpReportDto;
+            RecordReference = "ITP: " + _currITP.InstanceDescription;
+        }
+
+        private void TestingReport_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
+
+        private void rptITP_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+        }
+
+        private void xrrtDescription_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+        }
+
+        private void ITPDetail_Detail_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            XtraReportBase detailSubReport = (sender as DetailBand).Report;
+            ItpDetailReportDto det = detailSubReport.GetCurrentRow() as ItpDetailReportDto;
+            if (det == null)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            bool isFullWidthRecord = det.ItemTypeEnum == ItpItemTypeEnum.Heading;
+            bool isHeaderRecord = isFullWidthRecord || (string.IsNullOrEmpty(det.ItemTypeString) && string.IsNullOrEmpty(det.Responsibility)
+                          && string.IsNullOrEmpty(det.Records) && string.IsNullOrEmpty(det.InspMeth) && string.IsNullOrEmpty(det.Clause));
+
+            if (isFullWidthRecord) xrrtDescription.WidthF = PageWidth - xrrtDescription.LeftF - 50;
+            else xrrtDescription.WidthF = _descWidthDefault;
+
+            if (det == null) return;
+            lbhResp.Visible = !string.IsNullOrEmpty(det.Responsibility);
+            lbhRecords.Visible = !string.IsNullOrEmpty(det.Records);
+            lbhMethodInsp.Visible = !string.IsNullOrEmpty(det.InspMeth);
+            lbhClause.Visible = !string.IsNullOrEmpty(det.Clause);
+            lbResp.Visible = !string.IsNullOrEmpty(det.Responsibility);
+            lbRecords.Visible = !string.IsNullOrEmpty(det.Records);
+            lbMethodInsp.Visible = !string.IsNullOrEmpty(det.InspMeth);
+            lbClause.Visible = !string.IsNullOrEmpty(det.Clause);
+
+            var plainRef = _richEditProcessor.GetPlainTextFromHTML(det.ReferenceText);
+            _richEditProcessor.RichEditServer.Document.HtmlText = det.Description;
+            if (!string.IsNullOrWhiteSpace(plainRef)) _richEditProcessor.RichEditServer.Document.InsertHtmlText(_richEditProcessor.RichEditServer.Document.Range.Start, det.ReferenceText + "<br>");
+            string originalHTML = _richEditProcessor.RichEditServer.Document.HtmlText;
+            string amendedHTMLDesc = _richEditProcessor.ChangeHTMLFontNameAndSize(xrrtDescription.Font, originalHTML);
+            if (xrrtDescription != null) xrrtDescription.Html = amendedHTMLDesc;
+
+            xrpnlSundry.Visible = !isHeaderRecord;
+            lbDetailNo.Visible = !isHeaderRecord;
+            if (!isHeaderRecord) DetailCount++;
+            lbDetailNo.Text = DetailCount.ToString();
+            (sender as DetailBand).Height = 0;
+        }
+
+        private void TestingReport_ReportHeader_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            TestCount = 0;
+            XtraReportBase testSubReport = (sender as ReportHeaderBand).Report;
+            if (testSubReport.GetCurrentRow() == null)
+            {
+                e.Cancel = true;
+                return;
+            }
+        }
+
+        private void TestingReport_Detail_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            XtraReportBase testSubReport = (sender as DetailBand).Report;
+            if (testSubReport.GetCurrentRow() == null)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            ItpTestReportDto currITPDetailTest = testSubReport.GetCurrentRow() as ItpTestReportDto;
+            TestCount++;
+            lblIndex.Text = DetailCount + "-" + TestCount;
+            xrrtCompliance.Html = GetHtmlWithDefaultFormat("Compliance", xrrtCompliance.Font);
+        }
+
+    }
+}

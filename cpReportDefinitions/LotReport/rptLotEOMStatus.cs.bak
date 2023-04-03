@@ -1,0 +1,22 @@
+namespace cpReportDefinitions.LotReport
+{
+    public partial class rptLotEOMStatus : rptTemplate
+    {
+        public override string BaseReportName { get; set; } = "Lot EOM Status";
+
+        public rptLotEOMStatus()
+        {
+            InitializeComponent();
+            ReportTitle = "Monthly status @ EOM";
+            BeforePrint += rptSchedule_BeforePrint;
+        }
+
+
+        private void rptSchedule_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)
+        {
+            if (DataSource == null) e.Cancel = true;
+        }
+
+
+    }
+}

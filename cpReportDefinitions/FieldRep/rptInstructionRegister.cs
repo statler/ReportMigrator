@@ -1,0 +1,37 @@
+using System;
+using cpModel.Dtos.Report;
+using DevExpress.XtraReports.UI;
+
+namespace cpReportDefinitions.FieldRep
+{
+    public partial class rptInstructionRegister
+    {
+        public override string BaseReportName { get; set; } = "Instruction Report";
+        public rptInstructionRegister()
+        {
+            InitializeComponent();
+            reDescription.BeforePrint += ReDescription_BeforePrint;
+            PageHeader.BeforePrint += PageHeader_BeforePrint;
+        }
+
+
+        private void SbCloseout_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            XtraReportBase r = (sender as Band).Report;
+            InstructionReportDto i = (InstructionReportDto)r?.GetCurrentRow();
+            if (i.ClosedOutDate == null) e.Cancel = true;
+        }
+
+        private void PageHeader_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var _currInc = GetCurrentRow() as InstructionReportDto;
+            if (_currInc!=null) RecordReference = "Instruction: " + _currInc.InstructionNo;
+        }
+
+        private void ReDescription_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            XtraReportBase logReport = (sender as XRRichText).Report;
+            reDescription.Html = GetHtmlWithDefaultFormat(logReport, "DescriptionHtml", reDescription.Font);
+        }
+    }
+}

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<XtraReportsLayoutSerializer SerializerVersion="20.2.3.0" Ref="1" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v20.2, Version=20.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49aivilPro.Reporting.PaymentRep.rptProgClaimNoRates, CivilPro.Reporting, Version=11.66.7606.40184, Culture=neutral, PublicKeyToken=null" DisplayName="Progress Claim" SnapGridSize="25" ReportUnit="TenthsOfAMillimeter" Margins="100, 100, 120, 120" PaperKind="A4" PageWidth="2100" PageHeight="2970" Version="20.2" EventsInfo="" DataSource="#Ref-0" Dpi="254" Font="Tahoma, 8pt">
+  <Bands>
+    <Item1 Ref="2" ControlType="DetailBand" Name="Detail" Expanded="false" PageBreak="BeforeBandExceptFirstEntry" HeightF="0" KeepTogether="true" TextAlignment="TopLeft" Dpi="254" Font="Tahoma, 8pt" Padding="0,0,0,0,254">
+      <MultiColumn Ref="3" ColumnCount="3" Layout="AcrossThenDown" />
+      <Scripts Ref="4" OnBeforePrint="Detail_BeforePrint" />
+      <StylePriority Ref="5" UseFont="false" />
+    </Item1>
+    <Item2 Ref="6" ControlType="PageHeaderBand" Name="PageHeader" HeightF="300.4333" TextAlignment="TopLeft" Dpi="254">
+      <Controls>
+        <Item1 Ref="7" ControlType="XRPanel" Name="headPanel" AnchorHorizontal="Both" SizeF="1874.371,216.5" LocationFloat="12.15016,12.50001" Dpi="254" Borders="All" BorderWidth="1">
+          <Controls>
+            <Item1 Ref="8" ControlType="XRLabel" Name="lbReportHeading" Multiline="true" Text="Lot Qty Report" AnchorHorizontal="Right" TextAlignment="MiddleRight" SizeF="1022.438,57.99998" LocationFloat="824.4173,13.82371" Dpi="254" Font="Tahoma, 10pt, style=Bold" Padding="5,5,0,0,254" Borders="None">
+              <StylePriority Ref="9" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item1>
+            <Item2 Ref="10" ControlType="XRLabel" Name="lbProject" Text="Project Here" AnchorHorizontal="Right" TextAlignment="MiddleRight" SizeF="1022.438,58.00002" LocationFloat="824.4173,76.32377" Dpi="254" Font="Tahoma, 9pt" Padding="5,5,0,0,254" Borders="None">
+              <StylePriority Ref="11" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item2>
+            <Item3 Ref="12" ControlType="XRLabel" Name="lbRecordReference" AnchorHorizontal="Right" TextAlignment="MiddleRight" SizeF="1022.438,64.32861" LocationFloat="824.4173,138.8236" Dpi="254" Font="Tahoma, 9pt" Padding="5,5,0,0,254" Borders="None">
+              <StylePriority Ref="13" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item3>
+            <Item4 Ref="14" ControlType="XRPictureBox" Name="pbLogo" Sizing="ZoomImage" ImageAlignment="TopLeft" SizeF="743.9791,189.3285" LocationFloat="14.02092,13.82371" Dpi="254" Borders="None">
+              <StylePriority Ref="15" UseBorders="false" />
+            </Item4>
+          </Controls>
+          <StylePriority Ref="16" UseBorders="false" UseBorderWidth="false" />
+        </Item1>
+        <Item2 Ref="17" ControlType="XRLabel" Name="lbhSchedule" Text="Schedule Qty" TextAlignment="TopRight" SizeF="216.9581,42" LocationFloat="1378,258.4333" Dpi="254" Font="Tahoma, 8pt, style=Bold, Underline" Padding="5,5,0,0,254">
+          <StylePriority Ref="18" UseFont="false" UseTextAlignment="false" />
+        </Item2>
+        <Item3 Ref="19" ControlType="XRLabel" Name="lbhClaim" Text="Claim Qty" TextAlignment="TopRight" SizeF="158.7498,42" LocationFloat="1618.771,258.4333" Dpi="254" Font="Tahoma, 8pt, style=Bold, Underline" Padding="5,5,0,0,254">
+          <StylePriority Ref="20" UseFont="false" UseTextAlignment="false" />
+        </Item3>
+        <Item4 Ref="21" ControlType="XRLabel" Name="lbhDescription" Text="Description:" SizeF="273,42" LocationFloat="0,258.4333" Dpi="254" Font="Tahoma, 8pt, style=Bold, Underline" Padding="5,5,0,0,254">
+          <StylePriority Ref="22" UseFont="false" />
+        </Item4>
+      </Controls>
+      <StylePriority Ref="23" UseTextAlignment="false" />
+    </Item2>
+    <Item3 Ref="24" ControlType="PageFooterBand" Name="PageFooter" HeightF="76.2" Dpi="254">
+      <Controls>
+        <Item1 Ref="25" ControlType="XRLabel" Name="lbFooterText" Text="lbFooterText" SizeF="1460.5,44.84998" LocationFloat="11.90011,25.00001" Dpi="254" Font="Tahoma, 8pt" Padding="5,5,0,0,254">
+          <StylePriority Ref="26" UseFont="false" />
+        </Item1>
+        <Item2 Ref="27" ControlType="XRPageInfo" Name="xrPageInfo1" TextFormatString="Page {0} of {1}" AnchorHorizontal="Right" TextAlignment="MiddleRight" SizeF="342.8999,44.84998" LocationFloat="1491.933,25.00002" Dpi="254" Font="Tahoma, 8pt" Padding="5,5,0,0,254">
+          <StylePriority Ref="28" UseFont="false" UseTextAlignment="false" />
+        </Item2>
+      </Controls>
+    </Item3>
+    <Item4 Ref="29" ControlType="DetailReportBand" Name="ClaimDetails" Level="0" DataMember="lstProgressClaimDetailsFlattened" DataSource="#Ref-0" Dpi="254">
+      <Bands>
+        <Item1 Ref="30" ControlType="DetailBand" Name="Detail_ClaimDetail" HeightF="69.04585" Dpi="254">
+          <HierarchyPrintOptions Ref="31" Indent="50.8" />
+          <Controls>
+            <Item1 Ref="32" ControlType="XRLabel" Name="lbSchedQty" TextFormatString="{0:#,###,##0.#####}" TextAlignment="TopRight" SizeF="187.8541,42" LocationFloat="1407.103,13.22917" Dpi="254" Font="Tahoma, 8pt" Padding="5,5,0,0,254">
+              <DataBindings>
+                <Item1 Ref="33" PropertyName="Text" DataMember="lstProgressClaimDetailsFlattened.QtyScheduled" />
+              </DataBindings>
+              <StylePriority Ref="34" UseFont="false" UseTextAlignment="false" />
+            </Item1>
+            <Item2 Ref="35" ControlType="XRLabel" Name="lbUnit" SizeF="106,42" LocationFloat="1780.521,13.22917" Dpi="254" Font="Tahoma, 8pt" Padding="5,5,0,0,254">
+              <DataBindings>
+                <Item1 Ref="36" PropertyName="Text" DataMember="lstProgressClaimDetailsFlattened.Unit" />
+              </DataBindings>
+            </Item2>
+            <Item3 Ref="37" ControlType="XRLabel" Name="lbClaimQty" TextFormatString="{0:#,###,##0.#####}" TextAlignment="TopRight" SizeF="182.5625,42" LocationFloat="1594.958,13.22917" Dpi="254" Font="Tahoma, 8pt" Padding="5,5,0,0,254">
+              <DataBindings>
+                <Item1 Ref="38" PropertyName="Text" DataMember="lstProgressClaimDetailsFlattened.QtyToDateEff" />
+              </DataBindings>
+              <StylePriority Ref="39" UseFont="false" UseTextAlignment="false" />
+            </Item3>
+            <Item4 Ref="40" ControlType="XRLabel" Name="lbDesc" Multiline="true" SizeF="1393.833,42.00002" LocationFloat="0,13.22917" Dpi="254" Font="Tahoma, 8pt" Padding="5,5,0,0,254">
+              <DataBindings>
+                <Item1 Ref="41" PropertyName="Text" DataMember="lstProgressClaimDetailsFlattened.SchedNumDescEff" />
+              </DataBindings>
+            </Item4>
+          </Controls>
+        </Item1>
+        <Item2 Ref="42" ControlType="DetailReportBand" Name="Snapshot" Level="0" DataMember="lstProgressClaimDetailsFlattened.LstSnapshotItems" DataSource="#Ref-0" Dpi="254">
+          <Bands>
+            <Item1 Ref="43" ControlType="DetailBand" Name="Detail_Snapshot" HeightF="53.9375" Dpi="254">
+              <HierarchyPrintOptions Ref="44" Indent="50.8" />
+              <SortFields>
+                <Item1 Ref="45" FieldName="Description" />
+              </SortFields>
+              <Controls>
+                <Item1 Ref="46" ControlType="XRLabel" Name="lbSsDesc" Multiline="true" SizeF="1393.833,42.00002" LocationFloat="0,3.999998" Dpi="254" Font="Tahoma, 8pt, style=Italic" ForeColor="Gray" Padding="5,5,0,0,254">
+                  <DataBindings>
+                    <Item1 Ref="47" PropertyName="Text" DataMember="lstProgressClaimDetailsFlattened.LstSnapshotItems.Description" />
+                  </DataBindings>
+                  <StylePriority Ref="48" UseFont="false" UseForeColor="false" />
+                </Item1>
+                <Item2 Ref="49" ControlType="XRLabel" Name="xrLabel3" TextFormatString="{0:#,###,##0.#####}" TextAlignment="TopRight" SizeF="182.5625,42" LocationFloat="1409.395,4" Dpi="254" Font="Tahoma, 8pt, style=Italic" ForeColor="Gray" Padding="5,5,0,0,254">
+                  <DataBindings>
+                    <Item1 Ref="50" PropertyName="Text" DataMember="lstProgressClaimDetailsFlattened.LstSnapshotItems.EffQty" />
+                  </DataBindings>
+                  <StylePriority Ref="51" UseFont="false" UseForeColor="false" UseTextAlignment="false" />
+                </Item2>
+                <Item3 Ref="52" ControlType="XRLabel" Name="xrLabel4" SizeF="106,42" LocationFloat="1594.958,4" Dpi="254" Font="Tahoma, 8pt, style=Italic" ForeColor="Gray" Padding="5,5,0,0,254">
+                  <DataBindings>
+                    <Item1 Ref="53" PropertyName="Text" DataMember="lstProgressClaimDetailsFlattened.LstSnapshotItems.Unit" />
+                  </DataBindings>
+                  <StylePriority Ref="54" UseFont="false" UseForeColor="false" />
+                </Item3>
+              </Controls>
+            </Item1>
+            <Item2 Ref="55" ControlType="GroupHeaderBand" Name="GroupHeader1" HeightF="61.70836" Dpi="254">
+              <GroupFields>
+                <Item1 Ref="56" FieldName="StatusText" />
+              </GroupFields>
+              <Controls>
+                <Item1 Ref="57" ControlType="XRLabel" Name="lbStatusText" Multiline="true" SizeF="1393.833,42.00002" LocationFloat="0,14.99997" Dpi="254" Font="Tahoma, 8pt, style=Italic, Underline" ForeColor="Gray" Padding="5,5,0,0,254">
+                  <DataBindings>
+                    <Item1 Ref="58" PropertyName="Text" DataMember="lstProgressClaimDetailsFlattened.LstSnapshotItems.StatusText" />
+                  </DataBindings>
+                  <StylePriority Ref="59" UseFont="false" UseForeColor="false" />
+                </Item1>
+              </Controls>
+            </Item2>
+          </Bands>
+          <ReportPrintOptions Ref="60" PrintOnEmptyDataSource="false" />
+        </Item2>
+      </Bands>
+    </Item4>
+    <Item5 Ref="61" ControlType="TopMarginBand" Name="TopMargin" HeightF="120" TextAlignment="TopLeft" Dpi="254" Padding="0,0,0,0,254" />
+    <Item6 Ref="62" ControlType="BottomMarginBand" Name="BottomMargin" HeightF="120" TextAlignment="TopLeft" Dpi="254" Padding="0,0,0,0,254" />
+  </Bands>
+  <ComponentStorage>
+    <Item1 Ref="0" />
+  </ComponentStorage>
+</XtraReportsLayoutSerializer>

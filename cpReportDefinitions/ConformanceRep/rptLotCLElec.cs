@@ -1,0 +1,466 @@
+using cpModel.Dtos;
+using cpModel.Dtos.Report;
+using cpModel.Enums;
+using cpModel.Helpers;
+using cpShared.Extensions;
+using DevExpress.XtraPrinting;
+using DevExpress.XtraReports.UI;
+using DevExpress.XtraRichEdit;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+
+namespace cpReportDefinitions.ConformanceRep
+{
+    public partial class rptLotCLElec : rptTemplate, IReportOptions
+    {
+        public bool HasGroupCodeRun = false;
+        public int ShowOptions { get; set; }
+        public override string BaseReportName { get; set; } = "Electronic Checklist";
+        public bool ShouldPrintDates { get; set; } = true;
+
+        Dictionary<int, UserBasicDto> _appNameDict = new Dictionary<int, UserBasicDto>();
+        int _detailCount = 0;
+        public bool UseLotQty = true;
+        float _descWidthDefault = 0;
+
+        public override int MinCompatibleDatabaseVersion => 66;
+
+        public rptLotCLElec()
+        {
+            InitializeComponent();
+            ReportTitle = "Checklist";
+            ckLabel.Visible = vrLabel.Visible = apLabel.Visible = ncrLabel.Visible = false;
+            //For some reason this shits itself in .Net Core.
+            //PrintingSystem.Document.AutoFitToPagesWidth = 1;
+            _descWidthDefault = xrrtDescription.WidthF;
+            xrWorkflowComment.BeforePrint += xrWorkflowComment_BeforePrint;
+            Workflow_detail.BeforePrint += Workflow_detail_BeforePrint;
+            WorkflowLogs.BeforePrint += DetailReport_BeforePrint;
+            xrrtCompliance.BeforePrint += xrrtCompliance_BeforePrint;
+            DataSourceRowChanged += rptLotCLElec_DataSourceRowChanged;
+            BeforePrint += rptLotCLElecEf_BeforePrint;
+            Detail.BeforePrint += Detail_BeforePrint;
+            PageHeader.BeforePrint += PageHeader_BeforePrint;
+            PageFooter.BeforePrint += PageFooter_BeforePrint;
+            pbGroupFooter.BeforePrint += pbGroupFooter_BeforePrint;
+            bpGroupFooterApproval.BeforePrint += bpGroupFooterApproval_BeforePrint;
+            LotItpDetail_Detail.BeforePrint += LotItpDetail_Detail_BeforePrint;
+            LotITPDetail_DetailComment.BeforePrint += LotITPDetail_DetailComment_BeforePrint;
+            LotItpDetail_LinkedLot.BeforePrint += LotItpDetail_LinkedLot_BeforePrint;
+            LotItpDetail_LinkedAtp.BeforePrint += LotItpDetail_LinkedAtp_BeforePrint;
+            LotItpDetail_ManualAppr.BeforePrint += LotItpDetail_ManualAppr_BeforePrint;
+            sbFullHeader.BeforePrint += sbFullHeader_BeforePrint;
+            sbShortHeader.BeforePrint += sbShortHeader_BeforePrint;
+        }
+
+        private void CalcDetailCheckPositions()
+        {
+            bool showApprovalLog = HasFlag(ShowOptions, (int)ReportEnums.CLElecprintOption.showApprovalLog);
+
+            if (WorkflowLogs != null) WorkflowLogs.Visible = showApprovalLog;
+        }
+
+
+        #region Event Handlers
+        private void bpGroupFooterApproval_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var currLotItp = GetCurrentRow() as LotItpReportDto;
+            e.Cancel = currLotItp?.DateApproved == null;
+        }
+
+        private void Detail_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            _detailCount = 0;
+            var currLotItp = GetCurrentRow() as LotItpReportDto;
+            if (currLotItp?.UsersForTable != null)
+            {
+                _appNameDict = currLotItp.UsersForTable.ToDictionary(x => x.UserId, x =>
+                {
+                    bool running = false;
+                    int length = 0;
+                    do
+                    {
+                        length++;
+                        running = currLotItp.UsersForTable.Where(u => u.UserId != x.UserId).Select(u => u.FirstLast.Left(length) + u.LastName.Left(length)).Contains(x.FirstLast.Left(length) + x.LastName.Left(length));
+                        if (length > 1 && !running)
+                        {
+                            x.CustomInitials = x.FirstLast.Left(length) + x.LastName.Left(length);
+                        }
+                    } while (running);
+
+                    return x;
+
+                });
+            }
+            else _appNameDict = new Dictionary<int, UserBasicDto>();
+
+        }
+
+        private void DetailReport_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
+
+        private void LotItpDetail_Detail_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            LotItpDetailReportDto lid = (sender as DetailBand).Report.GetCurrentRow() as LotItpDetailReportDto;
+            if (lid == null)
+            {
+                e.Cancel = true;
+                return;
+            }
+            bool isFullWidthRecord = lid.ItemTypeEnum == ItpItemTypeEnum.Heading;
+            bool isHeaderRecord = isFullWidthRecord || (String.IsNullOrEmpty(lid.ItemTypeString) && String.IsNullOrEmpty(lid.HpWpCString));
+
+            fillLabel(lid.CheckStatusCalc, lid.CheckedById, lid.CheckDate, ckLabel);
+            fillLabel(lid.VerifyStatusCalc, lid.VerifyById, lid.VerifyDate, vrLabel);
+            fillLabel(lid.ApprovalStatusCalc, lid.ApprovedById, lid.ApproveDate, apLabel);
+            ncrLabel.Text = "";
+            ncrLabel.BackColor = Color.Transparent;
+            if (lid.NcrId != null)
+            {
+                ncrLabel.Text = lid.NcrNo.ToString();
+                ckLabel.BackColor = vrLabel.BackColor = apLabel.BackColor = ncrLabel.BackColor = Color.Pink;
+            }
+
+            lbIndex.Visible = !isHeaderRecord;
+
+            if (!isHeaderRecord && !String.IsNullOrEmpty(lid.Description))
+            {
+                _detailCount++;
+                lbIndex.Text = _detailCount.ToString();
+            }
+
+            ckLabel.Visible = vrLabel.Visible = apLabel.Visible = ncrLabel.Visible = !isHeaderRecord;
+            if (isFullWidthRecord)
+            {
+                xrrtDescription.WidthF = PageWidth - xrrtDescription.LeftF - Margins.Left - Margins.Right - 10;
+            }
+            else
+            {
+                xrrtDescription.WidthF = _descWidthDefault;
+            }
+            Console.WriteLine($"{isFullWidthRecord} - {xrrtDescription.WidthF}");
+            var plainRef = _richEditProcessor.GetPlainTextFromHTML(lid.ReferenceText);
+            _richEditProcessor.RichEditServer.Document.HtmlText = lid.Description;
+            if (!string.IsNullOrWhiteSpace(plainRef)) _richEditProcessor.RichEditServer.Document.InsertHtmlText(_richEditProcessor.RichEditServer.Document.Range.Start, lid.ReferenceText + "<br>");
+            string originalHTML = _richEditProcessor.RichEditServer.Document.HtmlText;
+            string amendedHTMLDesc = _richEditProcessor.ChangeHTMLFontNameAndSize(xrrtDescription.Font, originalHTML);
+            xrrtDescription.Html = amendedHTMLDesc;
+        }
+
+        private void LotITPDetail_DetailComment_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            XtraReportBase approvalSubReport = (sender as SubBand).Report;
+            LotItpDetailReportDto lid = approvalSubReport.GetCurrentRow() as LotItpDetailReportDto;
+            if (string.IsNullOrWhiteSpace(lid.Comment)) e.Cancel = true;
+        }
+
+        private void LotItpDetail_LinkedAtp_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            XtraReportBase approvalSubReport = (sender as SubBand).Report.Report;
+            LotItpDetailReportDto lid = approvalSubReport.GetCurrentRow() as LotItpDetailReportDto;
+            if (lid?.ApprovalAtpid == null) e.Cancel = true;
+            else lbManualApprovalAtpRef.Text = lid?.AtpNoDesc_ApprovalManual;
+        }
+
+        private void LotItpDetail_LinkedLot_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            XtraReportBase approvalSubReport = (sender as SubBand).Report.Report;
+            LotItpDetailReportDto lid = approvalSubReport.GetCurrentRow() as LotItpDetailReportDto;
+            if (lid?.ApprovalLotId == null) e.Cancel = true;
+            else lbManualApprovalLotNo.Text = lid?.LotNoDesc_ApprovalManual;
+        }
+
+        private void LotItpDetail_ManualAppr_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            XtraReportBase approvalSubReport = (sender as SubBand).Report.Report;
+            LotItpDetailReportDto lid = approvalSubReport.GetCurrentRow() as LotItpDetailReportDto;
+            if (string.IsNullOrWhiteSpace(lid?.ApprovalReason)) e.Cancel = true;
+            else lbManualApprovalReason.Text = lid?.ApprovalReason;
+        }
+
+        private void PageFooter_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            LotItpReportDto currLotItp = GetCurrentRow() as LotItpReportDto;
+            if (currLotItp == null) return;
+            DateTime? revDate = currLotItp?.RevisionDate;
+            var rev = (int?)currLotItp?.RevisionId;
+
+            string RevisionDate = revDate != null && revDate != DateTime.MinValue ? String.Format("{0:dd/MM/yyyy}", revDate) : "No Date";
+            lblFtrCenterText.Text = $"Revision: {rev} - {RevisionDate}";
+        }
+
+        private void PageHeader_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            LotItpReportDto currLotItp = GetCurrentRow() as LotItpReportDto;
+            if (currLotItp == null) return;
+            if (currLotItp?.ItpId == null) RecordReference = "No ITP Ref";
+            else
+            {
+                RecordReference = $"Checklist: {currLotItp?.SourceQvcNo}: {currLotItp?.ItpDescription} ({currLotItp?.LotNumber})";
+            }
+        }
+
+        private void pbGroupFooter_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            LotItpReportDto currLotItp = GetCurrentRow() as LotItpReportDto;
+            if (currLotItp == null) return;
+            float currTop = 20;
+            pnlAbbrev.Controls.Clear();
+            pnlQty.Controls.Clear();
+
+            if (_appNameDict.Count > 0)
+            {
+                XRTable namesTable = createNamesTable();
+                namesTable.LocationFloat = new DevExpress.Utils.PointFloat(10.0F, 25.0F);
+                pnlAbbrev.Controls.AddRange(new XRControl[] { namesTable });
+                currTop = pnlAbbrev.BottomF + 20;
+            }
+
+            pnlQty.TopF = currTop;
+
+            if (currLotItp?.Quantities != null && currLotItp.Quantities.Count > 0)
+            {
+                var qtyPrint = new List<(string, string, string)>();
+                currLotItp.Quantities.ForEach(qty => qtyPrint.Add((qty.ScheduleNo, qty.ScheduleDescription, $"{qty.Qty:#,###,##.###} {qty.Unit}")));
+                XRTable qtyTable = CreateQtyTable(qtyPrint);
+                pnlQty.Controls.Add(qtyTable);
+                pnlQty.HeightF = qtyTable.HeightF;
+                currTop = pnlQty.BottomF + 20;
+            }
+
+            pbGroupFooter.TopF = currTop;
+        }
+
+        private void rptLotCLElec_DataSourceRowChanged(object sender, DataSourceRowEventArgs e)
+        {
+            LotItpReportDto currLotItp = GetCurrentRow() as LotItpReportDto;
+            if (currLotItp == null) return;
+            if (currLotItp?.ItpId == null) RecordReference = "No ITP Ref";
+            else
+            {
+                RecordReference = $"Checklist: {currLotItp?.SourceQvcNo}: {currLotItp?.ItpDescription} ({currLotItp?.LotNumber})";
+            }
+        }
+
+        private void rptLotCLElecEf_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            ProjectParameterEventArgs args = new ProjectParameterEventArgs("qvcChkBy");
+            OnProjectParameterRequired(args);
+            if (!string.IsNullOrEmpty(args.ParameterValue))
+            {
+                var c = this.FindControl("lbCheck") as XRLabel;
+                if (c != null) c.Text = args.ParameterValue;
+                lbCheck2.Text = args.ParameterValue;
+            }
+
+            args = new ProjectParameterEventArgs("qvcVerBy");
+            OnProjectParameterRequired(args);
+            if (!string.IsNullOrEmpty(args.ParameterValue))
+            {
+                var c = this.FindControl("lbVerify") as XRLabel;
+                if (c != null) c.Text = args.ParameterValue;
+                lbVerify2.Text = args.ParameterValue;
+            }
+
+            args = new ProjectParameterEventArgs("qvcAppBy");
+            OnProjectParameterRequired(args);
+            if (!string.IsNullOrEmpty(args.ParameterValue))
+            {
+                var c = this.FindControl("lbAppr") as XRLabel;
+                if (c != null) c.Text = args.ParameterValue;
+                lbAppr2.Text = args.ParameterValue;
+            }
+            CalcDetailCheckPositions();
+        }
+
+        int PrevId = -1;
+        private void sbFullHeader_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            int curCatId = (sender as SubBand).Report.Report.GetCurrentColumnValue<int>("LotItpId");
+            bool IsFirstPageInGroup = PrevId != curCatId;
+            PrevId = curCatId;
+            //This is to reverse support custom reports prior to a design change - in non-custom reports, this is run using a script
+            if (!HasGroupCodeRun)
+            {
+
+                var lblText = new List<string>() { "xrLabel10", lblDateOpenHeader.Name, lblDateOpen.Name, lblDateWorkStHeader.Name, lblDateWorkSt.Name, lblDateCompHeader.Name, lblDateComp.Name };
+                foreach (var item in lblText)
+                {
+                    var lbReplace = FindControl(item) as XRLabel;
+                    if (lbReplace != null) lbReplace.Visible = IsFirstPageInGroup;
+                }
+
+                var lbLot = FindControl(lblLot.Name) as XRLabel;
+                if (lbLot != null)
+                {
+                    lbLot.TextTrimming = StringTrimming.EllipsisWord;
+                    lbLot.CanGrow = IsFirstPageInGroup;
+                }
+                var pnl = FindControl("xrPanel1") as XRPanel;
+                if (pnl != null)
+                {
+                    pnl.CanShrink = true;
+                    pnl.Borders = IsFirstPageInGroup ? BorderSide.All : BorderSide.None;
+                    pnl.BackColor = IsFirstPageInGroup ? Color.Ivory : Color.Transparent;
+                }
+
+                LotItpReportDto currLotItp = (sender as SubBand).Report.Report.GetCurrentRow() as LotItpReportDto;
+                if (IsFirstPageInGroup && currLotItp?.DateWorkStarted == null)
+                {
+                    var lbReplace = FindControl(lblDateWorkStHeader.Name) as XRLabel;
+                    if (lbReplace != null) lbReplace.Visible = false;
+                }
+                if (IsFirstPageInGroup && currLotItp?.DateWorkEnded == null)
+                {
+                    var lbReplace = FindControl(lblDateCompHeader.Name) as XRLabel;
+                    if (lbReplace != null) lbReplace.Visible = false;
+                }
+            }
+        }
+
+        private void sbShortHeader_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            //This deals with custom reports that may have an old definition
+            var c = this.FindControl("lbCheck") as XRLabel;
+            if (c != null)
+            {
+                int curCatId = (sender as SubBand).Report.Report.GetCurrentColumnValue<int>("LotItpId");
+                bool IsFirstPageInGroup = PrevId != curCatId;
+                e.Cancel = !IsFirstPageInGroup;
+            }
+        }
+
+        private void Workflow_detail_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            WorkflowLogDto wfld = (sender as DetailBand).Report.GetCurrentRow() as WorkflowLogDto;
+            if (wfld?.WorkflowId == null) e.Cancel = true;
+
+        }
+        private void xrrtCompliance_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            XtraReportBase _report = (sender as XRRichText).Band.Report;
+            xrrtCompliance.Html = GetHtmlWithDefaultFormat(_report, "Compliance", xrrtCompliance.Font);
+        }
+
+        private void xrWorkflowComment_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            XtraReportBase _report = (sender as XRRichText).Band.Report;
+            xrWorkflowComment.Html = GetHtmlWithDefaultFormat(_report, "LogCommentHtml", xrWorkflowComment.Font);
+        }
+        #endregion
+
+        public XRTable createNamesTable()
+        {
+            float rowHeight = 25f;
+
+            XRTable table = new XRTable();
+            table.Borders = BorderSide.None;
+            table.BeginInit();
+
+            XRTableRow headerRow = new XRTableRow();
+            headerRow.HeightF = rowHeight;
+            headerRow.Cells.Add(ReportHelper.newTableCell("Abbreviation Key", TextAlignment.MiddleLeft, 450F, new Font(pbGroupFooter.Font, FontStyle.Bold)));
+            table.Rows.Add(headerRow);
+
+            foreach (KeyValuePair<int, UserBasicDto> usr in _appNameDict.OrderBy(x => x.Value.Initials))
+            {
+                XRTableRow row = new XRTableRow();
+                row.HeightF = rowHeight;
+                var init = usr.Value.CustomInitials ?? usr.Value.Initials;
+                row.Cells.Add(ReportHelper.newTableCell(init, TextAlignment.MiddleLeft, 50F, pbGroupFooter.Font));
+                row.Cells.Add(ReportHelper.newTableCell($"{usr.Value.FirstLast} ({usr.Value.Company})", TextAlignment.MiddleLeft, 400F, pbGroupFooter.Font));
+                table.Rows.Add(row);
+            }
+
+            table.AdjustSize();
+            table.EndInit();
+            return table;
+        }
+
+        public XRTable CreateQtyTable(List<(string ScheduleNo, string Description, string Qty)> qtyPrint)
+        {
+            XRTable qtyTable = new XRTable();
+
+            qtyTable.Dpi = 254F;
+            qtyTable.LocationF = new PointF(0, 0);
+            qtyTable.SizeF = new SizeF(pnlQty.WidthF, qtyPrint.Count * 65);
+
+            qtyTable.BeginInit();
+
+            qtyTable.BorderWidth = 1;
+            XRTableRow newRow = new XRTableRow();
+            newRow.Dpi = 254F;
+            qtyTable.Rows.Add(newRow);
+
+            newRow.Cells.Add(ReportHelper.newTableCell("Item No.", TextAlignment.MiddleCenter, 0.45D, BorderSide.All, new Font(pbGroupFooter.Font, FontStyle.Bold)));
+            newRow.Cells.Add(ReportHelper.newTableCell("Description", TextAlignment.MiddleLeft, 2D, BorderSide.All, new Font(pbGroupFooter.Font, FontStyle.Bold)));
+            newRow.Cells.Add(ReportHelper.newTableCell("Qty", TextAlignment.MiddleCenter, 0.45D, BorderSide.All, new Font(pbGroupFooter.Font, FontStyle.Bold)));
+
+            foreach (var item in qtyPrint)
+            {
+                XRTableRow newQtyRow = new XRTableRow();
+                qtyTable.Rows.Add(newQtyRow);
+                newQtyRow.Dpi = 254F;
+                newQtyRow.Cells.Add(ReportHelper.newTableCell(item.ScheduleNo, TextAlignment.MiddleCenter, 0.45D, BorderSide.Left | BorderSide.Bottom | BorderSide.Right, pbGroupFooter.Font));
+                newQtyRow.Cells.Add(ReportHelper.newTableCell(item.Description, TextAlignment.MiddleLeft, 2D, BorderSide.Left | BorderSide.Bottom | BorderSide.Right, pbGroupFooter.Font));
+                newQtyRow.Cells.Add(ReportHelper.newTableCell(item.Qty, TextAlignment.MiddleRight, 0.45D, BorderSide.Left | BorderSide.Bottom | BorderSide.Right, pbGroupFooter.Font));
+            }
+            qtyTable.EndInit();
+            return qtyTable;
+        }
+
+        public void fillLabel(CheckStatusEnum clt, int? usrId, DateTime? dt, XRLabel lb)
+        {
+            switch (clt)
+            {
+                case CheckStatusEnum.Not_required:
+                    lb.Borders = BorderSide.All;
+                    lb.BackColor = Color.LightGray;
+                    lb.Text = "";
+                    lb.BorderColor = Color.Black;
+                    break;
+                case CheckStatusEnum.Completed:
+                    string dateText = "None";
+                    UserBasicDto usr = null;
+                    if (usrId != null) _appNameDict.TryGetValue(usrId.Value, out usr);
+                    if (dt != null) dateText = ((DateTime)dt).ToString("d/M/yy");
+                    if (usr != null)
+                        lb.Text = usr.CustomInitials ?? usr.Initials;
+                    if (ShouldPrintDates) lb.Text += Environment.NewLine + dateText;
+                    lb.Borders = BorderSide.All;
+                    lb.BackColor = Color.FromArgb(60, Color.LightGreen);
+                    lb.BorderColor = Color.Black;
+                    break;
+                case CheckStatusEnum.Not_completed:
+                    lb.BackColor = Color.Transparent;
+                    lb.Borders = BorderSide.All;
+                    lb.Text = "";
+                    lb.BorderColor = Color.Black;
+                    break;
+                case CheckStatusEnum.Not_applicable:
+                    lb.BackColor = Color.Transparent;
+                    lb.Borders = BorderSide.All;
+                    lb.Text = "N/A";
+                    lb.BorderColor = Color.Black;
+                    break;
+                case CheckStatusEnum.In_progress:
+                    lb.BackColor = Color.Transparent;
+                    lb.Borders = BorderSide.All;
+                    lb.Text = "?";
+                    lb.BorderColor = Color.Black;
+                    break;
+                case CheckStatusEnum.NCR:
+                case CheckStatusEnum.Alert:
+                    lb.BackColor = Color.FromArgb(60, Color.Red);
+                    lb.Borders = BorderSide.All;
+                    lb.Text = "";
+                    lb.BorderColor = Color.Black;
+                    break;
+            }
+        }
+    }
+}

@@ -1,0 +1,72 @@
+using cpModel.Dtos.Report;
+using DevExpress.XtraReports.UI;
+using System;
+using System.Drawing;
+
+namespace cpReportDefinitions.PaymentRep
+{
+    public partial class rptScheduleRelations : rptTemplate
+    {
+        public override string BaseReportName { get; set; } = "Schedule Relations";
+
+        ScheduleFlatReportDto _currSI;
+        const float _descLeft = 0F;
+        const float _descMaxWidth = 1830;
+        const float _indent = 50F;
+
+        public bool OnlyShowUnallocWt { get; set; } = false;
+        public bool OnlyShowUnallocItp { get; set; } = false;
+
+        public rptScheduleRelations()
+        {
+            InitializeComponent();
+
+            BeforePrint += RptScheduleRelations_BeforePrint;
+            ReportTitle = "Schedule Relations Report";
+            DataSourceRowChanged += RptScheduleRelations_DataSourceRowChanged;
+            Detail.BeforePrint += Detail_BeforePrint;
+            DetailReport_Itp.BeforePrint += DetailReport_Itp_BeforePrint;
+            DetailReport_Wt.BeforePrint += DetailReport_Wt_BeforePrint;
+        }
+
+        private void RptScheduleRelations_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)
+        {
+            if (OnlyShowUnallocWt) ReportTitle = "Schedule Relations Report (no Work Type)";
+            if (OnlyShowUnallocItp) ReportTitle = "Schedule Relations Report (no Itp)";
+        }
+
+        private void DetailReport_Itp_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)
+        {
+            e.Cancel = OnlyShowUnallocWt || OnlyShowUnallocItp || !(_currSI != null && _currSI.Itps.Count > 0);
+        }
+        private void DetailReport_Wt_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)
+        {
+            e.Cancel = OnlyShowUnallocWt || OnlyShowUnallocItp || !(_currSI != null && _currSI.WorkTypes.Count > 0);
+        }
+
+        private void RptScheduleRelations_DataSourceRowChanged(object sender, DataSourceRowEventArgs e)
+        {
+            _currSI = GetCurrentRow() as ScheduleFlatReportDto;
+        }
+
+        private void Detail_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)
+        {
+            Font font = new Font(lbSchedDesc.Font, FontStyle.Regular);
+            if (_currSI.IsHeading || _currSI.IsSummaryLine)
+            {
+                if (_currSI.Level == 0) font = new Font(font, FontStyle.Bold);
+                if (_currSI.Level == 1) font = new Font(font, FontStyle.Underline);
+            }
+            if (_currSI.IsSummaryLine)
+            {
+                font = new Font(font, font.Style | FontStyle.Italic);
+            }
+            lbSchedDesc.Font = font;
+            //Indent to rep level of schedule item in treelist. Add extra level if summary
+            float leftOS = _indent * ((_currSI.Level ?? 0) + (_currSI.IsSummaryLine ? 1 : 0));
+            float sz = Math.Max(_descMaxWidth - leftOS, _descMaxWidth / 2);
+            lbSchedDesc.LeftF = leftOS + _descLeft;
+            lbSchedDesc.WidthF = sz;
+        }
+    }
+}

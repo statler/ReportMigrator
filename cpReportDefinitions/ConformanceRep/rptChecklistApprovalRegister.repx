@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<XtraReportsLayoutSerializer SerializerVersion="20.2.3.0" Ref="1" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v20.2, Version=20.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Name="XtraReport" DisplayName="Checklist Approval Status" SnapGridSize="25" ReportUnit="TenthsOfAMillimeter" Landscape="true" Margins="100, 100, 120, 120" PaperKind="A4" PageWidth="2970" PageHeight="2100" Version="20.2" DataSource="#Ref-0" Dpi="254" Font="Tahoma, 8pt">
+  <Bands>
+    <Item1 Ref="2" ControlType="DetailBand" Name="Detail" HeightF="130.5834" TextAlignment="TopLeft" Dpi="254" Font="Tahoma, 8pt" Padding="0,0,0,0,254">
+      <SortFields>
+        <Item1 Ref="3" FieldName="LotNumber" />
+        <Item2 Ref="4" FieldName="ITPNameOrDefault" />
+      </SortFields>
+      <Controls>
+        <Item1 Ref="5" ControlType="XRLabel" Name="xrLabel4" Multiline="true" Text="xrLabel4" SizeF="1227.792,47.83663" LocationFloat="10.99997,73.98418" Dpi="254" Font="Tahoma, 8pt, style=Bold" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="6" EventName="BeforePrint" PropertyName="Text" Expression="[Description]" />
+          </ExpressionBindings>
+          <StylePriority Ref="7" UseFont="false" />
+        </Item1>
+        <Item2 Ref="8" ControlType="XRLabel" Name="xrLabel3" TextFormatString="{0:d}" Multiline="true" Text="xrLabel3" SizeF="254,47.83663" LocationFloat="10.99997,12.48826" Dpi="254" Font="Tahoma, 8pt, style=Bold" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="9" EventName="BeforePrint" PropertyName="Text" Expression="[ChecklistDate]" />
+          </ExpressionBindings>
+          <StylePriority Ref="10" UseFont="false" />
+        </Item2>
+        <Item3 Ref="11" ControlType="XRLabel" Name="xrLabel2" Multiline="true" Text="xrLabel2" SizeF="616.4791,47.83663" LocationFloat="622.3124,12.48826" Dpi="254" Font="Tahoma, 8pt, style=Bold" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="12" EventName="BeforePrint" PropertyName="Text" Expression="[ItpDescription]" />
+          </ExpressionBindings>
+          <StylePriority Ref="13" UseFont="false" />
+        </Item3>
+        <Item4 Ref="14" ControlType="XRLabel" Name="xrLabel1" Multiline="true" Text="xrLabel1" SizeF="301.625,47.83663" LocationFloat="300.1667,12.48826" Dpi="254" Font="Tahoma, 8pt, style=Bold" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="15" EventName="BeforePrint" PropertyName="Text" Expression="[LotNumber]" />
+          </ExpressionBindings>
+          <StylePriority Ref="16" UseFont="false" />
+        </Item4>
+      </Controls>
+      <StylePriority Ref="17" UseFont="false" />
+    </Item1>
+    <Item2 Ref="18" ControlType="PageHeaderBand" Name="PageHeader" HeightF="314.0375" Dpi="254">
+      <Controls>
+        <Item1 Ref="19" ControlType="XRLabel" Name="xrLabel12" Multiline="true" Text="Actioned" SizeF="148.1667,50.48245" LocationFloat="1978.188,263.555" Dpi="254" Font="Tahoma, 8pt, style=Bold, Underline" Padding="5,5,0,0,254">
+          <StylePriority Ref="20" UseFont="false" />
+        </Item1>
+        <Item2 Ref="21" ControlType="XRLabel" Name="xrLabel5" Multiline="true" Text="Compl." SizeF="136.3967,50.48245" LocationFloat="2633.603,263.555" Dpi="254" Font="Tahoma, 8pt, style=Bold, Underline" Padding="5,5,0,0,254">
+          <StylePriority Ref="22" UseFont="false" />
+        </Item2>
+        <Item3 Ref="23" ControlType="XRPanel" Name="headPanel" AnchorHorizontal="Both" SizeF="2733.1,216.5" LocationFloat="11.90011,12.49996" Dpi="254" Borders="All" BorderWidth="1">
+          <Controls>
+            <Item1 Ref="24" ControlType="XRLabel" Name="lbReportHeading" Multiline="true" Text="Checklists With Approvals" AnchorHorizontal="Right" TextAlignment="MiddleRight" SizeF="1022.438,57.99998" LocationFloat="1683.146,13.82371" Dpi="254" Font="Tahoma, 10pt, style=Bold" Padding="5,5,0,0,254" Borders="None">
+              <StylePriority Ref="25" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item1>
+            <Item2 Ref="26" ControlType="XRLabel" Name="lbProject" Text="Project Here" AnchorHorizontal="Right" TextAlignment="MiddleRight" SizeF="1022.438,58.00002" LocationFloat="1683.146,76.32377" Dpi="254" Font="Tahoma, 9pt" Padding="5,5,0,0,254" Borders="None">
+              <StylePriority Ref="27" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item2>
+            <Item3 Ref="28" ControlType="XRLabel" Name="lbRecordReference" AnchorHorizontal="Right" TextAlignment="MiddleRight" SizeF="1022.438,64.32861" LocationFloat="1683.146,138.8236" Dpi="254" Font="Tahoma, 9pt" Padding="5,5,0,0,254" Borders="None">
+              <StylePriority Ref="29" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item3>
+            <Item4 Ref="30" ControlType="XRPictureBox" Name="pbLogo" Sizing="ZoomImage" ImageAlignment="TopLeft" SizeF="743.9791,189.3285" LocationFloat="14.02092,13.82371" Dpi="254" Borders="None">
+              <StylePriority Ref="31" UseBorders="false" />
+            </Item4>
+          </Controls>
+          <StylePriority Ref="32" UseBorders="false" UseBorderWidth="false" />
+        </Item3>
+        <Item4 Ref="33" ControlType="XRLabel" Name="xrLabel10" Multiline="true" Text="Raised" SizeF="129.6459,50.48245" LocationFloat="1726.833,263.555" Dpi="254" Font="Tahoma, 8pt, style=Bold, Underline" Padding="5,5,0,0,254">
+          <StylePriority Ref="34" UseFont="false" />
+        </Item4>
+        <Item5 Ref="35" ControlType="XRLabel" Name="xrLabel9" Multiline="true" Text="Status" SizeF="136.3967,50.48245" LocationFloat="2204.978,263.5551" Dpi="254" Font="Tahoma, 8pt, style=Bold, Underline" Padding="5,5,0,0,254">
+          <StylePriority Ref="36" UseFont="false" />
+        </Item5>
+        <Item6 Ref="37" ControlType="XRLabel" Name="xrLabel8" Multiline="true" Text="ITP" SizeF="254,50.48245" LocationFloat="622.3124,263.555" Dpi="254" Font="Tahoma, 8pt, style=Bold, Underline" Padding="5,5,0,0,254">
+          <StylePriority Ref="38" UseFont="false" />
+        </Item6>
+        <Item7 Ref="39" ControlType="XRLabel" Name="xrLabel7" Multiline="true" Text="Lot Number" SizeF="254,50.48245" LocationFloat="300.1667,263.555" Dpi="254" Font="Tahoma, 8pt, style=Bold, Underline" Padding="5,5,0,0,254">
+          <StylePriority Ref="40" UseFont="false" />
+        </Item7>
+        <Item8 Ref="41" ControlType="XRLabel" Name="xrLabel6" Multiline="true" Text="Date" SizeF="254,50.48245" LocationFloat="10.99997,263.555" Dpi="254" Font="Tahoma, 8pt, style=Bold, Underline" Padding="5,5,0,0,254">
+          <StylePriority Ref="42" UseFont="false" />
+        </Item8>
+      </Controls>
+    </Item2>
+    <Item3 Ref="43" ControlType="PageFooterBand" Name="PageFooter" HeightF="76.2" Dpi="254">
+      <Controls>
+        <Item1 Ref="44" ControlType="XRLabel" Name="lbFooterText" Text="lbFooterText" SizeF="1460.5,44.84998" LocationFloat="11.90011,25.00001" Dpi="254" Font="Tahoma, 8pt" Padding="5,5,0,0,254">
+          <StylePriority Ref="45" UseFont="false" />
+        </Item1>
+        <Item2 Ref="46" ControlType="XRPageInfo" Name="xrPageInfo1" TextFormatString="Page {0} of {1}" AnchorHorizontal="Right" TextAlignment="MiddleRight" SizeF="342.8999,44.84998" LocationFloat="2405.933,25.00002" Dpi="254" Font="Tahoma, 8pt" Padding="5,5,0,0,254">
+          <StylePriority Ref="47" UseFont="false" UseTextAlignment="false" />
+        </Item2>
+      </Controls>
+    </Item3>
+    <Item4 Ref="48" ControlType="DetailReportBand" Name="LotItpDetailsReport" Level="0" DataMember="lstDetailStatus" DataSource="#Ref-0" Dpi="254">
+      <Bands>
+        <Item1 Ref="49" ControlType="DetailBand" Name="Detail1" HeightF="101.571" Dpi="254">
+          <Controls>
+            <Item1 Ref="50" ControlType="XRRichText" Name="xrrtLotItpDetailDesc" SerializableRtfString="ewBcAHIAdABmADEAXABkAGUAZgBmADAAewBcAGYAbwBuAHQAdABiAGwAewBcAGYAMAAgAEMAYQBsAGkAYgByAGkAOwB9AHsAXABmADEAIABUAGkAbQBlAHMAIABOAGUAdwAgAFIAbwBtAGEAbgA7AH0AewBcAGYAMgAgAFQAYQBoAG8AbQBhADsAfQB9AHsAXABjAG8AbABvAHIAdABiAGwAIAA7AFwAcgBlAGQAMABcAGcAcgBlAGUAbgAwAFwAYgBsAHUAZQAyADUANQAgADsAXAByAGUAZAAwAFwAZwByAGUAZQBuADAAXABiAGwAdQBlADAAIAA7AH0AewBcACoAXABkAGUAZgBjAGgAcAAgAFwAZgAxAFwAZgBzADIANAB9AHsAXABzAHQAeQBsAGUAcwBoAGUAZQB0ACAAewBcAHEAbABcAGYAMQBcAGYAcwAyADQAIABOAG8AcgBtAGEAbAA7AH0AewBcACoAXABjAHMAMQBcAGYAMQBcAGYAcwAyADQAIABEAGUAZgBhAHUAbAB0ACAAUABhAHIAYQBnAHIAYQBwAGgAIABGAG8AbgB0ADsAfQB7AFwAKgBcAGMAcwAyAFwAcwBiAGEAcwBlAGQAbwBuADEAXABmADEAXABmAHMAMgA0ACAATABpAG4AZQAgAE4AdQBtAGIAZQByADsAfQB7AFwAKgBcAGMAcwAzAFwAZgAxAFwAZgBzADIANABcAHUAbABcAGMAZgAxACAASAB5AHAAZQByAGwAaQBuAGsAOwB9AHsAXAAqAFwAdABzADQAXAB0AHMAcgBvAHcAZABcAGYAMQBcAGYAcwAyADQAXABxAGwAXAB0AHMAYwBlAGwAbABwAGEAZABkAGYAbAAzAFwAdABzAGMAZQBsAGwAcABhAGQAZABsADEAMAA4AFwAdABzAGMAZQBsAGwAcABhAGQAZABmAGIAMwBcAHQAcwBjAGUAbABsAHAAYQBkAGQAZgByADMAXAB0AHMAYwBlAGwAbABwAGEAZABkAHIAMQAwADgAXAB0AHMAYwBlAGwAbABwAGEAZABkAGYAdAAzAFwAdABzAHYAZQByAHQAYQBsAHQAXABjAGwAdAB4AGwAcgB0AGIAIABOAG8AcgBtAGEAbAAgAFQAYQBiAGwAZQA7AH0AewBcACoAXAB0AHMANQBcAHQAcwByAG8AdwBkAFwAcwBiAGEAcwBlAGQAbwBuADQAXABmADEAXABmAHMAMgA0AFwAcQBsAFwAdAByAGIAcgBkAHIAdABcAGIAcgBkAHIAcwBcAGIAcgBkAHIAdwAxADAAXAB0AHIAYgByAGQAcgBsAFwAYgByAGQAcgBzAFwAYgByAGQAcgB3ADEAMABcAHQAcgBiAHIAZAByAGIAXABiAHIAZAByAHMAXABiAHIAZAByAHcAMQAwAFwAdAByAGIAcgBkAHIAcgBcAGIAcgBkAHIAcwBcAGIAcgBkAHIAdwAxADAAXAB0AHIAYgByAGQAcgBoAFwAYgByAGQAcgBzAFwAYgByAGQAcgB3ADEAMABcAHQAcgBiAHIAZAByAHYAXABiAHIAZAByAHMAXABiAHIAZAByAHcAMQAwAFwAdABzAGMAZQBsAGwAcABhAGQAZABmAGwAMwBcAHQAcwBjAGUAbABsAHAAYQBkAGQAbAAxADAAOABcAHQAcwBjAGUAbABsAHAAYQBkAGQAZgByADMAXAB0AHMAYwBlAGwAbABwAGEAZABkAHIAMQAwADgAXAB0AHMAdgBlAHIAdABhAGwAdABcAGMAbAB0AHgAbAByAHQAYgAgAFQAYQBiAGwAZQAgAFMAaQBtAHAAbABlACAAMQA7AH0AfQB7AFwAKgBcAGwAaQBzAHQAbwB2AGUAcgByAGkAZABlAHQAYQBiAGwAZQB9AFwAbgBvAHUAaQBjAG8AbQBwAGEAdABcAGgAdABtAGEAdQB0AHMAcABcAHMAcABsAHkAdAB3AG4AaQBuAGUAXABhAGwAbgB0AGIAbABpAG4AZABcAGUAeABwAHMAaAByAHQAbgBcAHMAcABsAHQAcABnAHAAYQByAFwAbgBvAGcAcgBvAHcAYQB1AHQAbwBmAGkAdABcAHUAdABpAG4AbABcAG4AbwBiAHIAawB3AHIAcAB0AGIAbABcAGYAdABuAGwAeQB0AHcAbgBpAG4AZQBcAGYAbwByAG0AcwBoAGEAZABlAFwAcABhAHIAZABcAHAAbABhAGkAbgBcAHEAbAB7AFwAZgAyAFwAZgBzADEANgBcAGMAZgAyACAAeAByAHIAdABMAG8AdABJAHQAcABEAGUAdABhAGkAbABEAGUAcwBjAH0AXABmADIAXABmAHMAMQA2AFwAYwBmADIAXABwAGEAcgB9AA==" SizeF="1673.375,58.42" LocationFloat="42.87497,25.00001" Dpi="254" Font="Tahoma, 8pt" Padding="5,5,0,0,254" />
+          </Controls>
+        </Item1>
+        <Item2 Ref="51" ControlType="ReportFooterBand" Name="ReportFooter" HeightF="0" Dpi="254" />
+        <Item3 Ref="52" ControlType="DetailReportBand" Name="DetailReport" Level="0" DataMember="lstDetailStatus.AllApprovals" DataSource="#Ref-0" Dpi="254">
+          <Bands>
+            <Item1 Ref="53" ControlType="DetailBand" Name="Detail2" HeightF="90.51636" Dpi="254">
+              <HierarchyPrintOptions Ref="54" Indent="50.8" />
+              <Controls>
+                <Item1 Ref="55" ControlType="XRCheckBox" Name="xrCheckBox1" SizeF="63.5,58.42" LocationFloat="2685.33276,25.0000076" Dpi="254" Padding="5,5,0,0,254">
+                  <ExpressionBindings>
+                    <Item1 Ref="56" EventName="BeforePrint" PropertyName="CheckState" Expression="[Approval].[IsCompleted]" />
+                  </ExpressionBindings>
+                </Item1>
+                <Item2 Ref="57" ControlType="XRLabel" Name="xrLabel11" Multiline="true" Text="xrLabel11" SizeF="455.0835,58.42" LocationFloat="2204.97852,25.0000076" Dpi="254" Padding="5,5,0,0,254">
+                  <ExpressionBindings>
+                    <Item1 Ref="58" EventName="BeforePrint" PropertyName="Text" Expression="[Status]" />
+                  </ExpressionBindings>
+                </Item2>
+                <Item3 Ref="59" ControlType="XRLabel" Name="xrLabel13" TextFormatString="{0:d/MM/yyyy}" Multiline="true" Text="xrLabel13" SizeF="221.4988,58.42" LocationFloat="1978.18872,25.0000076" Dpi="254" Padding="5,5,0,0,254">
+                  <ExpressionBindings>
+                    <Item1 Ref="60" EventName="BeforePrint" PropertyName="Text" Expression="[DateLastStep]" />
+                  </ExpressionBindings>
+                </Item3>
+                <Item4 Ref="61" ControlType="XRLabel" Name="xrLabel14" Multiline="true" Text="xrLabel14" SizeF="251.3541,58.42" LocationFloat="1726.83325,25.0000076" Dpi="254" Padding="5,5,0,0,254">
+                  <ExpressionBindings>
+                    <Item1 Ref="62" EventName="BeforePrint" PropertyName="Text" Expression="[RequestDate]" />
+                  </ExpressionBindings>
+                </Item4>
+                <Item5 Ref="63" ControlType="XRLabel" Name="label1" Multiline="true" Text="label1" SizeF="1588.70789,45.1907959" LocationFloat="127.541954,25.0000076" Dpi="254" Padding="2,2,0,0,96">
+                  <ExpressionBindings>
+                    <Item1 Ref="64" EventName="BeforePrint" PropertyName="Text" Expression="[ApprovalSubjectPlainText]" />
+                  </ExpressionBindings>
+                </Item5>
+              </Controls>
+            </Item1>
+          </Bands>
+        </Item3>
+      </Bands>
+    </Item4>
+    <Item5 Ref="65" ControlType="TopMarginBand" Name="TopMargin" HeightF="120" TextAlignment="TopLeft" Dpi="254" Padding="0,0,0,0,254" />
+    <Item6 Ref="66" ControlType="BottomMarginBand" Name="BottomMargin" HeightF="120" TextAlignment="TopLeft" Dpi="254" Padding="0,0,0,0,254" />
+  </Bands>
+  <Scripts Ref="67" OnBeforePrint="rptCivilProTemplate_BeforePrint" />
+  <ComponentStorage>
+    <Item1 Ref="0" ObjectType="DevExpress.DataAccess.ObjectBinding.ObjectDataSource,DevExpress.DataAccess.v20.2" Name="objectDataSource1" Base64="PE9iamVjdERhdGFTb3VyY2UgTmFtZT0ib2JqZWN0RGF0YVNvdXJjZTEiIC8+" />
+  </ComponentStorage>
+</XtraReportsLayoutSerializer>

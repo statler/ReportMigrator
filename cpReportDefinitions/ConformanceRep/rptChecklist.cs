@@ -1,0 +1,504 @@
+using cpModel.Dtos.Report;
+using cpModel.Enums;
+using cpModel.Helpers;
+using DevExpress.XtraPrinting;
+using DevExpress.XtraReports.UI;
+using DevExpress.XtraRichEdit;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+
+namespace cpReportDefinitions.ConformanceRep
+{
+    public partial class rptChecklist : rptTemplate, IReportOptions
+    {
+        public bool HasGroupCodeRun = false;
+        public override string BaseReportName { get; set; } = "Field Checklist";
+        public bool AutomaticBoxSpacing { get; set; } = true;
+
+        const int _topOffset = 25;
+
+        List<ChecklistBox> _boxstates = new List<ChecklistBox>();
+        int _detailCount = 0;
+        public bool UseLotQty = true;
+
+        public override int MinCompatibleDatabaseVersion => 66;
+        public ReportTypeEnum ReportTypeSpec { get; set; }
+        public int ShowOptions { get; set; }
+
+
+        public rptChecklist()
+        {
+            InitializeComponent();
+            ReportTitle = "Checklist";
+            //PrintingSystem.Document.AutoFitToPagesWidth = 1;
+            DataSourceRowChanged += rptLotCLElec_DataSourceRowChanged;
+            BeforePrint += rptLotCLElecEf_BeforePrint;
+            sbFullHeader.BeforePrint += sbFullHeader_BeforePrint; ;
+            xrrtCompliance.BeforePrint += xrrtCompliance_BeforePrint;
+            ITPDetail.BeforePrint += ITPDetail_BeforePrint;
+            Detail.BeforePrint += Detail_BeforePrint;
+            PageHeader.BeforePrint += PageHeader_BeforePrint;
+            PageFooter.BeforePrint += PageFooter_BeforePrint;
+            pbGroupFooter.BeforePrint += pbGroupFooter_BeforePrint;
+            LotItpDetail_Detail.BeforePrint += LotItpDetail_Detail_BeforePrint;
+        }
+
+
+
+        //Directly invoking this constructor with useLotQty=true will bypass the qty check which
+        //is necessary when exporting reports
+        public rptChecklist(bool useLotQty)
+        {
+            UseLotQty = useLotQty;
+        }
+
+        public void createBoxes(string boxName, XRShape bx, XRLabel label)
+        {
+            ChecklistBox checkedBox = _boxstates.FirstOrDefault(x => x.Name == boxName);
+            bx.Visible = (checkedBox != null);
+            label.Visible = (checkedBox != null);
+            if (checkedBox == null) return;
+
+            bx.LeftF = checkedBox.Left;
+            bx.TopF = _topOffset + checkedBox.GetTopAdj();
+            bx.WidthF = checkedBox.Width;
+            bx.HeightF = checkedBox.Height;
+            bx.ForeColor = Color.Transparent;
+
+            label.LeftF = bx.LeftF + bx.WidthF / 2 - label.WidthF / 2;
+        }
+
+        private void CalcDetailCheckPositions()
+        {
+            bool showCheck = HasFlag(ShowOptions, (int)ReportEnums.CLprintOption.showCheckBlock);
+            bool showVer = HasFlag(ShowOptions, (int)ReportEnums.CLprintOption.showVerifiedBlock);
+            bool showApp = HasFlag(ShowOptions, (int)ReportEnums.CLprintOption.showApproveBlock);
+            bool showNCR = HasFlag(ShowOptions, (int)ReportEnums.CLprintOption.showNCR);
+
+            _boxstates = new List<ChecklistBox>();
+
+            _boxstates.Add(new ChecklistBox("check", showCheck, showCheck && showVer ? 10 : 65));
+            _boxstates.Add(new ChecklistBox("ver", showVer, showVer && showApp ? 10 : 65));
+            _boxstates.Add(new ChecklistBox("app", showApp, showApp ? 0 : 30));
+
+            float requiredWidth = 0;
+            foreach (ChecklistBox boxstate in _boxstates) requiredWidth += boxstate.GetWidthPlusSpace();
+            requiredWidth += showNCR ? 100 : 0;
+
+            float leftPosn = PageWidth - requiredWidth - Margins.Left - Margins.Right - 30;
+
+            foreach (ChecklistBox boxstate in _boxstates)
+            {
+                boxstate.Left = leftPosn;
+                leftPosn += boxstate.GetWidthPlusSpace();
+            }
+
+            if (showNCR) _boxstates.Add(new ChecklistBox("ncr", ChecklistBox.boxType.ncrBox, 0, leftPosn));
+
+        }
+
+        #region Event Handlers
+        private void Detail_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            _detailCount = 0;
+        }
+
+        private void ITPDetail_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (AutomaticBoxSpacing)
+            {
+                createBoxes("check", bxChecked, lbCheck);
+                createBoxes("ver", bxVerified, lbVerify);
+                createBoxes("app", bxApproved, lbAppr);
+                createBoxes("ncr", bxNCR, lbNCR);
+            }
+
+        }
+
+        private void LotItpDetail_Detail_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            IItpDetailReportDto lid = (sender as DetailBand).Report.GetCurrentRow() as IItpDetailReportDto;
+            if (lid == null)
+            {
+                e.Cancel = true;
+                return;
+            }
+            bool isFullWidthRecord = lid.ItemTypeEnum == ItpItemTypeEnum.Heading;
+            bool isHeaderRecord = isFullWidthRecord || (String.IsNullOrEmpty(lid.ItemTypeString) && String.IsNullOrEmpty(lid.HpWpCString));
+
+            lbIndex.Visible = !isHeaderRecord;
+
+            if (!isHeaderRecord && !String.IsNullOrEmpty(lid.QvcTextEffective))
+            {
+                _detailCount++;
+                lbIndex.Text = _detailCount.ToString();
+            }
+
+            XtraReportBase detailSubReport = (sender as DetailBand).Report;
+
+            if (isFullWidthRecord)
+                xrrtDescription.WidthF = PageWidth - xrrtDescription.LeftF - Margins.Left - Margins.Right - 10;
+            else xrrtDescription.WidthF = bxChecked.LeftF - xrrtDescription.LeftF - 20;
+            if (bxNCR.LeftF == bxApproved.RightF) bxNCR.Borders = BorderSide.Top | BorderSide.Right | BorderSide.Bottom;
+            else bxNCR.Borders = BorderSide.All;
+            var checks = GetMatchingControlsByName(sender as DetailBand, bxChecked.Name);
+            var verifieds = GetMatchingControlsByName(sender as DetailBand, bxVerified.Name);
+            var approveds = GetMatchingControlsByName(sender as DetailBand, bxApproved.Name);
+            foreach (var _s in checks) _s.BackColor = (lid.InspectRequired ?? false) ? Color.Transparent : Color.Silver;
+            foreach (var _s in verifieds) _s.BackColor = (lid.VerifyRequired ?? false) ? Color.Transparent : Color.Silver;
+            foreach (var _s in approveds) _s.BackColor = (lid.AuthorityRequired ?? false) ? Color.Transparent : Color.Silver;
+
+            bool isBoxVisible = (lid.InspectRequired ?? false) || (lid.VerifyRequired ?? false) || (lid.AuthorityRequired ?? false);
+            bool MarkupBoxesVisible = isBoxVisible && !isHeaderRecord;
+            foreach (var _s in checks) _s.Visible = MarkupBoxesVisible;
+            foreach (var _s in verifieds) _s.Visible = MarkupBoxesVisible;
+            foreach (var _s in approveds) _s.Visible = MarkupBoxesVisible;
+
+            bool hasNCRVisible = _boxstates.Any(x => x.Name == "ncr");
+            bxNCR.Visible = MarkupBoxesVisible && hasNCRVisible;
+
+            var plainRef = _richEditProcessor.GetPlainTextFromHTML(lid.ReferenceText);
+            _richEditProcessor.RichEditServer.Document.HtmlText = lid.QvcTextEffective;
+            if (!string.IsNullOrWhiteSpace(plainRef)) _richEditProcessor.RichEditServer.Document.InsertHtmlText(_richEditProcessor.RichEditServer.Document.Range.Start, lid.ReferenceText + "<br>");
+            string originalHTML = _richEditProcessor.RichEditServer.Document.HtmlText;
+            string amendedHTMLDesc = _richEditProcessor.ChangeHTMLFontNameAndSize(xrrtDescription.Font, originalHTML);
+            if (xrrtDescription != null) xrrtDescription.Html = amendedHTMLDesc;
+        }
+
+        List<XRShape> GetMatchingControlsByName(XRControl c, string cName)
+        {
+            List<XRShape> lst = new List<XRShape>();
+            foreach (var _c in LotItpDetail_Detail.Controls)
+            {
+                if (_c is XRShape _cS && _cS.Name.ToLower().Contains(cName.ToLower())) lst.Add(_cS);
+            }
+            return lst;
+        }
+
+        private void PageFooter_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            IItpReportDto currLotItp = GetCurrentRow() as IItpReportDto;
+            DateTime? revDate = currLotItp.RevisionDate;
+            int rev = (int)currLotItp.RevisionId;
+
+            string RevisionDate = revDate != null && revDate != DateTime.MinValue ? String.Format("{0:dd/MM/yyyy}", revDate) : "No Date";
+            lblFtrCenterText.Text = $"Revision: {rev} - {RevisionDate}";
+        }
+
+        private void PageHeader_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            SetHeaders();
+        }
+
+        private void SetHeaders()
+        {
+            IItpReportDto currIItp = GetCurrentRow() as IItpReportDto;
+            if (currIItp is LotItpReportDto currIItpAsLotItp)
+            {
+                if (currIItpAsLotItp?.ItpId == null) RecordReference = "No ITP Ref";
+                else
+                {
+                    RecordReference = $"Checklist: {currIItpAsLotItp.SourceQvcNo}: {currIItpAsLotItp.ItpDescription} ({currIItpAsLotItp.LotNumber})";
+                }
+                //lblDateWorkSt.Visible = lblDateWorkStHeader.Visible = !(currIItpAsLotItp?.DateWorkStarted == null);
+                //lblDateComp.Visible = lblDateCompHeader.Visible = !(currIItpAsLotItp?.DateWorkEnded == null);
+            }
+            else if (currIItp is ItpReportDto currIItpAsItp)
+            {
+                RecordReference = $"Checklist: {currIItpAsItp.QvcDocnumber}: {currIItpAsItp.Description}";
+                //lblDateWorkSt.Visible = lblDateWorkStHeader.Visible = false;
+                //lblDateComp.Visible = lblDateCompHeader.Visible = false;
+            }
+        }
+
+        private void pbGroupFooter_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            IItpReportDto iid = GetCurrentRow() as IItpReportDto;
+
+            List<QtyObject> qtyPrint = new List<QtyObject>();
+            float currTop = 20;
+            pnlQty.Controls.Clear();
+            Font titleFont = new Font("Tahoma", 8.25F, FontStyle.Bold, GraphicsUnit.Point, ((byte)(0)));
+
+            bool showQty = HasFlag(ShowOptions, (int)ReportEnums.CLprintOption.showQty);
+            bool showQtyX = HasFlag(ShowOptions, (int)ReportEnums.CLprintOption.showXtraQty);
+            bool showComment = HasFlag(ShowOptions, (int)ReportEnums.CLprintOption.showComments);
+            bool showSig = HasFlag(ShowOptions, (int)ReportEnums.CLprintOption.showSignatureBlock);
+
+            pnlQty.TopF = currTop;
+
+            if (showQty && iid is LotItpReportDto lid && lid.Quantities != null)
+            {
+                foreach (var item in lid.Quantities) qtyPrint.Add(new QtyObject(item.ScheduleNo, item.ScheduleDescription, $"{item.Qty:#,###,##.###} {item.Unit}"));
+            }
+
+            if (showQtyX)
+                for (int i = 0; i < 2; i++) qtyPrint.Add(new QtyObject());
+
+            if (qtyPrint.Count > 0)
+            {
+                XRTable qtyTable = CreateQtyTable(qtyPrint);
+                pnlQty.Controls.Add(qtyTable);
+                pnlQty.HeightF = qtyTable.HeightF;
+                currTop = pnlQty.BottomF + 20;
+            }
+            sbQtyData.Visible = qtyPrint.Count > 0;
+
+
+            if (ShouldIgnoreOptions) return;
+            pnlComment.Controls.Clear();
+            pnlComment.Controls.Add(makeNewLabelSized(titleFont, "lbCmnt1", "Comments", new RectangleF(0, 0, pnlComment.WidthF, 80)));
+            pnlComment.Controls.Add(makeNewLabelSized(titleFont, "lbCmnt2", " ", new RectangleF(0, 80, pnlComment.WidthF, 80)));
+            pnlComment.Controls.Add(makeNewLabelSized(titleFont, "lbCmnt3", " ", new RectangleF(0, 160, pnlComment.WidthF, 80)));
+            pnlComment.Controls.Add(makeNewLabelSized(titleFont, "lbCmnt4", " ", new RectangleF(0, 240, pnlComment.WidthF, 80)));
+
+            pnlComment.Controls["lbCmnt1"].Borders = BorderSide.None;
+            pnlComment.Controls["lbCmnt2"].Borders = BorderSide.All;
+            pnlComment.Controls["lbCmnt3"].Borders = (BorderSide)(BorderSide.Left | BorderSide.Right);
+            pnlComment.Controls["lbCmnt4"].Borders = BorderSide.All;
+
+            sbComment.Visible = showComment;
+            sbShowSig.Visible = showSig;
+        }
+
+        public XRLabel makeNewLabelSized(Font titleFont, string lbName, string lblText, RectangleF dims)
+        {
+            XRLabel newlabel = makeNewLabel(titleFont, lbName, lblText);
+            newlabel.BoundsF = dims;
+            return newlabel;
+        }
+
+        private XRLabel makeNewLabel(Font titleFont, string lbName, string lblText)
+        {
+            XRLabel lb = new XRLabel();
+
+            lb.Dpi = 254F;
+            lb.CanShrink = true;
+            lb.Font = titleFont;
+            lb.Name = lbName;
+            lb.Text = lblText;
+            lb.Padding = new PaddingInfo(5, 5, 0, 0, 254F);
+            lb.StylePriority.UseFont = false;
+            return lb;
+        }
+
+
+        private void rptLotCLElec_DataSourceRowChanged(object sender, DataSourceRowEventArgs e)
+        {
+            //SetHeaders();
+        }
+
+
+        public XRTable CreateQtyTable(List<QtyObject> qtyPrint)
+        {
+            XRTable qtyTable = new XRTable();
+
+            qtyTable.Dpi = 254F;
+            qtyTable.LocationF = new PointF(0, 0);
+            qtyTable.SizeF = new SizeF(pnlQty.WidthF, qtyPrint.Count() * 65);
+
+            qtyTable.BeginInit();
+
+            qtyTable.BorderWidth = 1;
+            XRTableRow newRow = new XRTableRow();
+            newRow.Dpi = 254F;
+            qtyTable.Rows.Add(newRow);
+
+            newRow.Cells.Add(ReportHelper.newTableCell("Item No.", TextAlignment.MiddleCenter, 0.45D, BorderSide.All, new Font(pbGroupFooter.Font, FontStyle.Bold)));
+            newRow.Cells.Add(ReportHelper.newTableCell("Description", TextAlignment.MiddleLeft, 2D, BorderSide.All, new Font(pbGroupFooter.Font, FontStyle.Bold)));
+            newRow.Cells.Add(ReportHelper.newTableCell("Qty", TextAlignment.MiddleCenter, 0.45D, BorderSide.All, new Font(pbGroupFooter.Font, FontStyle.Bold)));
+
+            foreach (QtyObject item in qtyPrint)
+            {
+                XRTableRow newQtyRow = new XRTableRow();
+                qtyTable.Rows.Add(newQtyRow);
+                newQtyRow.Dpi = 254F;
+                newQtyRow.Cells.Add(ReportHelper.newTableCell(item.item, TextAlignment.MiddleCenter, 0.45D, BorderSide.Left | BorderSide.Bottom | BorderSide.Right, pbGroupFooter.Font));
+                newQtyRow.Cells.Add(ReportHelper.newTableCell(item.description, TextAlignment.MiddleLeft, 2D, BorderSide.Left | BorderSide.Bottom | BorderSide.Right, pbGroupFooter.Font));
+                newQtyRow.Cells.Add(ReportHelper.newTableCell(item.qty, TextAlignment.MiddleRight, 0.45D, BorderSide.Left | BorderSide.Bottom | BorderSide.Right, pbGroupFooter.Font));
+            }
+            qtyTable.EndInit();
+            return qtyTable;
+        }
+
+        private void rptLotCLElecEf_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+            ProjectParameterEventArgs args = new ProjectParameterEventArgs("qvcChkBy");
+            OnProjectParameterRequired(args);
+            if (!string.IsNullOrEmpty(args.ParameterValue)) lbCheck.Text = args.ParameterValue;
+
+            args = new ProjectParameterEventArgs("qvcVerBy");
+            OnProjectParameterRequired(args);
+            if (!string.IsNullOrEmpty(args.ParameterValue)) lbVerify.Text = args.ParameterValue;
+
+            args = new ProjectParameterEventArgs("qvcAppBy");
+            OnProjectParameterRequired(args);
+            if (!string.IsNullOrEmpty(args.ParameterValue)) lbAppr.Text = args.ParameterValue;
+
+            if (ShouldIgnoreOptions) return;
+            CalcDetailCheckPositions();
+        }
+
+        int PrevId = -1;
+        private void sbFullHeader_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            //This is to reverse support custom reports prior to a design change - in non-custom reports, this is run using a script
+            if (!HasGroupCodeRun)
+            {
+                IItpReportDto currIItp = (sender as SubBand).Report.Report.GetCurrentRow() as IItpReportDto;
+                if (currIItp is ItpReportDto)
+                    e.Cancel = true;
+                else if (currIItp is LotItpReportDto currLotItp)
+                {
+                    int curCatId = (sender as SubBand).Report.Report.GetCurrentColumnValue<int>("RecordId");
+                    bool IsFirstPageInGroup = PrevId != curCatId;
+                    PrevId = curCatId;
+                    var lblText = new List<string>() { "xrLabel10", lblDateOpenHeader.Name, lblDateOpen.Name, lblDateWorkStHeader.Name, lblDateWorkSt.Name, lblDateCompHeader.Name, lblDateComp.Name };
+                    foreach (var item in lblText)
+                    {
+                        var lbReplace = FindControl(item) as XRLabel;
+                        if (lbReplace != null) lbReplace.Visible = IsFirstPageInGroup;
+                    }
+
+                    var lbLot = FindControl(lblLot.Name) as XRLabel;
+                    if (lbLot != null)
+                    {
+                        lbLot.TextTrimming = StringTrimming.EllipsisWord;
+                        lbLot.CanGrow = IsFirstPageInGroup;
+                    }
+                    var pnl = FindControl("xrPanel1") as XRPanel;
+                    if (pnl != null)
+                    {
+                        pnl.CanShrink = true;
+                        pnl.Borders = IsFirstPageInGroup ? BorderSide.All : BorderSide.None;
+                        pnl.BackColor = IsFirstPageInGroup ? Color.Ivory : Color.Transparent;
+                    }
+
+                    if (IsFirstPageInGroup && currLotItp?.DateWorkStarted == null)
+                    {
+                        var lbReplace = FindControl(lblDateWorkStHeader.Name) as XRLabel;
+                        if (lbReplace != null) lbReplace.Visible = false;
+                    }
+                    if (IsFirstPageInGroup && currLotItp?.DateWorkEnded == null)
+                    {
+                        var lbReplace = FindControl(lblDateCompHeader.Name) as XRLabel;
+                        if (lbReplace != null) lbReplace.Visible = false;
+                    }
+                }
+            }
+        }
+        #endregion
+
+        private void xrrtCompliance_BeforePrint(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            XtraReportBase _report = (sender as XRRichText).Band.Report;
+            xrrtCompliance.Html = GetHtmlWithDefaultFormat(_report, "Compliance", xrrtCompliance.Font);
+        }
+
+        public string SetHeaderForRecord(LotItpReportDto currIItpAsLotItp) => RecordReference = currIItpAsLotItp?.ItpId == null ? "No ITP Ref" : $"Checklist: {currIItpAsLotItp.SourceQvcNo}: {currIItpAsLotItp.ItpDescription} ({currIItpAsLotItp.LotNumber})";
+
+    }
+
+public class QtyObject
+    {
+        public string item { get; set; }
+        public string description { get; set; }
+        public string qty { get; set; }
+
+        public QtyObject()
+        {
+            this.item = " ";
+            this.description = " ";
+            this.qty = " ";
+        }
+
+        public QtyObject(string item, string description, string qty)
+        {
+            this.item = item;
+            this.description = description;
+            this.qty = qty;
+        }
+    }
+
+    public class ChecklistBox
+    {
+
+        public enum boxType
+        {
+            smallBox,
+            largeBox,
+            ncrBox
+        }
+
+        public string Name { get; set; }
+        public boxType BxType { get; set; }
+        public float Spacer { get; set; }
+        public float Left { get; set; }
+        public float Width { get; set; }
+        public float Height { get; set; }
+
+        const float ncrHeight = 60;
+        const float largeHeight = 60;
+        const float smallHeight = 35;
+        const float largeWidth = 210;
+        const float smallWidth = 35;
+        const float ncrWidth = 100;
+
+        public ChecklistBox()
+        {
+
+        }
+        /// <summary>
+        /// Initializes a new instance of the clBox class.
+        /// </summary>
+        public ChecklistBox(string name, boxType bxType, float spacer)
+        {
+            Name = name;
+            BxType = bxType;
+            Spacer = spacer;
+            Width = GetWidth();
+            Height = GetHeight();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the clBox class.
+        /// </summary>
+        public ChecklistBox(string name, boxType bxType, float spacer, float leftPosition)
+            : this(name, bxType, spacer)
+        {
+            Left = leftPosition;
+        }
+
+        public ChecklistBox(string name, bool IsLarge, float spacer)
+            : this(name, IsLarge ? boxType.largeBox : boxType.smallBox, spacer)
+        {
+        }
+
+        public float GetWidthPlusSpace()
+        {
+            return Width + Spacer;
+        }
+
+        private float GetHeight()
+        {
+            if (BxType == boxType.smallBox) return smallHeight;
+            else if (BxType == boxType.largeBox) return largeHeight;
+            else return ncrHeight;
+        }
+
+        private float GetWidth()
+        {
+            if (BxType == boxType.smallBox) return smallWidth;
+            else if (BxType == boxType.largeBox) return largeWidth;
+            else return ncrWidth;
+        }
+
+        public float GetTopAdj()
+        {
+            return (largeHeight - Height) / 2;
+        }
+    }
+}

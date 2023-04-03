@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Version>3.0.0</Version>
+    <Authors>Dennis Gascoigne</Authors>
+    <Company>Blue Sky Contracting Pty Ltd</Company>
+    <Product>Civil Pro EF Models</Product>
+    <Description>A common model library for EF in the Civil Pro Desktop and Civil Pro Cloud Products</Description>
+    <Copyright>Blue Sky Contracting 2020</Copyright>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapperEF6.Compat" Version="12.1.1.2" />
+    <PackageReference Include="DevExpress.RichEdit.Core" Version="22.2.5" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Pather.CSharp" Version="2.1.0" />
+    <PackageReference Include="RangeTree" Version="3.0.1" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Models\Models.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Models.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Models\Models.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Dtos\Common\" />
+    <Folder Include="Dtos\Stats\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\cpShared\cpShared.csproj" />
+  </ItemGroup>
+
+</Project>

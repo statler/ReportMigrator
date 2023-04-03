@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<XtraReportsLayoutSerializer SerializerVersion="20.2.3.0" Ref="1" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v20.2, Version=20.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49aivilPro.Reporting.PaymentRep.rptVariationValuationClient, CivilPro.Reporting, Version=11.66.7606.40184, Culture=neutral, PublicKeyToken=null" DisplayName="Variation Valuation (Markup)" SnapGridSize="25" ReportUnit="TenthsOfAMillimeter" Margins="99, 99, 120, 120" PaperKind="A4" PageWidth="2100" PageHeight="2970" Version="20.2" EventsInfo="" DataSource="#Ref-0" Dpi="254" Font="Tahoma, 8pt">
+  <Bands>
+    <Item1 Ref="2" ControlType="DetailBand" Name="Detail" PageBreak="BeforeBandExceptFirstEntry" HeightF="187.8542" TextAlignment="TopLeft" Dpi="254" Font="Tahoma, 8pt" Padding="0,0,0,0,254">
+      <SubBands>
+        <Item1 Ref="3" ControlType="SubBand" Name="SubBand1" HeightF="71.4375" Dpi="254">
+          <Controls>
+            <Item1 Ref="4" ControlType="XRRichText" Name="xrrtDetail" SerializableRtfString="ewBcAHIAdABmADEAXABkAGUAZgBmADAAewBcAGYAbwBuAHQAdABiAGwAewBcAGYAMAAgAEMAYQBsAGkAYgByAGkAOwB9AHsAXABmADEAIABUAGkAbQBlAHMAIABOAGUAdwAgAFIAbwBtAGEAbgA7AH0AewBcAGYAMgAgAFQAYQBoAG8AbQBhADsAfQB9AHsAXABjAG8AbABvAHIAdABiAGwAIAA7AFwAcgBlAGQAMABcAGcAcgBlAGUAbgAwAFwAYgBsAHUAZQAyADUANQAgADsAXAByAGUAZAAwAFwAZwByAGUAZQBuADAAXABiAGwAdQBlADAAIAA7AH0AewBcACoAXABkAGUAZgBjAGgAcAAgAFwAZgAxAFwAZgBzADIANAB9AHsAXABzAHQAeQBsAGUAcwBoAGUAZQB0ACAAewBcAHEAbABcAGYAMQBcAGYAcwAyADQAIABOAG8AcgBtAGEAbAA7AH0AewBcACoAXABjAHMAMQBcAGYAMQBcAGYAcwAyADQAIABEAGUAZgBhAHUAbAB0ACAAUABhAHIAYQBnAHIAYQBwAGgAIABGAG8AbgB0ADsAfQB7AFwAKgBcAGMAcwAyAFwAcwBiAGEAcwBlAGQAbwBuADEAXABmADEAXABmAHMAMgA0ACAATABpAG4AZQAgAE4AdQBtAGIAZQByADsAfQB7AFwAKgBcAGMAcwAzAFwAZgAxAFwAZgBzADIANABcAHUAbABcAGMAZgAxACAASAB5AHAAZQByAGwAaQBuAGsAOwB9AHsAXAAqAFwAdABzADQAXAB0AHMAcgBvAHcAZABcAGYAMQBcAGYAcwAyADQAXABxAGwAXAB0AHMAYwBlAGwAbABwAGEAZABkAGYAbAAzAFwAdABzAGMAZQBsAGwAcABhAGQAZABsADEAMAA4AFwAdABzAGMAZQBsAGwAcABhAGQAZABmAGIAMwBcAHQAcwBjAGUAbABsAHAAYQBkAGQAZgByADMAXAB0AHMAYwBlAGwAbABwAGEAZABkAHIAMQAwADgAXAB0AHMAYwBlAGwAbABwAGEAZABkAGYAdAAzAFwAdABzAHYAZQByAHQAYQBsAHQAXABjAGwAdAB4AGwAcgB0AGIAIABOAG8AcgBtAGEAbAAgAFQAYQBiAGwAZQA7AH0AewBcACoAXAB0AHMANQBcAHQAcwByAG8AdwBkAFwAcwBiAGEAcwBlAGQAbwBuADQAXABmADEAXABmAHMAMgA0AFwAcQBsAFwAdAByAGIAcgBkAHIAdABcAGIAcgBkAHIAcwBcAGIAcgBkAHIAdwAxADAAXAB0AHIAYgByAGQAcgBsAFwAYgByAGQAcgBzAFwAYgByAGQAcgB3ADEAMABcAHQAcgBiAHIAZAByAGIAXABiAHIAZAByAHMAXABiAHIAZAByAHcAMQAwAFwAdAByAGIAcgBkAHIAcgBcAGIAcgBkAHIAcwBcAGIAcgBkAHIAdwAxADAAXAB0AHIAYgByAGQAcgBoAFwAYgByAGQAcgBzAFwAYgByAGQAcgB3ADEAMABcAHQAcgBiAHIAZAByAHYAXABiAHIAZAByAHMAXABiAHIAZAByAHcAMQAwAFwAdABzAGMAZQBsAGwAcABhAGQAZABmAGwAMwBcAHQAcwBjAGUAbABsAHAAYQBkAGQAbAAxADAAOABcAHQAcwBjAGUAbABsAHAAYQBkAGQAZgByADMAXAB0AHMAYwBlAGwAbABwAGEAZABkAHIAMQAwADgAXAB0AHMAdgBlAHIAdABhAGwAdABcAGMAbAB0AHgAbAByAHQAYgAgAFQAYQBiAGwAZQAgAFMAaQBtAHAAbABlACAAMQA7AH0AfQB7AFwAKgBcAGwAaQBzAHQAbwB2AGUAcgByAGkAZABlAHQAYQBiAGwAZQB9AFwAbgBvAHUAaQBjAG8AbQBwAGEAdABcAHMAcABsAHkAdAB3AG4AaQBuAGUAXABoAHQAbQBhAHUAdABzAHAAXABhAGwAbgB0AGIAbABpAG4AZABcAGUAeABwAHMAaAByAHQAbgBcAHMAcABsAHQAcABnAHAAYQByAFwAbgBvAGcAcgBvAHcAYQB1AHQAbwBmAGkAdABcAHUAdABpAG4AbABcAHAAYQByAGQAXABwAGwAYQBpAG4AXABxAGwAewBcAGYAMgBcAGYAcwAxADYAXABjAGYAMgAgAHgAcgByAHQARABlAHQAYQBpAGwAfQBcAGYAMgBcAGYAcwAxADYAXABjAGYAMgBcAHAAYQByAH0A" SizeF="1866,43.79166" LocationFloat="25.02076,13.22917" Dpi="254" Font="Tahoma, 8pt" />
+          </Controls>
+        </Item1>
+        <Item2 Ref="5" ControlType="SubBand" Name="SubBand2" HeightF="42.33333" Dpi="254">
+          <Controls>
+            <Item1 Ref="6" ControlType="XRLine" Name="xrLine2" SizeF="1837.267,12.7" LocationFloat="10.99997,14.15837" Dpi="254" BorderColor="Gray">
+              <StylePriority Ref="7" UseBorderColor="false" />
+            </Item1>
+          </Controls>
+        </Item2>
+      </SubBands>
+      <SortFields>
+        <Item1 Ref="8" FieldName="VariationID" />
+      </SortFields>
+      <Controls>
+        <Item1 Ref="9" ControlType="XRLabel" Name="xrLabel3" Text="Qty" TextAlignment="TopRight" SizeF="208.5707,49.08331" LocationFloat="957.1951,75.9059" Dpi="254" Font="Tahoma, 9pt, style=Bold, Underline" Padding="5,5,0,0,254">
+          <StylePriority Ref="10" UseFont="false" UseTextAlignment="false" />
+        </Item1>
+        <Item2 Ref="11" ControlType="XRLabel" Name="xrLabel13" Text="Rate" TextAlignment="TopRight" SizeF="208.5707,49.08331" LocationFloat="1407.975,75.9059" Dpi="254" Font="Tahoma, 9pt, style=Bold, Underline" Padding="5,5,0,0,254">
+          <StylePriority Ref="12" UseFont="false" UseTextAlignment="false" />
+        </Item2>
+        <Item3 Ref="13" ControlType="XRLabel" Name="xrLabel15" Text="Total" TextAlignment="TopRight" SizeF="267.8373,49.08331" LocationFloat="1620.576,75.9059" Dpi="254" Font="Tahoma, 9pt, style=Bold, Underline" Padding="5,5,0,0,254">
+          <StylePriority Ref="14" UseFont="false" UseTextAlignment="false" />
+        </Item3>
+        <Item4 Ref="15" ControlType="XRLabel" Name="xrLabel18" Text="VRN:" TextAlignment="TopLeft" SizeF="109.5372,41.48662" LocationFloat="10.99965,10.56" Dpi="254" Font="Tahoma, 9pt, style=Bold, Underline" Padding="5,5,0,0,254">
+          <StylePriority Ref="16" UseFont="false" UseTextAlignment="false" />
+        </Item4>
+        <Item5 Ref="17" ControlType="XRLabel" Name="xrLabel17" TextAlignment="TopLeft" SizeF="160.8667,41.48663" LocationFloat="1165.767,137.56" Dpi="254" Font="Tahoma, 9pt, style=Bold" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="18" EventName="BeforePrint" PropertyName="Text" Expression="[Unit]" />
+          </ExpressionBindings>
+          <StylePriority Ref="19" UseFont="false" UseTextAlignment="false" />
+        </Item5>
+        <Item6 Ref="20" ControlType="XRLabel" Name="xrLabel23" TextFormatString="{0:c2}" TextAlignment="TopRight" SizeF="256.251,41.48662" LocationFloat="1632.163,138.4066" Dpi="254" Font="Tahoma, 9pt, style=Bold" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="21" EventName="BeforePrint" PropertyName="Text" Expression="[SellTotalSubmitted]" />
+          </ExpressionBindings>
+          <StylePriority Ref="22" UseFont="false" UseTextAlignment="false" />
+        </Item6>
+        <Item7 Ref="23" ControlType="XRLabel" Name="xrLabel14" TextFormatString="{0:c2}" TextAlignment="TopRight" SizeF="280.5374,41.48663" LocationFloat="1336.009,137.56" Dpi="254" Font="Tahoma, 9pt, style=Bold" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="24" EventName="BeforePrint" PropertyName="Text" Expression="[SellRateSubmitted]" />
+          </ExpressionBindings>
+          <StylePriority Ref="25" UseFont="false" UseTextAlignment="false" />
+        </Item7>
+        <Item8 Ref="26" ControlType="XRLabel" Name="xrLabel16" TextFormatString="{0:#,###,##0.###}" TextAlignment="TopRight" SizeF="280.5374,41.48663" LocationFloat="885.2292,137.56" Dpi="254" Font="Tahoma, 9pt, style=Bold" Padding="5,5,0,0,254">
+          <Summary Ref="27" FormatString="{0:c2}" />
+          <ExpressionBindings>
+            <Item1 Ref="28" EventName="BeforePrint" PropertyName="Text" Expression="[QtySubmitted]" />
+          </ExpressionBindings>
+          <StylePriority Ref="29" UseFont="false" UseTextAlignment="false" />
+        </Item8>
+        <Item9 Ref="30" ControlType="XRLabel" Name="xrLabel2" Text="xrLabel2" SizeF="1382.938,40.64004" LocationFloat="511.0622,12.25321" Dpi="254" Font="Tahoma, 9pt" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="31" EventName="BeforePrint" PropertyName="Text" Expression="[Description]" />
+          </ExpressionBindings>
+          <StylePriority Ref="32" UseFont="false" />
+        </Item9>
+        <Item10 Ref="33" ControlType="XRLabel" Name="xrLabel1" Text="xrLabel1" SizeF="361.95,40.64004" LocationFloat="135.8829,12.25321" Dpi="254" Font="Tahoma, 9pt, style=Bold" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="34" EventName="BeforePrint" PropertyName="Text" Expression="[VariationNo]" />
+          </ExpressionBindings>
+          <StylePriority Ref="35" UseFont="false" />
+        </Item10>
+      </Controls>
+      <StylePriority Ref="36" UseFont="false" />
+    </Item1>
+    <Item2 Ref="37" ControlType="PageHeaderBand" Name="PageHeader" HeightF="312.8434" Dpi="254">
+      <Controls>
+        <Item1 Ref="38" ControlType="XRPanel" Name="headPanel" AnchorHorizontal="Both" SizeF="1866,216.5" LocationFloat="11.90011,12.49996" Dpi="254" Borders="All" BorderWidth="1">
+          <Controls>
+            <Item1 Ref="39" ControlType="XRLabel" Name="lbReportHeading" Multiline="true" Text="Variation Valuation" AnchorHorizontal="Right" TextAlignment="MiddleRight" SizeF="1022.438,57.99998" LocationFloat="829.6628,13.82371" Dpi="254" Font="Tahoma, 10pt, style=Bold" Padding="5,5,0,0,254" Borders="None">
+              <StylePriority Ref="40" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item1>
+            <Item2 Ref="41" ControlType="XRLabel" Name="lbProject" Text="Project Here" AnchorHorizontal="Right" TextAlignment="MiddleRight" SizeF="1022.438,58.00002" LocationFloat="829.6628,76.32377" Dpi="254" Font="Tahoma, 9pt" Padding="5,5,0,0,254" Borders="None">
+              <StylePriority Ref="42" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item2>
+            <Item3 Ref="43" ControlType="XRLabel" Name="lbRecordReference" AnchorHorizontal="Right" TextAlignment="MiddleRight" SizeF="1022.438,64.32861" LocationFloat="829.6628,138.8236" Dpi="254" Font="Tahoma, 9pt" Padding="5,5,0,0,254" Borders="None">
+              <StylePriority Ref="44" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item3>
+            <Item4 Ref="45" ControlType="XRPictureBox" Name="pbLogo" Sizing="ZoomImage" ImageAlignment="TopLeft" SizeF="743.9791,189.3285" LocationFloat="14.02092,13.82371" Dpi="254" Borders="None">
+              <StylePriority Ref="46" UseBorders="false" />
+            </Item4>
+          </Controls>
+          <StylePriority Ref="47" UseBorders="false" UseBorderWidth="false" />
+        </Item1>
+      </Controls>
+    </Item2>
+    <Item3 Ref="48" ControlType="PageFooterBand" Name="PageFooter" HeightF="76.2" Dpi="254">
+      <Controls>
+        <Item1 Ref="49" ControlType="XRLabel" Name="lbFooterText" Text="lbFooterText" SizeF="1460.5,44.84998" LocationFloat="11.90011,25.00001" Dpi="254" Font="Tahoma, 8pt" Padding="5,5,0,0,254">
+          <StylePriority Ref="50" UseFont="false" />
+        </Item1>
+        <Item2 Ref="51" ControlType="XRPageInfo" Name="xrPageInfo1" TextFormatString="Page {0} of {1}" AnchorHorizontal="Right" TextAlignment="MiddleRight" SizeF="342.8999,44.84998" LocationFloat="1537.933,25.00002" Dpi="254" Font="Tahoma, 8pt" Padding="5,5,0,0,254">
+          <StylePriority Ref="52" UseFont="false" UseTextAlignment="false" />
+        </Item2>
+      </Controls>
+    </Item3>
+    <Item4 Ref="53" ControlType="DetailReportBand" Name="DetailReport_VariationEst" Level="0" DataMember="Estimates" DataSource="#Ref-0" Dpi="254">
+      <Bands>
+        <Item1 Ref="54" ControlType="DetailBand" Name="Detail_VariationEst" HeightF="74.48336" Dpi="254">
+          <SortFields>
+            <Item1 Ref="55" FieldName="ItemOrder" />
+          </SortFields>
+          <Controls>
+            <Item1 Ref="56" ControlType="XRLabel" Name="lbMup" TextFormatString="{0:#,##0.0##%}" TextAlignment="TopRight" SizeF="106.9707,41.48663" LocationFloat="1787.029,16.06336" Dpi="254" Padding="5,5,0,0,254">
+              <ExpressionBindings>
+                <Item1 Ref="57" EventName="BeforePrint" PropertyName="Text" Expression="[VisibleMargin]" />
+              </ExpressionBindings>
+              <StylePriority Ref="58" UseTextAlignment="false" />
+            </Item1>
+            <Item2 Ref="59" ControlType="XRLabel" Name="lbTotal" TextFormatString="{0:c2}" TextAlignment="TopRight" SizeF="227.6207,41.48662" LocationFloat="1307.355,16.06336" Dpi="254" Padding="5,5,0,0,254">
+              <ExpressionBindings>
+                <Item1 Ref="60" EventName="BeforePrint" PropertyName="Text" Expression="[VisibleTotal]" />
+              </ExpressionBindings>
+              <StylePriority Ref="61" UseTextAlignment="false" />
+            </Item2>
+            <Item3 Ref="62" ControlType="XRRichText" Name="xrrtVariationEstimateDescription" SerializableRtfString="ewBcAHIAdABmADEAXABkAGUAZgBmADAAewBcAGYAbwBuAHQAdABiAGwAewBcAGYAMAAgAEMAYQBsAGkAYgByAGkAOwB9AHsAXABmADEAIABUAGkAbQBlAHMAIABOAGUAdwAgAFIAbwBtAGEAbgA7AH0AewBcAGYAMgAgAFQAYQBoAG8AbQBhADsAfQB9AHsAXABjAG8AbABvAHIAdABiAGwAIAA7AFwAcgBlAGQAMABcAGcAcgBlAGUAbgAwAFwAYgBsAHUAZQAyADUANQAgADsAXAByAGUAZAAwAFwAZwByAGUAZQBuADAAXABiAGwAdQBlADAAIAA7AH0AewBcACoAXABkAGUAZgBjAGgAcAAgAFwAZgAxAFwAZgBzADIANAB9AHsAXABzAHQAeQBsAGUAcwBoAGUAZQB0ACAAewBcAHEAbABcAGYAMQBcAGYAcwAyADQAIABOAG8AcgBtAGEAbAA7AH0AewBcACoAXABjAHMAMQBcAGYAMQBcAGYAcwAyADQAIABEAGUAZgBhAHUAbAB0ACAAUABhAHIAYQBnAHIAYQBwAGgAIABGAG8AbgB0ADsAfQB7AFwAKgBcAGMAcwAyAFwAcwBiAGEAcwBlAGQAbwBuADEAXABmADEAXABmAHMAMgA0ACAATABpAG4AZQAgAE4AdQBtAGIAZQByADsAfQB7AFwAKgBcAGMAcwAzAFwAZgAxAFwAZgBzADIANABcAHUAbABcAGMAZgAxACAASAB5AHAAZQByAGwAaQBuAGsAOwB9AHsAXAAqAFwAdABzADQAXAB0AHMAcgBvAHcAZABcAGYAMQBcAGYAcwAyADQAXABxAGwAXAB0AHMAYwBlAGwAbABwAGEAZABkAGYAbAAzAFwAdABzAGMAZQBsAGwAcABhAGQAZABsADEAMAA4AFwAdABzAGMAZQBsAGwAcABhAGQAZABmAGIAMwBcAHQAcwBjAGUAbABsAHAAYQBkAGQAZgByADMAXAB0AHMAYwBlAGwAbABwAGEAZABkAHIAMQAwADgAXAB0AHMAYwBlAGwAbABwAGEAZABkAGYAdAAzAFwAdABzAHYAZQByAHQAYQBsAHQAXABjAGwAdAB4AGwAcgB0AGIAIABOAG8AcgBtAGEAbAAgAFQAYQBiAGwAZQA7AH0AewBcACoAXAB0AHMANQBcAHQAcwByAG8AdwBkAFwAcwBiAGEAcwBlAGQAbwBuADQAXABmADEAXABmAHMAMgA0AFwAcQBsAFwAdAByAGIAcgBkAHIAdABcAGIAcgBkAHIAcwBcAGIAcgBkAHIAdwAxADAAXAB0AHIAYgByAGQAcgBsAFwAYgByAGQAcgBzAFwAYgByAGQAcgB3ADEAMABcAHQAcgBiAHIAZAByAGIAXABiAHIAZAByAHMAXABiAHIAZAByAHcAMQAwAFwAdAByAGIAcgBkAHIAcgBcAGIAcgBkAHIAcwBcAGIAcgBkAHIAdwAxADAAXAB0AHIAYgByAGQAcgBoAFwAYgByAGQAcgBzAFwAYgByAGQAcgB3ADEAMABcAHQAcgBiAHIAZAByAHYAXABiAHIAZAByAHMAXABiAHIAZAByAHcAMQAwAFwAdABzAGMAZQBsAGwAcABhAGQAZABmAGwAMwBcAHQAcwBjAGUAbABsAHAAYQBkAGQAbAAxADAAOABcAHQAcwBjAGUAbABsAHAAYQBkAGQAZgByADMAXAB0AHMAYwBlAGwAbABwAGEAZABkAHIAMQAwADgAXAB0AHMAdgBlAHIAdABhAGwAdABcAGMAbAB0AHgAbAByAHQAYgAgAFQAYQBiAGwAZQAgAFMAaQBtAHAAbABlACAAMQA7AH0AfQB7AFwAKgBcAGwAaQBzAHQAbwB2AGUAcgByAGkAZABlAHQAYQBiAGwAZQB9AFwAbgBvAHUAaQBjAG8AbQBwAGEAdABcAHMAcABsAHkAdAB3AG4AaQBuAGUAXABoAHQAbQBhAHUAdABzAHAAXABhAGwAbgB0AGIAbABpAG4AZABcAGUAeABwAHMAaAByAHQAbgBcAHMAcABsAHQAcABnAHAAYQByAFwAbgBvAGcAcgBvAHcAYQB1AHQAbwBmAGkAdABcAHUAdABpAG4AbABcAHAAYQByAGQAXABwAGwAYQBpAG4AXABxAGwAewBcAGYAMgBcAGYAcwAxADYAXABjAGYAMgAgAHgAcgByAHQAVgBhAHIAaQBhAHQAaQBvAG4ARQBzAHQAaQBtAGEAdABlAEQAZQBzAGMAcgBpAHAAdABpAG8AbgB9AFwAZgAyAFwAZgBzADEANgBcAGMAZgAyAFwAcABhAHIAfQA=" SizeF="708.0168,41.48662" LocationFloat="25.00002,16.06336" Dpi="254" Font="Tahoma, 8pt" />
+            <Item4 Ref="63" ControlType="XRLabel" Name="lbSell" TextFormatString="{0:c2}" Text="lbSell" TextAlignment="TopRight" SizeF="229.4232,41.48662" LocationFloat="1550.93,16.06336" Dpi="254" Padding="5,5,0,0,254">
+              <ExpressionBindings>
+                <Item1 Ref="64" EventName="BeforePrint" PropertyName="Text" Expression="[SellTotal]" />
+              </ExpressionBindings>
+              <StylePriority Ref="65" UseTextAlignment="false" />
+            </Item4>
+            <Item5 Ref="66" ControlType="XRLabel" Name="lbRate" TextFormatString="{0:c2}" TextAlignment="TopRight" SizeF="214.9208,41.48662" LocationFloat="1085.521,16.06336" Dpi="254" Padding="5,5,0,0,254">
+              <ExpressionBindings>
+                <Item1 Ref="67" EventName="BeforePrint" PropertyName="Text" Expression="[VisibleSellRate]" />
+              </ExpressionBindings>
+              <StylePriority Ref="68" UseTextAlignment="false" />
+            </Item5>
+            <Item6 Ref="69" ControlType="XRLabel" Name="lbUnit" Text="lbUnit" SizeF="142.9541,41.48662" LocationFloat="942.5668,16.06336" Dpi="254" Padding="5,5,0,0,254">
+              <ExpressionBindings>
+                <Item1 Ref="70" EventName="BeforePrint" PropertyName="Text" Expression="[Unit]" />
+              </ExpressionBindings>
+            </Item6>
+            <Item7 Ref="71" ControlType="XRLabel" Name="lbQty" TextFormatString="{0:#,###,##0.###}" Text="lbQty" TextAlignment="TopRight" SizeF="202.2207,41.48662" LocationFloat="740.346,16.06336" Dpi="254" Padding="5,5,0,0,254">
+              <ExpressionBindings>
+                <Item1 Ref="72" EventName="BeforePrint" PropertyName="Text" Expression="[Qty]" />
+              </ExpressionBindings>
+              <StylePriority Ref="73" UseTextAlignment="false" />
+            </Item7>
+          </Controls>
+        </Item1>
+        <Item2 Ref="74" ControlType="ReportHeaderBand" Name="ReportHeader_VariationEst" HeightF="86.78333" Dpi="254">
+          <Controls>
+            <Item1 Ref="75" ControlType="XRLabel" Name="xrLabel20" Text="Total" TextAlignment="TopRight" SizeF="202.2207,49.08331" LocationFloat="1320.055,37.70002" Dpi="254" Font="Tahoma, 8pt, style=Bold, Underline" Padding="5,5,0,0,254">
+              <StylePriority Ref="76" UseFont="false" UseTextAlignment="false" />
+            </Item1>
+            <Item2 Ref="77" ControlType="XRLabel" Name="xrLabel11" Text="Rate" TextAlignment="TopRight" SizeF="202.2207,49.08331" LocationFloat="1098.221,37.70002" Dpi="254" Font="Tahoma, 8pt, style=Bold, Underline" Padding="5,5,0,0,254">
+              <StylePriority Ref="78" UseFont="false" UseTextAlignment="false" />
+            </Item2>
+            <Item3 Ref="79" ControlType="XRLabel" Name="xrLabel10" Text="Total         inc markup" TextAlignment="TopRight" SizeF="184.1733,86.78333" LocationFloat="1596.18,0" Dpi="254" Font="Tahoma, 8pt, style=Bold, Underline" Padding="5,5,0,0,254">
+              <StylePriority Ref="80" UseFont="false" UseTextAlignment="false" />
+            </Item3>
+            <Item4 Ref="81" ControlType="XRLabel" Name="xrLabel9" Text="Qty" TextAlignment="TopRight" SizeF="202.2207,49.08331" LocationFloat="740.346,37.70002" Dpi="254" Font="Tahoma, 8pt, style=Bold, Underline" Padding="5,5,0,0,254">
+              <StylePriority Ref="82" UseFont="false" UseTextAlignment="false" />
+            </Item4>
+            <Item5 Ref="83" ControlType="XRLabel" Name="xrLabel8" Text="Description" SizeF="254,49.08331" LocationFloat="10.99985,37.70002" Dpi="254" Font="Tahoma, 8pt, style=Bold, Underline" Padding="5,5,0,0,254">
+              <StylePriority Ref="84" UseFont="false" />
+            </Item5>
+          </Controls>
+        </Item2>
+        <Item3 Ref="85" ControlType="ReportFooterBand" Name="ReportFooter_VariationEst" HeightF="84.66666" Dpi="254">
+          <Controls>
+            <Item1 Ref="86" ControlType="XRLabel" Name="xrLabel22" TextFormatString="{0:C2}" TextAlignment="TopRight" SizeF="243.5747,41.48662" LocationFloat="1291.401,18.18003" Dpi="254" Font="Tahoma, 8pt, style=Bold" Padding="5,5,0,0,254">
+              <Summary Ref="87" Running="Report" />
+              <ExpressionBindings>
+                <Item1 Ref="88" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([VisibleTotal])" />
+              </ExpressionBindings>
+              <StylePriority Ref="89" UseFont="false" UseTextAlignment="false" />
+            </Item1>
+            <Item2 Ref="90" ControlType="XRLine" Name="xrLine3" SizeF="470.7853,5.480027" LocationFloat="1307.355,12.7" Dpi="254" />
+            <Item3 Ref="91" ControlType="XRLabel" Name="lbEstimatedQty" Text="Variation valuation for qty of x units" SizeF="810.4543,49.0833" LocationFloat="467.2671,18.18003" Dpi="254" Font="Tahoma, 8pt, style=Bold" Padding="5,5,0,0,254">
+              <StylePriority Ref="92" UseFont="false" />
+            </Item3>
+            <Item4 Ref="93" ControlType="XRLabel" Name="xrLabel12" TextFormatString="{0:C2}" TextAlignment="TopRight" SizeF="229.4232,41.48662" LocationFloat="1550.93,18.18003" Dpi="254" Font="Tahoma, 8pt, style=Bold" Padding="5,5,0,0,254">
+              <Summary Ref="94" Running="Report" />
+              <ExpressionBindings>
+                <Item1 Ref="95" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([SellTotal])" />
+              </ExpressionBindings>
+              <StylePriority Ref="96" UseFont="false" UseTextAlignment="false" />
+            </Item4>
+          </Controls>
+        </Item3>
+      </Bands>
+    </Item4>
+    <Item5 Ref="97" ControlType="TopMarginBand" Name="TopMargin" HeightF="120" TextAlignment="TopLeft" Dpi="254" Padding="0,0,0,0,254" />
+    <Item6 Ref="98" ControlType="BottomMarginBand" Name="BottomMargin" HeightF="120" TextAlignment="TopLeft" Dpi="254" Padding="0,0,0,0,254" />
+  </Bands>
+  <Scripts Ref="99" OnBeforePrint="rptCivilProTemplate_BeforePrint" />
+  <ObjectStorage>
+    <Item1 ObjectType="DevExpress.XtraReports.Serialization.ObjectStorageInfo, DevExpress.XtraReports.v20.2" Ref="0" Content="~Xtra#NULL" Type="System.Windows.Forms.BindingSource" />
+  </ObjectStorage>
+</XtraReportsLayoutSerializer>

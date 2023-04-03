@@ -1,0 +1,511 @@
+﻿using cpModel.Dtos;
+using cpModel.Enums;
+using cpModel.Helpers;
+using cpModel.Interfaces;
+using cpShared.Extensions;
+using DevExpress.Utils.Serializing;
+using DevExpress.XtraPrinting;
+using DevExpress.XtraPrinting.Drawing;
+using DevExpress.XtraPrinting.Native;
+using DevExpress.XtraReports.UI;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+
+namespace cpReportDefinitions
+{
+    [TypeDescriptionProvider(typeof(AbstractControlDescriptionProvider<rptTemplate, XtraReport>))]
+    public abstract class rptTemplate : XtraReport, IReportInfo
+    {
+        Lazy<RichEditProcessor> _richEditProcessorInstanceLazy = new Lazy<RichEditProcessor>(() =>
+        {
+            return new RichEditProcessor();
+        });
+
+        internal RichEditProcessor _richEditProcessor => _richEditProcessorInstanceLazy.Value;
+        public List<int> lstDataSourceIds { get; set; }
+        public object ConfigInfo { get; set; }
+
+        [XtraSerializableProperty(XtraSerializationVisibility.Visible)]
+        public virtual int MinCompatibleDatabaseVersion => 66;
+
+        public event EventHandler<LogoEventArgs> LogoRequired;
+        protected void OnLogoRequired(LogoEventArgs e) => LogoRequired?.Invoke(this, e);
+
+        public event EventHandler<PhotoEventArgs> PhotoRequired;
+        protected void OnPhotoRequired(PhotoEventArgs e) => PhotoRequired?.Invoke(this, e);
+
+        public event EventHandler<ProjectParameterEventArgs> ProjectParameterRequired;
+        protected void OnProjectParameterRequired(ProjectParameterEventArgs e) => ProjectParameterRequired?.Invoke(this, e);
+
+        public KeepTogetherEnum ktSetting { get; set; }
+
+        internal List<Image> LstUsedImages = new List<Image>();
+        internal List<Stream> LstUsedStreams = new List<Stream>();
+
+        public string DateRejectedString { get; set; } = cpModel.Models.Lot.RejectedString.Left(3);
+
+        string _projectTitle = "";
+        public string ProjectTitle
+        {
+            get
+            {
+                return _projectTitle;
+            }
+            set
+            {
+                _projectTitle = value;
+                SetLabelText("lbProject", _projectTitle);
+            }
+        }
+
+        string _reportTitle = "";
+        public string ReportTitle
+        {
+            get
+            {
+                return _reportTitle;
+            }
+            set
+            {
+                _reportTitle = value;
+                SetLabelText("lbReportHeading", _reportTitle);
+            }
+        }
+        string _filterText = "";
+        public string FilterText
+        {
+            get
+            {
+                return _filterText;
+            }
+            set
+            {
+                _filterText = value;
+                SetLabelText("lbFooterText", _filterText);
+            }
+        }
+
+        string _recordReference = "";
+        public string RecordReference
+        {
+            get
+            {
+                return _recordReference;
+            }
+            set
+            {
+                _recordReference = value;
+                SetLabelText("lbRecordReference", _recordReference);
+            }
+        }
+
+        ProjectDto _projectInfo = null;
+        public ProjectDto ProjectInfo
+        {
+            get => _projectInfo;
+            set
+            {
+                _projectInfo = value;
+                if (NotProjectSpecific || ProjectInfo == null) ProjectTitle = "All Projects";
+                else ProjectTitle = ProjectInfo.ProjectNumberAndName;
+
+                DisplayName = $"{ReportTitle} ({ProjectInfo.ContractNumber})";
+            }
+        }
+
+        public bool IsDesktop { get; set; } = false;
+
+        [XtraSerializableProperty(XtraSerializationVisibility.Visible)]
+        public bool IsRegisterReport { get; set; }
+
+        [XtraSerializableProperty(XtraSerializationVisibility.Visible)]
+        public bool IsCustomReport { get; set; }
+
+        [XtraSerializableProperty(XtraSerializationVisibility.Visible)]
+        public bool ShouldIgnoreOptions { get; set; }
+
+
+        public bool IsInternalReport { get; set; } = false;
+        public bool NotProjectSpecific { get; set; }
+        public abstract string BaseReportName { get; set; }
+
+        [XtraSerializableProperty(XtraSerializationVisibility.Visible)]
+        public string CustomReportName { get; set; }
+
+        public rptTemplate()
+        {
+            AfterPrint += RptHeaderFooterTemplate_AfterPrint;
+            BeforePrint += rptTemplate_BeforePrint;            
+        }
+
+        private void RptHeaderFooterTemplate_AfterPrint(object sender, EventArgs e)
+        {
+            if (!IsInternalReport) return;
+            foreach (Page page in Pages)
+            {
+                NestedBrickIterator iterator = new NestedBrickIterator(page.InnerBricks);
+                while (iterator.MoveNext())
+                {
+                    VisualBrick brick = iterator.CurrentBrick as VisualBrick;
+                    if (brick != null && brick.BrickOwner != null && brick.BrickOwner.RealControl is XRLabel brkLabel
+                        && brkLabel.Name == "lbRecordReference" && brick.Value != null)
+                    {
+                        page.AssignWatermark(CreateWatermark("Internal Only"));
+                    }
+                }
+            }
+        }
+
+        private void rptTemplate_BeforePrint(object sender, CancelEventArgs e)
+        {
+            ConfigureKeepTogether();
+            string footerDateFilterText = $"Print Date: {_currentProjectDateTimeString}";
+            if (!String.IsNullOrEmpty(FilterText)) footerDateFilterText += " | " + FilterText;
+            SetLabelText("lbFooterText", footerDateFilterText);
+            SetLabelText("lbProject", ProjectTitle);
+            ReportTitle = BaseReportName;
+            if (!NotProjectSpecific && (GetLogo() == null)) AddLogo();
+        }
+
+        string _currentProjectDateTimeString = "";
+        public void SetCurrentProjectDateTimeString(string currentProjectDateTimeString)
+        {
+            _currentProjectDateTimeString = currentProjectDateTimeString;
+        }
+
+        public void SetLabelText(string controlName, string ctrlText)
+        {
+            var ctrl = FindControl(controlName);
+            if (ctrl != null) ctrl.Text = ctrlText;
+        }
+
+        public string GetLabelText(string controlName)
+        {
+            var ctrl = FindControl(controlName);
+            return (ctrl?.Text) ?? "";
+        }
+
+        public XRControl FindControl(string controlName)
+        {
+            foreach (Band reportBand in Bands)
+            {
+                XRControl control = FindBandControl(reportBand, controlName);
+
+                if (control != null) return control;
+            }
+            return null;
+        }
+
+        Stream _currlogoStream = null;
+        public void AddLogo()
+        {
+            try
+            {
+                var pbl = FindControl("pbLogo") as XRPictureBox;
+                if (pbl == null) return;
+                Image oldi = pbl.Image;
+                var logoEvent = new LogoEventArgs();
+                OnLogoRequired(logoEvent);
+                var logoStream = logoEvent.LogoImageStream;
+                if (logoStream != null)
+                {
+                    pbl.Image = Image.FromStream(logoStream);
+                    pbl.Sizing = ImageSizeMode.ZoomImage;
+                    if (oldi != null) oldi.Dispose();
+                    if (_currlogoStream != null && _currlogoStream != logoStream)
+                    {
+                        _currlogoStream.Dispose();
+                        _currlogoStream = null;
+                    }
+                }
+            }
+            catch (Exception)
+            { }
+        }
+
+        public void SetLogo(Image img)
+        {
+            try
+            {
+                var pbl = FindControl("pbLogo") as XRPictureBox;
+                if (pbl == null) return;
+                Image oldi = pbl.Image;
+                pbl.Image = img;
+                pbl.Sizing = ImageSizeMode.ZoomImage;
+                if (oldi != null) oldi.Dispose();
+            }
+            catch (Exception)
+            { }
+        }
+
+        public void ClearLogo()
+        {
+            try
+            {
+                var pbl = FindControl("pbLogo") as XRPictureBox;
+                if (pbl == null) return;
+                Image oldi = pbl.Image;
+                pbl.Image = null;
+                if (oldi != null) oldi.Dispose();
+            }
+            catch (Exception)
+            { }
+        }
+
+        public Image GetLogo()
+        {
+            try
+            {
+                var pbl = FindControl("pbLogo") as XRPictureBox;
+                return pbl?.Image;
+            }
+            catch (Exception)
+            { return null; }
+        }
+
+        public static bool HasFlag(int item, int query)
+        {
+            return ((item & query) == query);
+        }
+
+        public virtual Watermark CreateWatermark(string watermarkMessage)
+        {
+            Watermark textWatermark = new Watermark();
+
+            textWatermark.Text = watermarkMessage;
+            textWatermark.TextDirection = DirectionMode.ForwardDiagonal;
+            textWatermark.Font = new Font(textWatermark.Font.Name, 80, FontStyle.Bold);
+            textWatermark.ForeColor = Color.Red;
+            textWatermark.TextTransparency = 200;
+            textWatermark.ShowBehind = false;
+
+            return textWatermark;
+        }
+
+        public static string GetNameFromIds(List<string> names, int noToKeep)
+        {
+            string longList = names.Count > noToKeep ? "_etc" : "";
+            List<string> idsForReportName = names.Take(noToKeep).ToList();
+            string stringJoinSubstring = String.Join("_", idsForReportName.ToArray()) + longList + ".pdf";
+            return stringJoinSubstring;
+        }
+
+        public void CloneEvents(rptTemplate rpt)
+        {
+            rpt.PhotoRequired = PhotoRequired;
+            rpt.LogoRequired = LogoRequired;
+            rpt.ProjectParameterRequired = ProjectParameterRequired;
+        }
+
+        private XRControl FindBandControl(XRControl ctrlParent, string controlName)
+        {
+            XRControl foundControl = ctrlParent.FindControl(controlName, false);
+
+            if (foundControl != null)
+            {
+                return foundControl;
+            }
+
+            foreach (var ctrl in ctrlParent.Controls)
+            {
+                if (ctrl is XRControl xCtrl)
+                    FindBandControl(xCtrl, controlName);
+            }
+
+            return null;
+        }
+
+
+        internal string GetHtmlWithDefaultFormat(string _propertyName, Font _font, string DefaultNullText = "")
+        {
+            return GetHtmlWithDefaultFormat(this, _propertyName, _font, DefaultNullText);
+        }
+
+        internal void RichEditInBand_BeforePrint(object sender, CancelEventArgs e, string PropertyName)
+        {
+            var editor = sender as XRRichText;
+            XtraReportBase report = editor.Band.Report;
+            editor.Html = GetHtmlWithDefaultFormat(report, PropertyName, editor.Font);
+        }
+
+        internal void RichEditInBand_Master_BeforePrint(object sender, CancelEventArgs e, string PropertyName)
+        {
+            var editor = sender as XRRichText;
+            XtraReportBase report = editor.Band.Report.Report;
+            editor.Html = GetHtmlWithDefaultFormat(report, PropertyName, editor.Font);
+        }
+
+        internal string GetHtmlWithDefaultFormat(XtraReportBase reportBase, string _propertyName, Font _font, string DefaultNullText = "")
+        {
+            var subject = reportBase.GetCurrentColumnValue(_propertyName);
+            var originalHTML = subject == null ? DefaultNullText : subject.ToString();
+            string amendedHTML = _richEditProcessor.ChangeHTMLFontNameAndSize(_font, originalHTML);
+            return amendedHTML;
+        }
+
+
+        internal void GetPhotoById(XRPictureBox imgBox, int PhotoId)
+        {
+            var photoEvent = new PhotoEventArgs(PhotoId);
+            OnPhotoRequired(photoEvent);
+            var imgStream = photoEvent.PhotoImageStream;
+            if (imgStream != null)
+            {
+                LstUsedStreams.Add(imgStream);
+                Image imgPhoto = Image.FromStream(imgStream);
+                if (imgPhoto != null)
+                {
+                    imgBox.Image = imgPhoto;
+                    LstUsedImages.Add(imgBox.Image);
+                }
+                else imgBox.Image = null;
+
+            }
+            else imgBox.Image = null;
+        }
+
+
+        Dictionary<Band, bool> dctBaseKtStatus = new Dictionary<Band, bool>();
+        private void ConfigureKeepTogether()
+        {
+            if (ktSetting == KeepTogetherEnum.AsDesigned) SetBandKtStatusToDefault(Bands);
+            if (ktSetting == KeepTogetherEnum.Together)
+            {
+                SetBandKtStatus(Bands, true);
+            }
+            if (ktSetting == KeepTogetherEnum.Split)
+            {
+                SetBandKtStatus(Bands, false);
+            }
+        }
+
+        public void SetKeepTogether(KeepTogetherEnum _newDefaultKtSetting)
+        {
+            ktSetting = _newDefaultKtSetting;
+        }
+
+        public void GetBandKtAsDesignedStatus(BandCollection bands)
+        {
+            for (int i = 0; i < bands.Count; i++)
+            {
+                var band = bands[i];
+                if (band is DetailReportBand subReportBand)
+                {
+                    GetBandKtAsDesignedStatus(subReportBand.Bands);
+                }
+                if (!dctBaseKtStatus.ContainsKey(band)) dctBaseKtStatus[band] = band.KeepTogether;
+            }
+        }
+
+        public void SetBandKtStatusToDefault(BandCollection bands)
+        {
+            if (dctBaseKtStatus==null || dctBaseKtStatus.Count==0) GetBandKtAsDesignedStatus(Bands);
+            for (int i = 0; i < bands.Count; i++)
+            {
+                var band = bands[i];
+                if (band is DetailReportBand subReportBand)
+                {
+                    SetBandKtStatusToDefault(subReportBand.Bands);
+                }
+                if (dctBaseKtStatus.ContainsKey(band)) band.KeepTogether = dctBaseKtStatus[band];
+            }
+        }
+
+        public void SetBandKtStatus(BandCollection bands, bool KtSetting)
+        {
+            if (dctBaseKtStatus==null || dctBaseKtStatus.Count == 0) GetBandKtAsDesignedStatus(Bands);
+            foreach (Band band in bands)
+            {
+                if (band is DetailReportBand subReportBand)
+                {
+                    SetBandKtStatus(subReportBand.Bands, KtSetting);
+                }
+                if (dctBaseKtStatus.ContainsKey(band)) band.KeepTogether = KtSetting;
+            }
+        }
+
+
+        #region  IDisposable
+        private bool _disposedValue = false;
+        protected override void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (_richEditProcessorInstanceLazy.IsValueCreated && _richEditProcessorInstanceLazy.Value != null)
+                {
+                    _richEditProcessorInstanceLazy.Value.Dispose();
+                }
+            }
+            if (disposing && LstUsedImages != null && LstUsedImages.Count > 0)
+            {
+                for (int i = LstUsedImages.Count - 1; i >= 0; i--)
+                {
+                    var item = LstUsedImages[i];
+                    if (item != null) item.Dispose();
+                    item = null;
+                    LstUsedImages.Remove(item);
+                }
+            }
+            if (disposing && LstUsedStreams != null && LstUsedStreams.Count > 0)
+            {
+                for (int i = LstUsedStreams.Count - 1; i >= 0; i--)
+                {
+                    var item = LstUsedStreams[i];
+                    if (item != null) item.Dispose();
+                    item = null;
+                    LstUsedStreams.Remove(item);
+                }
+            }
+            _disposedValue = true;
+            base.Dispose(disposing);
+        }
+
+        #endregion
+
+    }
+
+    public class LogoEventArgs : EventArgs
+    {
+        public MemoryStream LogoImageStream { get; set; } = null;
+        public LogoEventArgs()
+        {
+
+        }
+    }
+
+    public class DefaultKtEventArgs : EventArgs
+    {
+        public KeepTogetherEnum DefaultKtSetting { get; set; } = KeepTogetherEnum.AsDesigned;
+        public DefaultKtEventArgs()
+        {
+
+        }
+    }
+
+    public class PhotoEventArgs : EventArgs
+    {
+        public int PhotoId { get; set; }
+        public Stream PhotoImageStream { get; set; } = null;
+        public PhotoEventArgs(int photoId)
+        {
+            PhotoId = photoId;
+        }
+    }
+
+    public class ProjectParameterEventArgs : EventArgs
+    {
+        public string ParameterKey { get; set; }
+        public string ParameterValue { get; set; }
+        public ProjectParameterEventArgs(string parameterKey)
+        {
+            ParameterKey = parameterKey;
+        }
+    }
+
+
+}
